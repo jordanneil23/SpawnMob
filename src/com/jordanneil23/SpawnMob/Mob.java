@@ -12,7 +12,8 @@ public enum Mob {
 	
 	/**
 	 * Mob types for /spawnmob
-	 * @author xmlns
+	 * @author jordanneil23
+     * @author xmlns
 	 */
 	//And edited by jordaneil23
 	CHICKEN	("Chicken", Enemies.FRIENDLY),

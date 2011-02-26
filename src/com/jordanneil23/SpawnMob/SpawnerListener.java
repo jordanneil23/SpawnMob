@@ -19,7 +19,7 @@ public class SpawnerListener extends BlockListener{
 	 public void onBlockRightClick(BlockRightClickEvent event) 
 	 {
 	 	 Block block = event.getBlock();
-	 		if(block.getType() == Material.MOB_SPAWNER)
+	 		if(block.getType() == Material.MOB_SPAWNER && SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.mspawn.check"))
 	 		{
 	 				CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
          			int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();

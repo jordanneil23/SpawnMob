@@ -20,6 +20,7 @@ import org.bukkit.entity.Squid;
 import org.bukkit.entity.Zombie;
 import org.bukkit.World;
 import org.bukkit.event.Event;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
@@ -31,35 +32,28 @@ import java.util.*;
 /**
  * SpawnMob for Bukkit
  *
- * @author xmlns and jordanneil23
+ * @author jordanneil23
+ * @author xmlns
  */
 public class SpawnMob extends JavaPlugin {
 	private final SpawnerListener blockListener = new SpawnerListener(this);
 	public java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
-	public static PermissionHandler permissions = null;
+	public static PermissionHandler Permissions = null;
     private final SMPlayerListener playerListener = new SMPlayerListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
     
-    public void setupPermissions() {
-    	try{
-    		SpawnMob.permissions = ((Permissions) this.getServer().getPluginManager().getPlugin("Permissions")).getHandler();
-    		log.info(String.format("[" + this.getDescription().getName() + "] Permission system enabled."));
-    	}catch(Exception e){
-    		log.info(String.format("[" + this.getDescription().getName() + "] Permission system not enabled. Using ops.txt."));
-    	}
-    }
     public void onEnable() {
     	PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Event.Priority.Normal, this);
         PluginDescriptionFile pdfFile = this.getDescription();
-        log.info(String.format("[" + this.getDescription().getName() + "]" + " Version " + pdfFile.getVersion() + " enabled." ));
+        log.info(String.format("[SpawnMob]" + " Version " + pdfFile.getVersion() + " enabled." ));
         setupPermissions();
     }
     
     public void onDisable() {
     	PluginDescriptionFile pdfFile = this.getDescription();
-    	log.info( "[" + this.getDescription().getName() + "]" + " Version " + pdfFile.getVersion() + " disabled.");
+    	log.info( "[SpawnMob]" + " Version " + pdfFile.getVersion() + " disabled.");
     }
     
     public boolean isDebugging(final Player player) {
@@ -74,9 +68,22 @@ public class SpawnMob extends JavaPlugin {
         debugees.put(player, value);
     }
     
+    private void setupPermissions() {
+        Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+
+        if (SpawnMob.Permissions == null) {
+            if (test != null) {
+                this.getServer().getPluginManager().enablePlugin(test); // This line.
+                SpawnMob.Permissions = ((Permissions)test).getHandler();
+            } else {
+                log.info("[SpawnMob] Permissions not detected, defaulting to OP");
+            }
+        }
+    }
+    
     public static boolean playerCanUse(Player p, String command){
-    	if(SpawnMob.permissions != null){
-    		return SpawnMob.permissions.permission(p, command);
+    	if(SpawnMob.Permissions != null){
+    		return SpawnMob.Permissions.permission(p, command);
     	}else{
     		return p.isOp();
     	}

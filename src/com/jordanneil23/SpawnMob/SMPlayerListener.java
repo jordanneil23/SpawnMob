@@ -15,7 +15,8 @@ import com.jordanneil23.SpawnMob.Mob.MobException;
 
 /**
  * SpawnMob Commands
- * @author jordanneil23
+  * @author jordanneil23
+ * @author xmlns
  */
 public class SMPlayerListener extends PlayerListener {
     private final SpawnMob plugin;
@@ -59,7 +60,7 @@ public class SMPlayerListener extends PlayerListener {
     	} else
     		if (split[1].equalsIgnoreCase("Undo"))
     		{
-    			event.getPlayer().sendMessage("Undid /spawnmob.");
+    			event.getPlayer().sendMessage("Undid SpawnMob");
                 plugin.KillMobs(event.getPlayer().getWorld(), "all");
                 return;
     		}
@@ -171,7 +172,7 @@ public class SMPlayerListener extends PlayerListener {
     	}else {
     		event.getPlayer().sendMessage("/spawnmob <Mob Name> (Amount)");
 	    	event.getPlayer().sendMessage("/spawnmob kill <all-animals-monsters>");
-	    	event.getPlayer().sendMessage("Alias' - /smob, /sm");
+	    	event.getPlayer().sendMessage("Alias - /smob, /sm");
 	    	event.getPlayer().sendMessage("/mspawn - Type for more info");
 	    	return;
     	}
