@@ -2,8 +2,11 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.6B
+Successfully hooked into permissions now :/
+
 V1.6
-Fully supports Permissions 2.1 (Really this time!)
+Fully supports Permissions 2.1
 
 V1.5.8
 Fully supports Permissions versions 2.2 and 2.1 (Link for 2.2 under downloads)

@@ -6,6 +6,7 @@ import net.minecraft.server.World;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
 
@@ -27,11 +28,12 @@ public class SMPlayerListener extends PlayerListener {
 
 	public void onPlayerCommand(PlayerChatEvent event){
 		int[] ignore = {8, 9};
+		Player p = event.getPlayer();
     	String[] split = event.getMessage().split(" ");
     	if(split[0].equalsIgnoreCase("/spawnmob") || split[0].equalsIgnoreCase("/sm") || split[0].equalsIgnoreCase("/smob")){
     		if (1 < split.length){
     		if (split[1].equalsIgnoreCase("Kill")){
-    			if(SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.kill"))
+    			if(SpawnMob.Permissions.has(p, "spawnmob.kill"))
     			{
     			if(split[2].equalsIgnoreCase("Monsters"))
                 {
@@ -60,9 +62,12 @@ public class SMPlayerListener extends PlayerListener {
     	} else
     		if (split[1].equalsIgnoreCase("Undo"))
     		{
+    			if(SpawnMob.Permissions.has(p, "spawnmob.kill"))
+    			{
     			event.getPlayer().sendMessage("Undid SpawnMob");
                 plugin.KillMobs(event.getPlayer().getWorld(), "all");
                 return;
+    		}
     		}
 	    	if(1 < split.length && split.length < 4 ){
 	    		String[] split1 = split[1].split(":");
@@ -81,7 +86,7 @@ public class SMPlayerListener extends PlayerListener {
 		    		event.getPlayer().sendMessage("Invalid mob type.");
 		    		return;
 	    		}
-		    	if(!(SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.spawnmob." + mob.name.toLowerCase()) || SpawnMob.playerCanUse(event.getPlayer(), "spawnmob." + mob.type.type))){
+		    	if(!SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.name.toLowerCase())){
 		    		event.getPlayer().sendMessage("You can't spawn this mob.");
 		    		return;
 		    	}
@@ -181,7 +186,7 @@ public class SMPlayerListener extends PlayerListener {
         		CreatureType mt = CreatureType.fromName(split[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split[1]));
         		org.bukkit.block.Block blk = (new TargetBlock(event.getPlayer(), 300, 0.2, ignore)).getTargetBlock();
         		if(split[1].equalsIgnoreCase("Check") || split[1].equalsIgnoreCase("Info")){
-        			if(!SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.mspawn.check")){
+        			if(!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check")){
             			event.getPlayer().sendMessage("You are not authorized to check a spawner.");
             			return;
             		}
@@ -200,7 +205,7 @@ public class SMPlayerListener extends PlayerListener {
             		return;
         		} else if(split[1].equalsIgnoreCase("Delay")){
         			if(1 < split.length){
-        			if(!SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.mspawn.delay")){
+        			if(!SpawnMob.Permissions.has(p, "spawnmob.mspawn.delay")){
             			event.getPlayer().sendMessage("You are not authorized to set a spawners delay.");
             			return;
             		}
@@ -327,10 +332,11 @@ public class SMPlayerListener extends PlayerListener {
         			event.getPlayer().sendMessage("Invalid mob type.");
         			return;
         		}
-        		if(!SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.mspawn." + mt.name().toLowerCase()) || !SpawnMob.playerCanUse(event.getPlayer(), "spawnmob.mspawn.allmobs")){
+        		if(!SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase()) || !SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs")){
         			event.getPlayer().sendMessage("You are not authorized to do that.");
         			return;
         		}
+        		if (SpawnMob.Permissions.has(p, "foo.bar"))
         		if(blk == null){
         			event.getPlayer().sendMessage("You must be looking at a Mob Spawner.");
         			return;

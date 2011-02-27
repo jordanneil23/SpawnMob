@@ -20,8 +20,6 @@ import org.bukkit.entity.Squid;
 import org.bukkit.entity.Zombie;
 import org.bukkit.World;
 import org.bukkit.event.Event;
-import org.bukkit.event.server.PluginEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,18 +39,12 @@ public class SpawnMob extends JavaPlugin {
 	private final SpawnerListener blockListener = new SpawnerListener(this);
 	public java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
 	public static PermissionHandler Permissions = null;
-    private Listener Listener = new Listener();
     private final SMPlayerListener playerListener = new SMPlayerListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
 
     public void onEnable() {
-    	setupPermissions();
-    	PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLUGIN_ENABLE, Listener, Event.Priority.Monitor, this);
-        PluginDescriptionFile pdfFile = this.getDescription();
-        log.info(String.format("[SpawnMob]" + " Version " + pdfFile.getVersion() + " enabled." ));
+        registerEvents();
+        setupPermissions();
     }
     
     public void onDisable() {
@@ -60,71 +52,45 @@ public class SpawnMob extends JavaPlugin {
     	log.info( "[SpawnMob]" + " Version " + pdfFile.getVersion() + " disabled.");
     }
     
-    public boolean isDebugging(final Player player) {
-        if (debugees.containsKey(player)) {
-            return debugees.get(player);
-        } else {
-            return false;
-        }
-    }
-
-    public void setDebugging(final Player player, final boolean value) {
-        debugees.put(player, value);
-    }
-    private class Listener extends ServerListener {
-
-        public Listener() {
-        }
-
-        @Override
-        public void onPluginEnabled(PluginEvent event) {
-            if(event.getPlugin().getDescription().getName().equals("Permissions")) {
-                SpawnMob.Permissions = com.nijikokun.bukkit.Permissions.Permissions.Security;
-                log.info("[SpawnMob] Attached plugin to Permissions. Enjoy~");
-            }
-        }
-    }
-    
-	private void setupPermissions() {
-        Plugin server = this.getServer().getPluginManager().getPlugin("Permissions");
-
-        if (SpawnMob.Permissions == null) {
-            if (server != null) {
-                this.getServer().getPluginManager().enablePlugin(server);
-                SpawnMob.Permissions = ((Permissions)server).getHandler();
-                log.info(String.format("[SpawnMob]" + " Permissions detected, using them." ));
-            } else {
-            	log.info(String.format("[SpawnMob]" + " Permissions not detected, defaulting to OP." ));
-            }
-        }
-    }
-    
-    public static boolean playerCanUse(Player p, String command){
-    	if(SpawnMob.Permissions != null){
-    		return SpawnMob.Permissions.permission(p, command);
-    	}else{
-    		return p.isOp();
+public void registerEvents() {
+	PluginManager pm = getServer().getPluginManager();
+    pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
+    pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Event.Priority.Normal, this);
+}
+    @SuppressWarnings("static-access")
+	public void setupPermissions() {
+    	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+    	PluginDescriptionFile pdfFile = this.getDescription();
+    		
+    	if (this.Permissions == null) {
+    		if (test!= null) {
+    			this.getServer().getPluginManager().enablePlugin(test);
+    			this.Permissions = ((Permissions) test).getHandler();
+    			log.info("[" + pdfFile.getName() + "] Permissions enabled.");
+    	        log.info(String.format("[SpawnMob]" + " Version " + pdfFile.getVersion() + " enabled." ));
+    		}
+    		else {
+    			log.info("[" + pdfFile.getName() + "] Permissions not found, disabling plugin...");
+    			log.info( "[SpawnMob]" + " Version " + pdfFile.getVersion() + " disabled.");
+    			this.getServer().getPluginManager().disablePlugin(this);
+    		}
     	}
     }
     
-    public boolean isMonster(LivingEntity e)
-    {
+    public boolean isMonster(LivingEntity e){
         return (e instanceof Creeper) || (e instanceof Monster) || (e instanceof Skeleton) || (e instanceof Spider) || (e instanceof Zombie) || (e instanceof PigZombie) || (e instanceof Ghast) || (e instanceof Giant) || (e instanceof Slime);
     }
 
-    public boolean isAnimal(LivingEntity e)
-    {
+    public boolean isAnimal(LivingEntity e){
         return (e instanceof Chicken) || (e instanceof Cow) || (e instanceof Monster) || (e instanceof Sheep) || (e instanceof Squid) || (e instanceof Pig);
     }
     
-    public boolean isHuman(LivingEntity e)
-    {
+    public boolean isHuman(LivingEntity e){
         return (e instanceof Player);
     }
 
 
-	public void KillMobs(World world, String type)
-    {
+	public void KillMobs(World world, String type){
         List<?> mobs = world.getLivingEntities();
         for(Iterator<?> iterator = mobs.iterator(); iterator.hasNext();)
         {
@@ -136,12 +102,17 @@ public class SpawnMob extends JavaPlugin {
             if(isMonster(m) && (type.equals("monsters") || type.equals("all")))
             {
                 m.setHealth(0);
-            } else
-                if(isHuman(m) && (type.equals("players")))
-                {
-                    m.setHealth(0);
-                }
+            }
+    }
+	}
+	public boolean isDebugging(final Player player) {
+        if (debugees.containsKey(player)) {
+            return debugees.get(player);
+        } else {
+            return false;
         }
-
+    }
+    public void setDebugging(final Player player, final boolean value) {
+        debugees.put(player, value);
     }
 }
