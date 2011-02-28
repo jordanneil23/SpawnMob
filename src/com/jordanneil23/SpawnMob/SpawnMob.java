@@ -54,7 +54,7 @@ public class SpawnMob extends JavaPlugin {
     
 public void registerEvents() {
 	PluginManager pm = getServer().getPluginManager();
-    pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
+    pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this.playerListener, Event.Priority.Normal, this);
     pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Event.Priority.Normal, this);
 }
     @SuppressWarnings("static-access")

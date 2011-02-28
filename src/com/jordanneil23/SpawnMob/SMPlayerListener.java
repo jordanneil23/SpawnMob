@@ -26,7 +26,7 @@ public class SMPlayerListener extends PlayerListener {
         plugin = instance;
     }
 
-	public void onPlayerCommand(PlayerChatEvent event){
+	public void onPlayerCommandPreprocess(PlayerChatEvent event){
 		int[] ignore = {8, 9};
 		Player p = event.getPlayer();
     	String[] split = event.getMessage().split(" ");
