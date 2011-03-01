@@ -24,6 +24,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.Command;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
@@ -41,20 +43,28 @@ public class SpawnMob extends JavaPlugin {
 	public static PermissionHandler Permissions = null;
     private final SMPlayerListener playerListener = new SMPlayerListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
+    private final CommandHandler handler = new CommandHandler();
 
     public void onEnable() {
         registerEvents();
         setupPermissions();
+        handler.CommandListener(this);
     }
     
     public void onDisable() {
     	PluginDescriptionFile pdfFile = this.getDescription();
     	log.info( "[SpawnMob]" + " Version " + pdfFile.getVersion() + " disabled.");
     }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+            return handler.perform(sender, command, args);
+        
+    }
     
 public void registerEvents() {
 	PluginManager pm = getServer().getPluginManager();
-    pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
+    //pm.registerEvent(Event.Type.PLAYER_COMMAND, this.playerListener, Event.Priority.Normal, this);
     pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Event.Priority.Normal, this);
 }
     @SuppressWarnings("static-access")

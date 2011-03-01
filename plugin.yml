@@ -1,3 +1,10 @@
 name: SpawnMob
 main: com.jordanneil23.SpawnMob.SpawnMob
 version: 1.6B
+commands:
+  spawnmob:
+    description:
+    usage: |
+  mspawn:
+    description:
+    usage: |
