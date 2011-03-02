@@ -332,11 +332,10 @@ public class SMPlayerListener extends PlayerListener {
         			event.getPlayer().sendMessage("Invalid mob type.");
         			return;
         		}
-        		if(!SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase()) || !SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs")){
+        		if(!SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase())){
         			event.getPlayer().sendMessage("You are not authorized to do that.");
         			return;
         		}
-        		if (SpawnMob.Permissions.has(p, "foo.bar"))
         		if(blk == null){
         			event.getPlayer().sendMessage("You must be looking at a Mob Spawner.");
         			return;
