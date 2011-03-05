@@ -2,6 +2,9 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.7B
+Fixed the plugin.yml derp
+
 V1.7
 Added support for the latest CraftBukkit build! Thanks to niccolaspage and androw :D
 

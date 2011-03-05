@@ -161,14 +161,12 @@ public class CommandHandler{
                 } else {
                     p.sendMessage("/spawnmob <Mob Name> (Amount)");
                     p.sendMessage("/spawnmob kill <all-animals-monsters>");
-                    p.sendMessage("Alias' - /smob, /sm");
                     p.sendMessage("/mspawn - Type for more info");
                     return false;
                 }
             } else {
                 p.sendMessage("/spawnmob <Mob Name> (Amount)");
                 p.sendMessage("/spawnmob kill <all-animals-monsters>");
-                p.sendMessage("Alias - /smob, /sm");
                 p.sendMessage("/mspawn - Type for more info");
                 return false;
             }
@@ -329,12 +327,10 @@ public class CommandHandler{
                     p.sendMessage("You are not authorized to do that.");
                     return false;
                 }
-                if (SpawnMob.Permissions.has(p, "foo.bar")) {
                     if (blk == null) {
                         p.sendMessage("You must be looking at a Mob Spawner.");
                         return false;
                     }
-                }
                 if (blk.getTypeId() != 52) {
                     p.sendMessage("You must be looking at a Mob Spawner.");
                     return false;
