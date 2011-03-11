@@ -14,14 +14,13 @@ import net.minecraft.server.World;
 import net.minecraft.server.EntitySlime;
 
 /**
- *Spawnmob Commands
- * @author androw
+ *Spawnmob Commands (No Perms)
  * @author jordanneil23
  */
-public class CommandHandler{
+public class CommandHandlerNoPerms{
     private SpawnMob plugin;
 
-    public void CommandListener(SpawnMob instance) {
+    public void CommandListenerNoPerms(SpawnMob instance) {
         plugin = instance;
     }
 
@@ -31,7 +30,7 @@ public class CommandHandler{
         if (command.getName().equalsIgnoreCase("spawnmob") || command.getName().equalsIgnoreCase("sm") || command.getName().equalsIgnoreCase("smob")) {
             if (0 < args.length) {
                 if (args[0].equalsIgnoreCase("Kill")) {
-                    if (SpawnMob.Permissions.has(p, "spawnmob.kill")) {
+                    if (p.isOp()) {
                         if (args[1].equalsIgnoreCase("Monsters")) {
                             plugin.KillMobs(p.getWorld(), "monsters");
                             p.sendMessage("Killed all monsters");
@@ -50,7 +49,7 @@ public class CommandHandler{
                         return false;
                     }
                 } else if (args[0].equalsIgnoreCase("Undo")) {
-                    if (SpawnMob.Permissions.has(p, "spawnmob.kill")) {
+                    if (p.isOp()) {
                         p.sendMessage("Undid SpawnMob");
                         plugin.KillMobs(p.getWorld(), "all");
                         return true;
@@ -73,8 +72,8 @@ public class CommandHandler{
                         p.sendMessage("Invalid mob type.");
                         return false;
                     }
-                    if(!(SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.name.toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob." + mob.type.type))){
-                        p.sendMessage("You can't spawn this mob/mob type.");
+                    if(!p.isOp()){
+                        p.sendMessage("You are not authorized to do this");
                         return false;
                     }
                     World world = ((org.bukkit.craftbukkit.CraftWorld) p.getWorld()).getHandle();
@@ -170,9 +169,8 @@ public class CommandHandler{
             if (0 < args.length) {
                 CreatureType mt = CreatureType.fromName(args[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[0]));
                 org.bukkit.block.Block blk = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock();
-                Mob mob = Mob.fromName(args[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[0]));
                 if (args[0].equalsIgnoreCase("Check") || args[0].equalsIgnoreCase("Info")) {
-                    if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check")) {
+                    if (!p.isOp()) {
                         p.sendMessage("You are not authorized to check a spawner.");
                         return false;
                     }
@@ -191,7 +189,7 @@ public class CommandHandler{
                     return true;
                 } else if (args[0].equalsIgnoreCase("Delay")) {
                     if (0 < args.length) {
-                        if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.delay")) {
+                        if (!p.isOp()) {
                             p.sendMessage("You are not authorized to set a spawners delay.");
                             return false;
                         }
@@ -321,7 +319,7 @@ public class CommandHandler{
                     return false;
                 }
 
-                if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase()) || !SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs") || !SpawnMob.Permissions.has(p, "spawnmob." + mob.type.type)) {
+                if (!p.isOp()) {
                     p.sendMessage("You are not authorized to do that.");
                     return false;
                 }

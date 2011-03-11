@@ -1,8 +1,14 @@
 name: SpawnMob
 main: com.jordanneil23.SpawnMob.SpawnMob
-version: 1.7
+version: 1.8
 commands:
   spawnmob:
+    description:
+    usage: |
+  smob:
+    description:
+    usage: |
+  sm:
     description:
     usage: |
   mspawn:

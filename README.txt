@@ -2,6 +2,11 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.8
+Added support for use with ops.txt.
+(New config file with use-permissions in it)
+Works with current permissions
+
 V1.7B
 Fixed the plugin.yml derp
 
