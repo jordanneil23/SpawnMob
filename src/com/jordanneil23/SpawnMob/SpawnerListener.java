@@ -38,6 +38,8 @@ public class SpawnerListener extends BlockListener{
 	}
 	 public void onBlockBreak(BlockBreakEvent event) {
 		 Block block = event.getBlock();
+		 if (plugin.mobspawnerdrops)
+		 {
 		 if(block.getType() == Material.MOB_SPAWNER)
 	 		{
 			Location pos = new Location(event.getPlayer().getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ());
@@ -46,6 +48,9 @@ public class SpawnerListener extends BlockListener{
      		event.setCancelled(true);
      		return;
 	 		}
-		 return;
+		 } else 
+		 {
+		    return;
+	     }
 	 }
 }

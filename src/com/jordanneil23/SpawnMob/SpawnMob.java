@@ -81,11 +81,13 @@ public class SpawnMob extends JavaPlugin {
     }
 
     public boolean permissions = true;
+    public boolean mobspawnerdrops = true;
     public void loadProps() {
 	try {
 		Properties props = new Properties();
 		props.load(new FileReader("plugins/SpawnMob/SpawnMob.properties"));
 		permissions = props.getProperty("use-permissions").contains("true") ? true : false;
+		mobspawnerdrops = props.getProperty("mobspawners-have-drops").contains("true") ? true : false;
 	} catch (IOException ex) {
 		System.out.println("[SpawnMob] Unable to load the properites!");
 	}

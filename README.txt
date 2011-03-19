@@ -2,6 +2,11 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.8.1
+Config file now includes mobspawners-have-drops=true/false
+Mobs spawn on the ground, not in it.
+Slimes no longer cause a error in the console when using /spawnmob slime
+
 V1.8
 Added support for use with ops.txt.
 (New config file with use-permissions in it)

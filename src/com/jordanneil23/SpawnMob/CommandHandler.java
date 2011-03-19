@@ -58,7 +58,7 @@ public class CommandHandler{
                 }
                 if (0 < args.length && args.length < 3) {
                     String[] split1 = args[0].split(":");
-                    String[] split0 = null;
+                    String[] split0 = new String[1];
                     CraftEntity spawned1 = null;
                     Mob mob2 = null;
                     if (split1.length == 1 && !split1[0].equalsIgnoreCase("Slime")) {
@@ -86,6 +86,7 @@ public class CommandHandler{
                         return false;
                     }
                     Location loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+                    loc.setY(1 + loc.getY()); // TODO: Make mobs spawn on blocks, not in them. This is a quick and dirty partial solution.
                     spawned.teleportTo(loc);
                     world.a(spawned.getHandle());
                     if (split0.length == 2) {
