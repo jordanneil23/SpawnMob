@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.CreatureType;
-
 import com.jordanneil23.SpawnMob.Mob.MobException;
 import com.jordanneil23.SpawnMob.TargetBlock;
 
@@ -171,7 +170,6 @@ public class CommandHandler{
             if (0 < args.length) {
                 CreatureType mt = CreatureType.fromName(args[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[0]));
                 org.bukkit.block.Block blk = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock();
-                Mob mob = Mob.fromName(args[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[0]));
                 if (args[0].equalsIgnoreCase("Check") || args[0].equalsIgnoreCase("Info")) {
                     if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check")) {
                         p.sendMessage("You are not authorized to check a spawner.");
@@ -322,7 +320,7 @@ public class CommandHandler{
                     return false;
                 }
 
-                if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase()) || !SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs") || !SpawnMob.Permissions.has(p, "spawnmob." + mob.type.type)) {
+                if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.name().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs"))) {
                     p.sendMessage("You are not authorized to do that.");
                     return false;
                 }
@@ -340,7 +338,6 @@ public class CommandHandler{
                 p.sendMessage("/mspawn <Mob Name> - Set a mob spawner to spawn a mob");
                 p.sendMessage("/mspawn check - See a spawners info.");
                 p.sendMessage("/mspawn delay - Type for more info");
-                p.sendMessage("Right clicking a mobspawner also acts like /mspawn check");
                 return false;
             }
 

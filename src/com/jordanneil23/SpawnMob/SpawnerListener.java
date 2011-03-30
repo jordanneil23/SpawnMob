@@ -3,11 +3,8 @@ package com.jordanneil23.SpawnMob;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.CreatureType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
-import org.bukkit.event.block.BlockRightClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -20,22 +17,25 @@ public class SpawnerListener extends BlockListener{
 	 public SpawnerListener(SpawnMob instance) {
     	 plugin = instance;
     }
-	 public void onBlockRightClick(BlockRightClickEvent event) 
-	 {
-		 Block block = event.getBlock();
-	 		if(block.getType() == Material.MOB_SPAWNER)
-	 		{
-	 			Player p = event.getPlayer();
-	 			if (SpawnMob.Permissions.has(p, "spawnmob.mspawn.check"))
-	 			{
-	 				CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
-         			int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
-        			event.getPlayer().sendMessage("This spawners mob type is " + mob + ".");
-        			event.getPlayer().sendMessage("This spawners delay is set to " + del + ".");
-	 			} else {return;}
-	 		}
-	 		return;
-	}
+	 //Maybe some other time :P
+	 //public void onBlockRightClick(BlockRightClickEvent event) 
+	 //{
+		// Block block = event.getBlock();
+	 		//if(block.getType() == Material.MOB_SPAWNER)
+	 //{
+	 //Player p = event.getPlayer();
+	 //if (SpawnMob.Permissions.has(p, "spawnmob.mspawn.check"))
+	 //{
+	 //	CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
+	 //	int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
+	 //	event.getPlayer().sendMessage("This spawners mob type is " + mob + ".");
+	 //		event.getPlayer().sendMessage("This spawners delay is set to " + del + ".");
+	 //	} else {return;}
+	 //	}
+	 //	return;
+	 //}
+	 
+	 //Beginning of the drop fix for spawners
 	 public void onBlockBreak(BlockBreakEvent event) {
 		 Block block = event.getBlock();
 		 if (plugin.mobspawnerdrops)

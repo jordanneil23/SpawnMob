@@ -60,13 +60,15 @@ public class SpawnMob extends JavaPlugin {
     	loadProps();
     	if (permissions){
     	setupPermissions();
-    	registerEvents();
+    	PluginManager pm = getServer().getPluginManager();
+        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
         handler.CommandListener(this);
     	}else{
     		PluginDescriptionFile pdfFile = this.getDescription();
     		log.info("[SpawnMob] Version " + pdfFile.getVersion() + " enabled.");
     		log.info("[SpawnMob] Using ops.txt");
-    		registerEvents();
+    		PluginManager pm = getServer().getPluginManager();
+            pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
             nopermshandler.CommandListenerNoPerms(this);
     	}
     }
@@ -100,6 +102,7 @@ public class SpawnMob extends JavaPlugin {
 		}
 		Properties props = new Properties();
 		props.setProperty("use-permissions", "true");
+		props.setProperty("mobspawners-have-drops", "true");
 		try {
 			props.store(new FileOutputStream(CONFIG_FILE_NAME), null);
 		} catch (FileNotFoundException e) {
@@ -118,11 +121,6 @@ public class SpawnMob extends JavaPlugin {
     	}
     }
     
-public void registerEvents() {
-	PluginManager pm = getServer().getPluginManager();
-    pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
-    pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-}
 private void setupPermissions() {
     Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
     if (SpawnMob.Permissions == null) {

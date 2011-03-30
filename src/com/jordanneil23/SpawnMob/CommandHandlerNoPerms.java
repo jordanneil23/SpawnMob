@@ -85,6 +85,7 @@ public class CommandHandlerNoPerms{
                         return false;
                     }
                     Location loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+                    loc.setY(1 + loc.getY()); // TODO: Make mobs spawn on blocks, not in them. This is a quick and dirty partial solution.
                     spawned.teleportTo(loc);
                     world.a(spawned.getHandle());
                     if (split0.length == 2) {
@@ -337,7 +338,6 @@ public class CommandHandlerNoPerms{
                 p.sendMessage("/mspawn <Mob Name> - Set a mob spawner to spawn a mob");
                 p.sendMessage("/mspawn check - See a spawners info.");
                 p.sendMessage("/mspawn delay - Type for more info");
-                p.sendMessage("Right clicking a mobspawner also acts like /mspawn check");
                 return false;
             }
 
