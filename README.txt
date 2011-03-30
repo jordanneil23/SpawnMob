@@ -15,7 +15,7 @@ Slimes no longer cause a error in the console when using /spawnmob slime
 V1.8
 Added support for use with ops.txt.
 (New config file with use-permissions in it)
-Works with current permissions
+Works with current permissions.
 
 V1.7B
 Fixed the plugin.yml derp
