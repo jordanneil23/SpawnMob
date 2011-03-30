@@ -2,6 +2,11 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.8.2
+Updated for CB600
+Fixed most if not all Permissions bugs 
+(I hope, I tested it a bit and it seemed to fix them)
+
 V1.8.1
 Config file now includes mobspawners-have-drops=true/false
 Mobs spawn on the ground, not in it.
