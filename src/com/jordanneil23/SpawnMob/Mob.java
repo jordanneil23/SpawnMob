@@ -29,6 +29,7 @@ public enum Mob {
 	SLIME	("Slime", Enemies.ENEMY),
 	SPIDER	("Spider", Enemies.ENEMY),
 	SQUID	("Squid", Enemies.FRIENDLY),
+	WOLF  ("Wolf", Enemies.FRIENDLY),
 	ZOMBIE	("Zombie", Enemies.ENEMY);
 
 	

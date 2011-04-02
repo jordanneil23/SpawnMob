@@ -2,6 +2,11 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 
 Changelog
 
+V1.8.3
+Updated for Minecraft Beta 1.4
+Allows to /mspawn "monsters", wolves, and giants.
+You can now spawn wolves (Cheaters :P )
+
 V1.8.2
 Updated for CB600
 Fixed most if not all Permissions bugs 
