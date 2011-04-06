@@ -6,6 +6,7 @@ V1.8.3
 Added /spawnmob kill MobName for killing individual animals/monsters (Example: /spawnmob kill pig)
 Re-added the showing of the /mspawn check info on right click of a mobspawner
 Updated some of the /mspawn delay information
+NEW PERMISSIONS
 Added some more stuff, but I forgot what it was :P
 
 V1.8.3
