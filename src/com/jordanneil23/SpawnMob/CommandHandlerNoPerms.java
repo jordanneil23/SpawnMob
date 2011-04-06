@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.CreatureType;
-
 import com.jordanneil23.SpawnMob.Mob.MobException;
 import com.jordanneil23.SpawnMob.TargetBlock;
 
@@ -23,7 +22,7 @@ public class CommandHandlerNoPerms{
     public void CommandListenerNoPerms(SpawnMob instance) {
         plugin = instance;
     }
-
+    
     public boolean perform(CommandSender sender, Command command, String[] args) {
         int[] ignore = {8, 9};
         Player p = (Player) sender;
@@ -31,19 +30,38 @@ public class CommandHandlerNoPerms{
             if (0 < args.length) {
                 if (args[0].equalsIgnoreCase("Kill")) {
                     if (p.isOp()) {
-                        if (args[1].equalsIgnoreCase("Monsters")) {
-                            plugin.KillMobs(p.getWorld(), "monsters");
-                            p.sendMessage("Killed all monsters");
+                    	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
+                    	if (args[1].equalsIgnoreCase("All")){
+                			p.sendMessage("Killed all mobs. (Not including wolves.)");
+                            plugin.Kill(p.getWorld(), args[1]);
                             return true;
-                        } else if (args[1].equalsIgnoreCase("Animals")) {
-                            plugin.KillMobs(p.getWorld(), "animals");
-                            p.sendMessage("Killed all animals");
+                		} else if (args[1].equalsIgnoreCase("Monsters")){
+                			p.sendMessage("Killed all monsters.");
+                            plugin.Kill(p.getWorld(), args[1]);
                             return true;
-                        } else if (args[1].equalsIgnoreCase("All")) {
-                            p.sendMessage("Killed all mobs");
-                            plugin.KillMobs(p.getWorld(), "all");
+                		} else if (args[1].equalsIgnoreCase("Animals")){
+                			p.sendMessage("Killed all animals. (Not including wolves.)");
+                            plugin.Kill(p.getWorld(), args[1]);
                             return true;
+                		}
+                    	if (mob3 == null) {
+                            p.sendMessage("Invalid mob type.");
+                            return false;
                         }
+                    	if (args[1].equalsIgnoreCase("Sheep") || args[1].equalsIgnoreCase("Squid")){
+                			p.sendMessage("Killed all " + args[1] + ".");
+                            plugin.Kill(p.getWorld(), args[1]);
+                            return true;
+                		}
+                		if (args[1].equalsIgnoreCase("Wolf") || args[1].equalsIgnoreCase("Wolves")){
+                			p.sendMessage("Killed all wolves, including tamed ones.");
+                            plugin.Kill(p.getWorld(), args[1]);
+                            return true;
+                		}
+                            p.sendMessage("Killed all " + args[1] + "s.");
+                            plugin.Kill(p.getWorld(), args[1]);
+                            return true;
+                    	
                     } else {
                         p.sendMessage("You are not authorized kill mobs.");
                         return false;
@@ -51,7 +69,7 @@ public class CommandHandlerNoPerms{
                 } else if (args[0].equalsIgnoreCase("Undo")) {
                     if (p.isOp()) {
                         p.sendMessage("Undid SpawnMob");
-                        plugin.KillMobs(p.getWorld(), "all");
+                        plugin.Kill(p.getWorld(), "all");
                         return true;
                     }
                 }
@@ -162,7 +180,7 @@ public class CommandHandlerNoPerms{
                 }
             } else {
                 p.sendMessage("/spawnmob <Mob Name> (Amount)");
-                p.sendMessage("/spawnmob kill <all-animals-monsters>");
+                p.sendMessage("/spawnmob kill <all-animals-monsters-MOBNAME>");
                 p.sendMessage("/mspawn - Type for more info");
                 return false;
             }
@@ -311,7 +329,7 @@ public class CommandHandlerNoPerms{
                     } else {
                         p.sendMessage("/mspawn delay - <A Number Between -10 to 10>");
                         p.sendMessage("Sets a mob spawners delay to spawn things.");
-                        p.sendMessage("-10 being the fastest, 10 being the slowest.");
+                        p.sendMessage("-10 being the slowest, 1 being the fastest.");
                         return false;
                     }
                 }

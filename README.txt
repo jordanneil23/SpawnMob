@@ -3,6 +3,12 @@ This is the continuation of SpawnMob for Bukkit that was originally made/develop
 Changelog
 
 V1.8.3
+Added /spawnmob kill MobName for killing individual animals/monsters (Example: /spawnmob kill pig)
+Re-added the showing of the /mspawn check info on right click of a mobspawner
+Updated some of the /mspawn delay information
+Added some more stuff, but I forgot what it was :P
+
+V1.8.3
 Updated for Minecraft Beta 1.4
 Allows to /mspawn "monsters", wolves, and giants.
 You can now spawn wolves (Cheaters :P )

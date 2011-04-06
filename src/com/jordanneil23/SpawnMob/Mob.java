@@ -15,7 +15,6 @@ public enum Mob {
 	 * @author jordanneil23
      * @author xmlns
 	 */
-	//And edited by jordaneil23
 	CHICKEN	("Chicken", Enemies.FRIENDLY),
 	COW		("Cow", Enemies.FRIENDLY),
 	CREEPER	("Creeper", Enemies.ENEMY),
@@ -29,7 +28,7 @@ public enum Mob {
 	SLIME	("Slime", Enemies.ENEMY),
 	SPIDER	("Spider", Enemies.ENEMY),
 	SQUID	("Squid", Enemies.FRIENDLY),
-	WOLF  ("Wolf", Enemies.FRIENDLY),
+	WOLF  ("Wolf", Enemies.NEUTRAL),
 	ZOMBIE	("Zombie", Enemies.ENEMY);
 
 	
