@@ -1,6 +1,8 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.8.4B
+Fixes the /spawnmob kill all says invalid mob type bug/error.
 
 V1.8.3
 Added /spawnmob kill MobName for killing individual animals/monsters (Example: /spawnmob kill pig)
