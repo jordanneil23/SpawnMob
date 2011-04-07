@@ -74,6 +74,7 @@ public class SpawnMob extends JavaPlugin {
     		if (mobspawnerdrops){
                 pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
     		}
+    		pm.registerEvent(Event.Type.PLAYER_INTERACT, PlayerListener, Priority.Normal, this);
             nopermshandler.CommandListenerNoPerms(this);
     	}
     }

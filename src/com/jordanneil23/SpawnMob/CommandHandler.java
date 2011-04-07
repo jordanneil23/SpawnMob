@@ -32,23 +32,46 @@ public class CommandHandler{
                 if (args[0].equalsIgnoreCase("Kill")) {
                 	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
                     if (SpawnMob.Permissions.has(p, "spawnmob.kill")){
-                	if (mob3 == null) {
-                        p.sendMessage("Invalid mob type.");
-                        return false;
-                    }
-                    if (args[1].equalsIgnoreCase("All")){
-            			p.sendMessage("Killed all mobs. (Not including wolves.)");
-                        plugin.Kill(p.getWorld(), args[1]);
-                        return true;
-            		} else if (args[1].equalsIgnoreCase("Monsters")){
+                    if (args[1].equalsIgnoreCase("All") && SpawnMob.Permissions.has(p, "spawnmob.kill.all")){
+                    	if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+            				p.sendMessage("You're not authorized to do that.");
+            				return false;
+                			} else {
+                        		p.sendMessage("Killed all mobs. (Not including wolves.)");
+                                plugin.Kill(p.getWorld(), args[1]);
+                                return true;
+                			}
+            		} else if (args[1].equalsIgnoreCase("Monsters") && SpawnMob.Permissions.has(p, "spawnmob.kill.monsters")){
+            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.monsters") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+                        p.sendMessage("You're not authorized to do that.");
+        				return false;
+            		} else {
             			p.sendMessage("Killed all monsters.");
                         plugin.Kill(p.getWorld(), args[1]);
                         return true;
+        			}
             		} else if (args[1].equalsIgnoreCase("Animals")){
-            			p.sendMessage("Killed all animals. (Not including wolves.)");
-                        plugin.Kill(p.getWorld(), args[1]);
-                        return true;
-            		}if (args[1].equalsIgnoreCase("Sheep") || args[1].equalsIgnoreCase("Squid")){
+            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.animals") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+            				p.sendMessage("You're not authorized to do that.");
+            				return false;
+            			} else {
+            				
+            				p.sendMessage("Killed all animals. (Not including wolves.)");
+                            plugin.Kill(p.getWorld(), args[1]);
+                            return true;
+            			}
+            		}
+                    if (!(SpawnMob.Permissions.has(p, "spawnmob.kill." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+        				p.sendMessage("You're not authorized to do that.");
+        				return false;
+            			} 
+                    else 
+            			{
+                    	if (mob3 == null && !(args[1].equalsIgnoreCase("Animals") || args[1].equalsIgnoreCase("Monsters") || args[1].equalsIgnoreCase("All"))) {
+                            p.sendMessage("Invalid mob type.");
+                            return false;
+                        }
+                    if (args[1].equalsIgnoreCase("Sheep") || args[1].equalsIgnoreCase("Squid")){
             			p.sendMessage("Killed all " + args[1] + ".");
                         plugin.Kill(p.getWorld(), args[1]);
                         return true;
@@ -61,7 +84,7 @@ public class CommandHandler{
                         p.sendMessage("Killed all " + args[1] + "s.");
                         plugin.Kill(p.getWorld(), args[1]);
                         return true;
-                	
+            			}
                 } else {
                         p.sendMessage("You are not authorized kill mobs.");
                         return false;

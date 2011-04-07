@@ -44,7 +44,7 @@ public class CommandHandlerNoPerms{
                             plugin.Kill(p.getWorld(), args[1]);
                             return true;
                 		}
-                    	if (mob3 == null) {
+                    	if (mob3 == null && !(args[1].equalsIgnoreCase("Animals") || args[1].equalsIgnoreCase("Monsters") || args[1].equalsIgnoreCase("All"))) {
                             p.sendMessage("Invalid mob type.");
                             return false;
                         }
