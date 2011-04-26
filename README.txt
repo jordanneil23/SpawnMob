@@ -1,6 +1,11 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9
+Updated for Minecraft Beta 1.5
+Built on CB 731
+Tested on CB 731
+
 V1.8.4B
 Fixes the /spawnmob kill all says invalid mob type bug/error.
 

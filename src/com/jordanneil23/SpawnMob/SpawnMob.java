@@ -40,7 +40,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 /**
  * SpawnMob
- * @version 1.8
+ * @version 1.9
  * @author jordanneil23
  */
 public class SpawnMob extends JavaPlugin {
@@ -49,7 +49,6 @@ public class SpawnMob extends JavaPlugin {
 	public java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
 	public static PermissionHandler Permissions;
     private final CommandHandler handler = new CommandHandler();
-    private final CommandHandlerNoPerms nopermshandler = new CommandHandlerNoPerms();
     private static final String CONFIG_FILE_NAME = "plugins/SpawnMob/SpawnMob.properties";
     
     public void onEnable() {
@@ -58,26 +57,22 @@ public class SpawnMob extends JavaPlugin {
 			writeConfigFile();
 		}
     	loadProps();
+    	PluginManager pm = getServer().getPluginManager();
     	if (permissions){
     	setupPermissions();
-    	PluginManager pm = getServer().getPluginManager();
+    	}
     	if (mobspawnerdrops){
             pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
 		}
     	pm.registerEvent(Event.Type.PLAYER_INTERACT, PlayerListener, Priority.Normal, this);
-        handler.CommandListener(this);
-    	}else{
+        if (permissions){
     		PluginDescriptionFile pdfFile = this.getDescription();
     		log.info("[SpawnMob] Version " + pdfFile.getVersion() + " enabled.");
-    		log.info("[SpawnMob] Using ops.txt");
-    		PluginManager pm = getServer().getPluginManager();
-    		if (mobspawnerdrops){
-                pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-    		}
-    		pm.registerEvent(Event.Type.PLAYER_INTERACT, PlayerListener, Priority.Normal, this);
-            nopermshandler.CommandListenerNoPerms(this);
+        }else{
+        	log.info("[SpawnMob] Using ops.txt!");
+        }
+    		handler.CommandListener(this);
     	}
-    }
     
     public void onDisable() {
     	File confFile = new File(CONFIG_FILE_NAME);
@@ -120,11 +115,7 @@ public class SpawnMob extends JavaPlugin {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-    	if (permissions){
-            return handler.perform(sender, command, args); 
-    	} else {
-    		return nopermshandler.perform(sender, command, args); 
-    	}
+    		return handler.perform(sender, command, args);
     }
     
 private void setupPermissions() {
