@@ -1,5 +1,9 @@
 SpawnMob ( "this plugin" )
+<<<<<<< HEAD
 Copyright (c) 2011, Jordan Marshall A.K.A jordanneil23 ("copyright holder, contributer")
+=======
+Copyright (c) 2011, Jordan Marshall A.K.A jordanneil23 ("copyright holder")
+>>>>>>> origin/master
 All rights reserved.
 
 Contact:
@@ -16,6 +20,11 @@ Contact:
 3. Modification of this plugin in source or binary forms is only permitted with a written permission by the copyright holders.
 4 The usage of the source code of this plugin is only for private, non commercial, reference purposes. (Including, but not limited to, learning, inspiration)
 4.1 Copying the source code of this plugin is only permitted with a written permission by the copyright holders.
+<<<<<<< HEAD
+=======
+5. Decompilation of the binary files of this plugin is only permitted with a written permission by the copyright holders or a special permission.
+5.1 A special permission is automatically achieved, when the usage of the source code is only for private, non commercial, reference purposes. (Including, but not limited to, learning, inspiration)
+>>>>>>> origin/master
 
 
 THIS PLUGIN IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTOR "AS IS" AND
