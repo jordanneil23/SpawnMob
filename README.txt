@@ -1,6 +1,13 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.1
+Added the ability to spawn tamed wolves, permissions - spawnmob.wolf.tamed
+You can now use any number for /mspawn delay
+Cleaned up the code a bit
+Built on CB 740
+Tested on CB 740
+
 V1.9
 Updated for Minecraft Beta 1.5
 Built on CB 732

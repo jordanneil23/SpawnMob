@@ -11,8 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * SpawnMob for Bukkit
- *
+ * SpawnMob - Block Listener
  * @author jordanneil23
  */
 public class SpawnerListener extends BlockListener{

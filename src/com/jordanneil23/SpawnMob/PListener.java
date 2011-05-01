@@ -9,8 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 
 /**
- * SpawnMob for Bukkit
- *
+ * SpawnMob - Player Listener
  * @author jordanneil23
  */
 public class PListener extends PlayerListener{
