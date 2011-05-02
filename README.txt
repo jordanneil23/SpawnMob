@@ -1,6 +1,12 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.2
+Added the ability to spawn multiple tamed wolves
+Added the ability to spawn electrified creepers
+Fixed the /spawnmob kill bug (Yes there was a bug.)
+Added a limit for how many mobs you can spawn at once, you can change it in the SpawnMob.properties file
+
 V1.9.1
 Added the ability to spawn tamed wolves, permissions - spawnmob.wolf.tamed
 You can now use any number for /mspawn delay
