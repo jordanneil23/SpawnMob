@@ -37,14 +37,15 @@ public class CommandHandler{
         	if (0 < args.length) {
             	if (!plugin.permissions){
             		if (!p.isOp()){
-            			p.sendMessage("You can't do that.");
+            			p.sendMessage(ChatColor.RED + "You can't do that.");
             			return false;
             		}
             	}
-            	if (args[0].equalsIgnoreCase("Wolf") && args[1].equalsIgnoreCase("Tamed")){
+            	if (args[0].equalsIgnoreCase("Wolf")){
+            		if (args[1].equalsIgnoreCase("Tamed")){
                 	if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed")){
-            			p.sendMessage("You can't do that.");
+            			p.sendMessage(ChatColor.RED + "You can't do that.");
             			return false;
             		}  
                 	}
@@ -56,7 +57,7 @@ public class CommandHandler{
        				 wolf.d(true); //owned
        				 w.setAngry(false);
        				 w.setHealth(10);
-       				 p.sendMessage("You now have a tamed wolf!");
+       				 p.sendMessage(ChatColor.BLUE + "You now have a tamed wolf!");
        				 return true;
                        	}
             		int check = convertStringtoInt(args[2]);
@@ -75,17 +76,101 @@ public class CommandHandler{
                       		     w.setHealth(10);
                                }
                                if (args[2].equals("1")){
-                               	p.sendMessage("You spawned a tamed wolf!");
+                               	p.sendMessage(ChatColor.BLUE + "You spawned a tamed wolf!");
                                	return true;
                                }
-                           	p.sendMessage("You spawned " + args[2] + " tamed wolves!");
+                           	p.sendMessage(ChatColor.BLUE + "You spawned " + args[2] + " tamed wolves!");
                            	return true;
                            } catch (java.lang.NumberFormatException e2) {
                                p.sendMessage(ChatColor.RED + "Malformed integer.");
                                return false;
                            }
+            		} else {
+            			String[] split1 = args[0].split(":");
+                        String[] split0 = new String[1];
+                        LivingEntity spawned1 = null;
+                        Mob mob2 = null;
+                        if (split1.length == 2) {
+                            args[0] = split1[0] + "";
+                        }
+                        Mob mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
+                        if (mob == null) {
+                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                            return false;
+                        }
+                        if (plugin.permissions){
+                        if(!SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.getName().toLowerCase())){
+                            p.sendMessage(ChatColor.RED + "You can't spawn this mob.");
+                            return false;
+                        }
+                        }
+                        LivingEntity spawned = null;
+                        if (args.length != 2) {
+                        	World world = p.getWorld();
+                            spawned = world.spawnCreature(loc, CreatureType.WOLF);
+                        if (split0.length == 2) {
+                        	mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+                            if (mob2 == null) {
+                                p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                                return false;
+                            }
+                            try {
+                                spawned1 = mob2.spawn(p, plugin, loc);
+                            } catch (MobException e) {
+                                p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+                                return false;
+                            }
+                            spawned1.setPassenger(spawned);
+                        }
+                        p.sendMessage(ChatColor.BLUE + mob.getName().toLowerCase() + (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "") + " spawned.");
+                        return true;
+                        }else{
+                        	mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+                        	int check = convertStringtoInt(args[1]);
+                        	if (check > spawnlimit){
+                    			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was over the set limit!");
+                    			return false;
+                    		}
+                            try {
+                                for (int i = 0; i < Integer.parseInt(args[1]); i++) {
+                                    spawned = mob.spawn(p, plugin, loc);
+                                    if (split1.length > 1 && mob.getName().toLowerCase() == "Slime") {
+                                        try {
+                                            ((EntitySlime) spawned).b(Integer.parseInt(split1[1]));
+                                        } catch (Exception e) {
+                                            p.sendMessage(ChatColor.RED + "Malformed size.");
+                                            return false;
+                                        }
+                                    }
+                                    if (split0.length == 2) {
+                                        if (mob2 == null) {
+                                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                                            return false;
+                                        }
+                                        try {
+                                            spawned1 = mob2.spawn(p, plugin, loc);
+                                        } catch (MobException e) {
+                                            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+                                            return false;
+                                        }
+                                        spawned1.setPassenger(spawned);
+                                    }
+                                }
+                                p.sendMessage(ChatColor.BLUE + args[1] + " " + mob.getName().toLowerCase() + mob.s + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + " spawned.");
+                            
+                            } catch (MobException e1) {
+                                p.sendMessage(ChatColor.RED + "Unable to spawn mobs.");
+                                return false;
+                            } catch (java.lang.NumberFormatException e2) {
+                                p.sendMessage(ChatColor.RED + "Malformed integer.");
+                                return false;
+                            }
+                        }
+                            return true;
+            		}
             	}
             	if (args[0].equalsIgnoreCase("Creeper") && args[1].equalsIgnoreCase("Electric")){
+            		if (args[1].equalsIgnoreCase("Electric")){
                 	if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.creeper.electrocuted")){
             			p.sendMessage(ChatColor.RED + "You can't do that.");
@@ -96,7 +181,7 @@ public class CommandHandler{
                 		World world = p.getWorld();
    					 Creeper c = (Creeper) world.spawnCreature(loc, CreatureType.CREEPER);
    					 c.setPowered(true);
-   					 p.sendMessage("You spawned a electrocuted creeper!");
+   					 p.sendMessage(ChatColor.BLUE + "You spawned a electrocuted creeper!");
    					 return true;  
                 	}
             		int check = convertStringtoInt(args[2]);
@@ -111,90 +196,173 @@ public class CommandHandler{
                             c.setPowered(true);
                         }
                         if (args[2].equals("1")){
-                        	p.sendMessage("You spawned a electrocuted creeper!");
+                        	p.sendMessage(ChatColor.BLUE + "You spawned a electrocuted creeper!");
                         	return true;
                         }
-                    	p.sendMessage("You spawned " + args[2] + " electrocuted creepers!");
+                    	p.sendMessage(ChatColor.BLUE + "You spawned " + args[2] + " electrocuted creepers!");
                     	return true;
                     } catch (java.lang.NumberFormatException e2) {
                         p.sendMessage(ChatColor.RED + "Malformed integer.");
                         return false;
                     }
+            		} else {
+            			String[] split1 = args[0].split(":");
+                        String[] split0 = new String[1];
+                        LivingEntity spawned1 = null;
+                        Mob mob2 = null;
+                        if (split1.length == 2) {
+                            args[0] = split1[0] + "";
+                        }
+                        Mob mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
+                        if (mob == null) {
+                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                            return false;
+                        }
+                        if (plugin.permissions){
+                        if(!SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.getName().toLowerCase())){
+                            p.sendMessage(ChatColor.RED + "You can't spawn this mob.");
+                            return false;
+                        }
+                        }
+                        LivingEntity spawned = null;
+                        if (args.length != 2) {
+                        	World world = p.getWorld();
+                            spawned = world.spawnCreature(loc, CreatureType.CREEPER);
+                        if (split0.length == 2) {
+                        	mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+                            if (mob2 == null) {
+                                p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                                return false;
+                            }
+                            try {
+                                spawned1 = mob2.spawn(p, plugin, loc);
+                            } catch (MobException e) {
+                                p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+                                return false;
+                            }
+                            spawned1.setPassenger(spawned);
+                        }
+                        p.sendMessage(ChatColor.BLUE + mob.getName().toLowerCase() + (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "") + " spawned.");
+                        return true;
+                        }else{
+                        	mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+                        	int check = convertStringtoInt(args[1]);
+                        	if (check > spawnlimit){
+                    			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was over the set limit!");
+                    			return false;
+                    		}
+                            try {
+                                for (int i = 0; i < Integer.parseInt(args[1]); i++) {
+                                    spawned = mob.spawn(p, plugin, loc);
+                                    if (split1.length > 1 && mob.getName().toLowerCase() == "Slime") {
+                                        try {
+                                            ((EntitySlime) spawned).b(Integer.parseInt(split1[1]));
+                                        } catch (Exception e) {
+                                            p.sendMessage(ChatColor.RED + "Malformed size.");
+                                            return false;
+                                        }
+                                    }
+                                    if (split0.length == 2) {
+                                        if (mob2 == null) {
+                                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
+                                            return false;
+                                        }
+                                        try {
+                                            spawned1 = mob2.spawn(p, plugin, loc);
+                                        } catch (MobException e) {
+                                            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+                                            return false;
+                                        }
+                                        spawned1.setPassenger(spawned);
+                                    }
+                                }
+                                p.sendMessage(ChatColor.BLUE + args[1] + " " + mob.getName().toLowerCase() + mob.s + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + " spawned.");
+                            
+                            } catch (MobException e1) {
+                                p.sendMessage(ChatColor.RED + "Unable to spawn mobs.");
+                                return false;
+                            } catch (java.lang.NumberFormatException e2) {
+                                p.sendMessage(ChatColor.RED + "Malformed integer.");
+                                return false;
+                            }
+                        }
+                            return true;
+            		}
             	}
                 if (args[0].equalsIgnoreCase("Kill")) {
                 	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
                     if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.kill")){
-                        p.sendMessage("You are not authorized kill mobs.");
+                        p.sendMessage(ChatColor.RED + "You are not authorized kill mobs.");
                         return false;
                 	}
                     }
                     if (args.length == 1){
-                    	p.sendMessage("/spawnmob kill <all-animals-monsters-mobname>");
+                    	p.sendMessage(ChatColor.BLUE + "/spawnmob kill <all-animals-monsters-mobname>");
                     	return false;
                     }
                     if (args[1].equalsIgnoreCase("All")){
                     	if (plugin.permissions){
                     	if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
-            				p.sendMessage("You're not authorized to do that.");
+            				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
             				return false;
                 			}
                     	}
-                        		p.sendMessage("Killed all mobs. (Not including wolves.)");
+                        		p.sendMessage(ChatColor.BLUE + "Killed all mobs. (Not including wolves.)");
                         		plugin.Kill(p.getWorld(), args[1]);
                                 return true;
             		} else if (args[1].equalsIgnoreCase("Monsters")){
             			if (plugin.permissions){
             			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.monsters") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
-                        p.sendMessage("You're not authorized to do that.");
+                        p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
         				return false;
             		}
             			}
-            			p.sendMessage("Killed all monsters.");
+            			p.sendMessage(ChatColor.BLUE + "Killed all monsters.");
             			plugin.Kill(p.getWorld(), args[1]);
                         return true;
             		} else if (args[1].equalsIgnoreCase("Animals")){
             			if (plugin.permissions){
             			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.animals") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
-            				p.sendMessage("You're not authorized to do that.");
+            				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
             				return false;
             			}
             			}
-            				p.sendMessage("Killed all animals. (Not including wolves.)");
+            				p.sendMessage(ChatColor.BLUE + "Killed all animals. (Not including wolves.)");
             				plugin.Kill(p.getWorld(), args[1]);
                             return true;
             		}
                     if (plugin.permissions){
                     if (!(SpawnMob.Permissions.has(p, "spawnmob.kill." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
-        				p.sendMessage("You're not authorized to do that.");
+        				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
         				return false;
             			} 
                     }
                     	if (mob3 == null && !(args[1].equalsIgnoreCase("Animals") || args[1].equalsIgnoreCase("Monsters") || args[1].equalsIgnoreCase("All"))) {
-                            p.sendMessage("Invalid mob type.");
+                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
                             return false;
                         }
                     if (args[1].equalsIgnoreCase("Sheep") || args[1].equalsIgnoreCase("Squid")){
-            			p.sendMessage("Killed all " + args[1] + ".");
+            			p.sendMessage(ChatColor.BLUE + "Killed all " + args[1] + ".");
             			plugin.Kill(p.getWorld(), args[1]);
                         return true;
             		}
             		if (args[1].equalsIgnoreCase("Wolf") || args[1].equalsIgnoreCase("Wolves")){
-            			p.sendMessage("Killed all wolves, including tamed ones.");
+            			p.sendMessage(ChatColor.BLUE + "Killed all wolves, including tamed ones.");
             			plugin.Kill(p.getWorld(), args[1]);
                         return true;
             		}
-                        p.sendMessage("Killed all " + args[1] + "s.");
+                        p.sendMessage(ChatColor.BLUE + "Killed all " + args[1] + "s.");
                         plugin.Kill(p.getWorld(), args[1]);
                         return true;
                 } else if (args[0].equalsIgnoreCase("Undo")) {
                 	if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.kill.all")) {
-                    	p.sendMessage("You can't do that.");
+                    	p.sendMessage(ChatColor.RED + "You can't do that.");
                     	return false;
                     }
                 	}
-                        p.sendMessage("Undid SpawnMob");
+                        p.sendMessage(ChatColor.BLUE + "Undid SpawnMob");
                         plugin.Kill(p.getWorld(), "all");
                         return true;
                 }
@@ -212,12 +380,15 @@ public class CommandHandler{
                     }
                     Mob mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
                     if (mob == null) {
-                        p.sendMessage("Invalid mob type.");
+                        p.sendMessage(ChatColor.RED + "Invalid mob type.");
                         return false;
+                    }
+                    if (mob.equals("Creeper") || mob.equals("Wolf")){
+                    	return false;
                     }
                     if (plugin.permissions){
                     if(!(SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob." + mob.getName().toLowerCase()))){
-                        p.sendMessage("You can't spawn this mob/mob type.");
+                        p.sendMessage(ChatColor.RED + "You can't spawn this mob/mob type.");
                         return false;
                     }
                     }
@@ -226,20 +397,23 @@ public class CommandHandler{
                     try {
                         spawned = mob.spawn(p, plugin, loc);
                     } catch (MobException e) {
-                        p.sendMessage("Unable to spawn mob.");
+                        p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
                         return false;
                     }
                     }
                     if (split0.length == 2) {
                         mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
                         if (mob2 == null) {
-                            p.sendMessage("Invalid mob type.");
+                            p.sendMessage(ChatColor.RED + "Invalid mob type.");
                             return false;
+                        }
+                        if (mob2.equals("Creeper") || mob2.equals("Wolf")){
+                        	return false;
                         }
                         try {
                             spawned1 = mob2.spawn(p, plugin, loc);
                         } catch (MobException e) {
-                            p.sendMessage("Unable to spawn mob.");
+                            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
                             return false;
                         }
                         spawned1.setPassenger(spawned);
@@ -248,7 +422,7 @@ public class CommandHandler{
                         try {
                             ((EntitySlime) spawned).b(Integer.parseInt(split1[1]));
                         } catch (Exception e) {
-                            p.sendMessage("Malformed size.");
+                            p.sendMessage(ChatColor.RED + "Malformed size.");
                             return false;
                         }
                     }
@@ -259,52 +433,52 @@ public class CommandHandler{
                 			return false;
                 		}
                         try {
-                            for (int i = 1; i < Integer.parseInt(args[1]); i++) {
+                            for (int i = 0; i < Integer.parseInt(args[1]); i++) {
                                 spawned = mob.spawn(p, plugin, loc);
                                 if (split1.length > 1 && mob.getName().toLowerCase() == "Slime") {
                                     try {
                                         ((EntitySlime) spawned).b(Integer.parseInt(split1[1]));
                                     } catch (Exception e) {
-                                        p.sendMessage("Malformed size.");
+                                        p.sendMessage(ChatColor.RED + "Malformed size.");
                                         return false;
                                     }
                                 }
                                 if (split0.length == 2) {
                                     if (mob2 == null) {
-                                        p.sendMessage("Invalid mob type.");
+                                        p.sendMessage(ChatColor.RED + "Invalid mob type.");
                                         return false;
                                     }
                                     try {
                                         spawned1 = mob2.spawn(p, plugin, loc);
                                     } catch (MobException e) {
-                                        p.sendMessage("Unable to spawn mob.");
+                                        p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
                                         return false;
                                     }
                                     spawned1.setPassenger(spawned);
                                 }
                             }
-                            p.sendMessage(args[1] + " " + mob.getName().toLowerCase() + mob.s + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + " spawned.");
+                            p.sendMessage(ChatColor.BLUE + args[1] + " " + mob.getName().toLowerCase() + mob.s + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + " spawned.");
                         } catch (MobException e1) {
-                            p.sendMessage("Unable to spawn mobs.");
+                            p.sendMessage(ChatColor.RED + "Unable to spawn mobs.");
                             return false;
                         } catch (java.lang.NumberFormatException e2) {
-                            p.sendMessage("Malformed integer.");
+                            p.sendMessage(ChatColor.RED + "Malformed integer.");
                             return false;
                         }
                     } else {
-                        p.sendMessage(mob.getName().toLowerCase() + (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "") + " spawned.");
+                        p.sendMessage(ChatColor.BLUE + mob.getName().toLowerCase() + (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "") + " spawned.");
                     }
                     return true;
                 } else {
-                    p.sendMessage("/spawnmob <Mob Name> (Amount)");
-                    p.sendMessage("/spawnmob kill <all-animals-monsters>");
-                    p.sendMessage("/mspawn - Type for more info");
+                    p.sendMessage(ChatColor.BLUE + "/spawnmob <Mob Name> (Amount)");
+                    p.sendMessage(ChatColor.BLUE + "/spawnmob kill <all-animals-monsters-mobname>");
+                    p.sendMessage(ChatColor.BLUE + "/mspawn - Type for more info");
                     return false;
                 }
             }else {
-                p.sendMessage("/spawnmob <Mob Name> (Amount)");
-                p.sendMessage("/spawnmob kill <all-animals-monsters-mobname>");
-                p.sendMessage("/mspawn - Type for more info");
+                p.sendMessage(ChatColor.BLUE + "/spawnmob <Mob Name> (Amount)");
+                p.sendMessage(ChatColor.BLUE + "/spawnmob kill <all-animals-monsters-mobname>");
+                p.sendMessage(ChatColor.BLUE + "/mspawn - Type for more info");
                 return false;
             } 
         } else if (command.getName().toLowerCase().equalsIgnoreCase("mspawn")) {
@@ -314,77 +488,77 @@ public class CommandHandler{
                 if (args[0].equalsIgnoreCase("Check") || args[0].equalsIgnoreCase("Info")) {
                 	if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check")) {
-                        p.sendMessage("You are not authorized to check a spawner.");
+                        p.sendMessage(ChatColor.RED + "You are not authorized to check a spawner.");
                         return false;
                     }
                 	}
                     if (blk == null) {
-                        p.sendMessage("You must be looking at a Mob Spawner.");
+                        p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                         return false;
                     }
                     if (blk.getTypeId() != 52) {
-                        p.sendMessage("You must be looking at a Mob Spawner.");
+                        p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                         return false;
                     }
                     CreatureType mob1 = ((org.bukkit.block.CreatureSpawner) blk.getState()).getCreatureType();
                     int del = ((org.bukkit.block.CreatureSpawner) blk.getState()).getDelay();
-                    p.sendMessage("This spawners mob type is " + mob1 + ".");
-                    p.sendMessage("This spawners delay is set to " + del + ".");
+                    p.sendMessage(ChatColor.BLUE + "This spawners mob type is " + mob1 + ".");
+                    p.sendMessage(ChatColor.BLUE + "This spawners delay is set to " + del + ".");
                     return true;
                 } else if (args[0].equalsIgnoreCase("Delay")) {
                 	if (args.length != 2){
-                        p.sendMessage("/mspawn delay <Number>");
-                        p.sendMessage("Sets a mob spawners delay to spawn things.");
+                        p.sendMessage(ChatColor.BLUE + "/mspawn delay <Number>");
+                        p.sendMessage(ChatColor.BLUE + "Sets a mob spawners delay to spawn things.");
                         return false;
                     }
                     	if (plugin.permissions){
                     	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.delay")) {
-                            p.sendMessage("You are not authorized to set a spawners delay.");
+                            p.sendMessage(ChatColor.RED + "You are not authorized to set a spawners delay.");
                             return false;
                         }
                     	}
                         if (blk == null) {
-                            p.sendMessage("You must be looking at a Mob Spawner.");
+                            p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                             return false;
                         }
                         if (blk.getTypeId() != 52) {
-                            p.sendMessage("You must be looking at a Mob Spawner.");
+                            p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                             return false;
                         }
                         if (checkIfNumber(args[1]) == false) {
-                            p.sendMessage("You must enter a number.");
+                            p.sendMessage(ChatColor.RED + "You must enter a number.");
                             return false;
                         }
                         String Del1 = args[1];
                         int Del = Integer.parseInt(Del1);
                         ((org.bukkit.block.CreatureSpawner) blk.getState()).setDelay(Del);
-                        p.sendMessage("This spawners delay is now set to " + Del + ".");
+                        p.sendMessage(ChatColor.BLUE + "This spawners delay is now set to " + Del + ".");
                         return true;
                 }
                 if (mt == null) {
-                    p.sendMessage("Invalid mob type.");
+                    p.sendMessage(ChatColor.RED + "Invalid mob type.");
                     return false;
                 }
                 if (plugin.permissions){
                 if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs"))) {
-                    p.sendMessage("You are not authorized to do that.");
+                    p.sendMessage(ChatColor.RED + "You are not authorized to do that.");
                     return false;
                 }
                 }
                     if (blk == null) {
-                        p.sendMessage("You must be looking at a Mob Spawner.");
+                        p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                         return false;
                     }
                 if (blk.getTypeId() != 52) {
-                    p.sendMessage("You must be looking at a Mob Spawner.");
+                    p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
                     return false;
                 }
                 ((org.bukkit.block.CreatureSpawner) blk.getState()).setCreatureType(mt);
-                p.sendMessage("Mob spawner set as " + mt.getName().toLowerCase().toLowerCase() + ".");
+                p.sendMessage(ChatColor.BLUE + "Mob spawner set as " + mt.getName().toLowerCase().toLowerCase() + ".");
             } else {
-                p.sendMessage("/mspawn <Mob Name> - Set a mob spawner to spawn a mob");
-                p.sendMessage("/mspawn check - See a spawners info.");
-                p.sendMessage("/mspawn delay - Type for more info");
+                p.sendMessage(ChatColor.BLUE + "/mspawn <Mob Name> - Set a mob spawner to spawn a mob");
+                p.sendMessage(ChatColor.BLUE + "/mspawn check - See a spawners info.");
+                p.sendMessage(ChatColor.BLUE + "/mspawn delay - Type for more info");
                 return false;
             }
 

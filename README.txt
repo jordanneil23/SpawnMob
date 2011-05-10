@@ -1,6 +1,11 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.3
+Attempted to fix bugs that were made in V1.9.2...
+/spawnmob wolf does not work now, and I probably wont fix it for a while...
+/spawnmob wolf tamed still works
+
 V1.9.2
 Added the ability to spawn multiple tamed wolves
 Added the ability to spawn electrified creepers
