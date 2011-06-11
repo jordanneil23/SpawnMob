@@ -1,6 +1,11 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.4
+Support for MC 1.6+
+/spawnmob wolf <number> now works
+If you enter '/spawnmob wolf' with no number a error occurs (same with creepers)
+
 V1.9.3
 Attempted to fix bugs that were made in V1.9.2...
 /spawnmob wolf does not work now, and I probably wont fix it for a while...
