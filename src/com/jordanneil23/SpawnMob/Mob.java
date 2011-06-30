@@ -59,6 +59,7 @@ public enum Mob {
 		try {
             World world = byWhom.getWorld();
             LivingEntity mob = world.spawnCreature(loc, this.type);
+            
             return mob;
         } catch(Exception e) {
         	plugin.log.log(java.util.logging.Level.SEVERE,"Unable to spawn mob. Error: ");

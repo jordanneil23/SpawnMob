@@ -1,6 +1,14 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.5
+Added Mob Kits (/spawnmob kit)
+All you have to do is run SpawnMob and type /spawnmob kit list (or /spawnmob kit <kitname>)
+Fixed the bugs with the spawning of wolves and creepers
+/spawnmob wolf tamed is changed to /spawnmob tamedwolf or /spawnmob twolf
+/spawnmob creeper electric is changed to /spawnmob electriccreeper or /spawnmob ecreeper
+I may add the sheep color spawning later
+
 V1.9.4
 Support for MC 1.6+
 /spawnmob wolf <number> now works
