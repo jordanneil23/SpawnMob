@@ -9,13 +9,11 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.CreatureType;
 import com.jordanneil23.SpawnMob.Mob.MobException;
 import com.jordanneil23.SpawnMob.TargetBlock;
 
 import net.minecraft.server.EntitySlime;
-import net.minecraft.server.EntityWolf;
 
 /**
  *SpawnMob - Commands
@@ -25,8 +23,7 @@ public class CommandHandler{
     private SpawnMob plugin;
     public void CommandListener(SpawnMob instance) {
         plugin = instance;
-    }
-    
+    } 
     public boolean perform(CommandSender sender, Command command, String[] args) {
 		int spawnlimit = convertStringtoInt(plugin.spawnlimit);
     	int[] ignore = {8, 9};
@@ -41,7 +38,6 @@ public class CommandHandler{
             			return false;
             		}
             	}
-            	
             	if (args[0].equalsIgnoreCase("TamedWolf") || args[0].equalsIgnoreCase("TWolf")){
                     	if (plugin.permissions){
                     	if (!SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed")){
@@ -49,37 +45,35 @@ public class CommandHandler{
                 			return false;
                 		}  
                     	}
-                    	if (args.length < 3){
+                    	if (args.length < 2){
                        	 World world = p.getWorld();
            				 Wolf w = (Wolf) world.spawnCreature(loc, CreatureType.WOLF);
-           				 EntityWolf wolf = ((CraftWolf)  w).getHandle();
-           				 wolf.a(p.getName());
-           				 wolf.d(true);
+           				 w.setOwner(p);
+           				 w.setSitting(false);
            				 w.setAngry(false);
            				 w.setHealth(10);
            				 p.sendMessage(ChatColor.BLUE + "You now have a tamed wolf!");
            				 return true;
-                           	}
-                		int check = convertStringtoInt(args[2]);
+                         }
+                		int check = convertStringtoInt(args[1]);
                     	if (check > spawnlimit){
                 			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was over the set limit!");
                 			return false;
                 		}
                            	try {
-                                   for (int i = 0; i < Integer.parseInt(args[2]); i++) {
-                                    World world = p.getWorld();
+                                   for (int i = 0; i < Integer.parseInt(args[1]); i++) {
+                                     World world = p.getWorld();
                                  	 Wolf w = (Wolf) world.spawnCreature(loc, CreatureType.WOLF);
-                          		     EntityWolf wolf = ((CraftWolf)  w).getHandle();
-                          		     wolf.a(p.getName()); //setOwner
-                          	         wolf.d(true); //owned
-                          		     w.setAngry(false);
-                          		     w.setHealth(10);
+                                 	 w.setOwner(p);
+                      				 w.setSitting(false);
+                      				 w.setAngry(false);
+                      				 w.setHealth(10);
                                    }
-                                   if (args[2].equals("1")){
-                                   	p.sendMessage(ChatColor.BLUE + "You spawned a tamed wolf!");
+                                   if (check == 1){
+                                   	p.sendMessage(ChatColor.BLUE + "You now have a tamed wolf!");
                                    	return true;
                                    }
-                               	p.sendMessage(ChatColor.BLUE + "You spawned " + args[2] + " tamed wolves!");
+                               	p.sendMessage(ChatColor.BLUE + "You now have " + check + " tamed wolves!");
                                	return true;
                                } catch (java.lang.NumberFormatException e2) {
                                    p.sendMessage(ChatColor.RED + "Malformed integer.");
@@ -94,29 +88,29 @@ public class CommandHandler{
             			return false;
             		}  
                 	}
-                	if (args.length < 3){
+                	if (args.length < 2){
                 		World world = p.getWorld();
    					 Creeper c = (Creeper) world.spawnCreature(loc, CreatureType.CREEPER);
    					 c.setPowered(true);
    					 p.sendMessage(ChatColor.BLUE + "You spawned a electrocuted creeper!");
    					 return true;  
                 	}
-            		int check = convertStringtoInt(args[2]);
+            		int check = convertStringtoInt(args[1]);
                 	if (check > spawnlimit){
             			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was over the set limit!");
             			return false;
             		}
                 	try {
-                        for (int i = 0; i < Integer.parseInt(args[2]); i++) {
+                        for (int i = 0; i < Integer.parseInt(args[1]); i++) {
                         	World world = p.getWorld();
                             Creeper c = (Creeper) world.spawnCreature(loc, CreatureType.CREEPER);
                             c.setPowered(true);
                         }
-                        if (args[2].equals("1")){
+                        if (check == 1){
                         	p.sendMessage(ChatColor.BLUE + "You spawned a electrocuted creeper!");
                         	return true;
                         }
-                    	p.sendMessage(ChatColor.BLUE + "You spawned " + args[2] + " electrocuted creepers!");
+                    	p.sendMessage(ChatColor.BLUE + "You spawned " + check + " electrocuted creepers!");
                     	return true;
                     } catch (java.lang.NumberFormatException e2) {
                         p.sendMessage(ChatColor.RED + "Malformed integer.");
@@ -129,6 +123,7 @@ public class CommandHandler{
                 		p.sendMessage(ChatColor.BLUE + "/spawnmob kill <all-animals-monsters-mobname>");
                 		return false;
                 	}
+                	
                 	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
                     if (plugin.permissions){
                 	if (!SpawnMob.Permissions.has(p, "spawnmob.kill")){
@@ -206,14 +201,22 @@ public class CommandHandler{
                         return true;
                 }else if (args[0].equalsIgnoreCase("Kit")){
                 	if (args.length > 1){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.kits")){
-                		p.sendMessage(ChatColor.RED + "You can't do that.");
-                    	return false;
-                	}
+                		if(plugin.permissions){
+                			if (!SpawnMob.Permissions.has(p, "spawnmob.kits")){
+                        		p.sendMessage(ChatColor.RED + "You can't do that.");
+                            	return false;
+                        	}
+                		}
                 	if(args[1].equalsIgnoreCase("List")){
                 		Kit.loadAllKits(p);
                 		return true;
                 	}
+            		if(plugin.permissions){
+            			if (!SpawnMob.Permissions.has(p, "spawnmob.kits." + args[1])){
+                    		p.sendMessage(ChatColor.RED + "You can't do that.");
+                        	return false;
+                    	}
+            		}
                 	boolean success = false;
                 	if (args.length > 2){
                 	try {

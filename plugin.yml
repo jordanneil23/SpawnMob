@@ -1,7 +1,7 @@
 name: SpawnMob
 author: jordanneil23
 main: com.jordanneil23.SpawnMob.SpawnMob
-version: 1.9.5
+version: 1.9.6
 commands:
   spawnmob:
     description:

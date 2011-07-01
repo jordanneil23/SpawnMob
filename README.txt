@@ -1,6 +1,10 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.6
+Fixed bugs to do with spawning electric creepers and tamed wolves
+Updated for Minecraft 1.7.2
+
 V1.9.5
 Added Mob Kits (/spawnmob kit)
 All you have to do is run SpawnMob and type /spawnmob kit list (or /spawnmob kit <kitname>)

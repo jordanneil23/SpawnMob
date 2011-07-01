@@ -21,7 +21,7 @@ public enum Mob {
     SQUID(Enemies.FRIENDLY, CreatureType.SQUID),
     CREEPER(Enemies.ENEMY, CreatureType.CREEPER),
     GHAST(Enemies.ENEMY, CreatureType.GHAST, "NetherSquid"),
-    PIG_ZOMBIE(Enemies.NEUTRAL, CreatureType.PIG_ZOMBIE, "ZombiePigman"),
+    PIG_ZOMBIE(Enemies.NEUTRAL, CreatureType.PIG_ZOMBIE, "PigZombie"),
     SKELETON(Enemies.ENEMY, CreatureType.SKELETON),
     SPIDER(Enemies.ENEMY, CreatureType.SPIDER),
     ZOMBIE(Enemies.ENEMY, CreatureType.ZOMBIE),
