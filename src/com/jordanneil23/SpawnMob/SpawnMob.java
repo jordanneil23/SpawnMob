@@ -40,7 +40,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 /**
  * SpawnMob - Main
- * @version 1.9.1
+ * @version 1.9.7
  * @author jordanneil23
  */
 public class SpawnMob extends JavaPlugin {
@@ -58,6 +58,7 @@ public class SpawnMob extends JavaPlugin {
 		}
     	loadProps();
     	PluginManager pm = getServer().getPluginManager();
+    	
     	if (permissions){
     	setupPermissions();
     	}
