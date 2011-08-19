@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.permissions.Permission;
+
 import com.jordanneil23.SpawnMob.Mob.MobException;
 import com.jordanneil23.SpawnMob.TargetBlock;
 
@@ -40,10 +42,10 @@ public class CommandHandler{
             	}
             	if (args[0].equalsIgnoreCase("TamedWolf") || args[0].equalsIgnoreCase("TWolf")){
                     	if (plugin.permissions){
-                    	if (!SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed")){
-                			p.sendMessage(ChatColor.RED + "You can't do that.");
-                			return false;
-                		}  
+                    			if (!SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed") || SpawnMob.getPerms("spawnmob.wolf.tamed", p) != true || SpawnMob.getPerms("spawnmob.*", p) != true){
+                        			p.sendMessage(ChatColor.RED + "You can't do that.");
+                        			return false;
+                        		}  
                     	}
                     	if (args.length < 2){
                        	 World world = p.getWorld();
@@ -83,7 +85,7 @@ public class CommandHandler{
             	
             	if (args[0].equalsIgnoreCase("ElectricCreeper") || args[0].equalsIgnoreCase("ECreeper")){
                 	if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.creeper.electrocuted")){
+                	if (!SpawnMob.Permissions.has(p, "spawnmob.creeper.electrocuted") || SpawnMob.getPerms("spawnmob.creeper.electrocuted", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true){
             			p.sendMessage(ChatColor.RED + "You can't do that.");
             			return false;
             		}  
@@ -126,7 +128,7 @@ public class CommandHandler{
                 	
                 	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
                     if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.kill")){
+                	if (!SpawnMob.Permissions.has(p, "spawnmob.kill") || SpawnMob.getPerms("spawnmob.kill", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true){
                         p.sendMessage(ChatColor.RED + "You are not authorized kill mobs.");
                         return false;
                 	}
@@ -137,7 +139,7 @@ public class CommandHandler{
                     }
                     if (args[1].equalsIgnoreCase("All")){
                     	if (plugin.permissions){
-                    	if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+                    	if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.all") || SpawnMob.getPerms("spawnmob.kill.all", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
             				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
             				return false;
                 			}
@@ -147,7 +149,7 @@ public class CommandHandler{
                                 return true;
             		} else if (args[1].equalsIgnoreCase("Monsters")){
             			if (plugin.permissions){
-            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.monsters") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.monsters") || SpawnMob.Permissions.has(p, "spawnmob.kill.all") || SpawnMob.getPerms("spawnmob.kill.monsters", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true || SpawnMob.getPerms("spawnmob.kill.all", p) == true)){
                         p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
         				return false;
             		}
@@ -157,7 +159,7 @@ public class CommandHandler{
                         return true;
             		} else if (args[1].equalsIgnoreCase("Animals")){
             			if (plugin.permissions){
-            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.animals") || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+            			if (!(SpawnMob.Permissions.has(p, "spawnmob.kill.animals") || SpawnMob.Permissions.has(p, "spawnmob.kill.all") || SpawnMob.getPerms("spawnmob.kill.animals", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true || SpawnMob.getPerms("spawnmob.kill.all", p) == true)){
             				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
             				return false;
             			}
@@ -167,7 +169,7 @@ public class CommandHandler{
                             return true;
             		}
                     if (plugin.permissions){
-                    if (!(SpawnMob.Permissions.has(p, "spawnmob.kill." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kill.all"))){
+                    if (!(SpawnMob.Permissions.has(p, "spawnmob.kill." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kill.all") || SpawnMob.getPerms("spawnmob.kill." + args[1], p) == true || SpawnMob.getPerms("spawnmob.*", p) == true || SpawnMob.getPerms("spawnmob.kill.all", p) == true)){
         				p.sendMessage(ChatColor.RED + "You're not authorized to do that.");
         				return false;
             			} 
@@ -191,7 +193,7 @@ public class CommandHandler{
                         return true;
                 } else if (args[0].equalsIgnoreCase("Undo")) {
                 	if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.kill.all")) {
+                	if (!SpawnMob.Permissions.has(p, "spawnmob.kill.all") || SpawnMob.getPerms("spawnmob.kill.all", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true) {
                     	p.sendMessage(ChatColor.RED + "You can't do that.");
                     	return false;
                     }
@@ -202,7 +204,7 @@ public class CommandHandler{
                 }else if (args[0].equalsIgnoreCase("Kit")){
                 	if (args.length > 1){
                 		if(plugin.permissions){
-                			if (!SpawnMob.Permissions.has(p, "spawnmob.kits")){
+                			if (!(SpawnMob.Permissions.has(p, "spawnmob.kits") || SpawnMob.Permissions.has(p, "spawnmob.kits.*") ||  SpawnMob.getPerms("spawnmob.kits", p) == true || SpawnMob.getPerms("spawnmob.kits.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
                         		p.sendMessage(ChatColor.RED + "You can't do that.");
                             	return false;
                         	}
@@ -211,12 +213,6 @@ public class CommandHandler{
                 		Kit.loadAllKits(p);
                 		return true;
                 	}
-            		if(plugin.permissions){
-            			if (!SpawnMob.Permissions.has(p, "spawnmob.kits." + args[1])){
-                    		p.sendMessage(ChatColor.RED + "You can't do that.");
-                        	return false;
-                    	}
-            		}
                 	boolean success = false;
                 	if (args.length > 2){
                 	try {
@@ -226,6 +222,13 @@ public class CommandHandler{
                         	}
                         }
                         if(success == true){
+                        	SpawnMob.sm1.setPerms(args[1]);
+                    		if(plugin.permissions){
+                    			if (!(SpawnMob.Permissions.has(p, "spawnmob.kits." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kits.*") ||  SpawnMob.getPerms("spawnmob.kits" + args[1], p) == true || SpawnMob.getPerms("spawnmob.kits.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
+                            		p.sendMessage(ChatColor.RED + "You can't do that.");
+                                	return false;
+                            	}
+                    		}
                         p.sendMessage(ChatColor.BLUE + "Spawned the Mob Kit: " + args[1]);
                         return true;
                         } else {
@@ -271,7 +274,7 @@ public class CommandHandler{
                     	return false;
                     }
                     if (plugin.permissions){
-                    if(!(SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob." + mob.getName().toLowerCase()))){
+                    if(!(SpawnMob.Permissions.has(p, "spawnmob.spawnmob." + mob.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.allmobs") || SpawnMob.getPerms("spawnmob." + mob.getName().toLowerCase(), p) == true || SpawnMob.getPerms("spawnmob.allmobs", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
                         p.sendMessage(ChatColor.RED + "You can't spawn this mob/mob type.");
                         return false;
                     }
@@ -370,7 +373,7 @@ public class CommandHandler{
                 org.bukkit.block.Block blk = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock();
                 if (args[0].equalsIgnoreCase("Check") || args[0].equalsIgnoreCase("Info")) {
                 	if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check")) {
+                	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.check") || SpawnMob.getPerms("spawnmob.mspawn.check", p) == true || SpawnMob.getPerms("spawnmob.mspawn.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true) {
                         p.sendMessage(ChatColor.RED + "You are not authorized to check a spawner.");
                         return false;
                     }
@@ -395,7 +398,7 @@ public class CommandHandler{
                         return false;
                     }
                     	if (plugin.permissions){
-                    	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.delay")) {
+                    	if (!SpawnMob.Permissions.has(p, "spawnmob.mspawn.delay") || SpawnMob.getPerms("spawnmob.mspawn.delay", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true || SpawnMob.getPerms("spawnmob.mspawn.*", p) == true) {
                             p.sendMessage(ChatColor.RED + "You are not authorized to set a spawners delay.");
                             return false;
                         }
@@ -423,7 +426,7 @@ public class CommandHandler{
                     return false;
                 }
                 if (plugin.permissions){
-                if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs"))) {
+                if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs") || SpawnMob.getPerms("spawnmob.mspawn." + mt.getName().toLowerCase(), p) == true || SpawnMob.getPerms("spawnmob.mspawn.allmobs", p) == true || SpawnMob.getPerms("spawnmob.mspawn.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)) {
                     p.sendMessage(ChatColor.RED + "You are not authorized to do that.");
                     return false;
                 }

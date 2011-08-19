@@ -15,3 +15,224 @@ commands:
   mspawn:
     description:
     usage: |
+permissions:
+    spawnmob.*:
+        description: |
+        children:
+            spawnmob.allmobs: true
+            spawnmob.mspawn.*: true
+            spawnmob.kits.*: true
+            spawnmob.kits: true
+            spawnmob.kill: true
+            spawnmob.kill.all: true
+            spawnmob.cow: true
+            spawnmob.chicken: true
+            spawnmob.squid: true
+            spawnmob.pig: true
+            spawnmob.zombie: true
+            spawnmob.wolf.tamed: true
+            spawnmob.wolf: true
+            spawnmob.creeper: true
+            spawnmob.creeper.electrocuted: true
+            spawnmob.sheep: true
+            spawnmob.pigzombie: true
+            spawnmob.skeleton: true
+            spawnmob.spider: true
+            spawnmob.slime: true
+            spawnmob.monster: true
+            spawnmob.giant: true
+            spawnmob.ghast: true
+    spawnmob.mspawn.check:
+        description: |
+        default: op
+    spawnmob.kits:
+        description: |
+        default: op
+    spawnmob.kits.*:
+        description: |
+        default: op
+    spawnmob.mspawn.delay:
+        description: |
+        default: op
+    spawnmob.mspawn.allmobs:
+        description: |
+        children:
+            spawnmob.mspawn.cow: true
+            spawnmob.mspawn.chicken: true
+            spawnmob.mspawn.squid: true
+            spawnmob.mspawn.pig: true
+            spawnmob.mspawn.zombie: true
+            spawnmob.mspawn.wolf: true
+            spawnmob.mspawn.creeper: true
+            spawnmob.mspawn.sheep: true
+            spawnmob.mspawn.pigzombie: true
+            spawnmob.mspawn.skeleton: true
+            spawnmob.mspawn.spider: true
+            spawnmob.mspawn.slime: true
+            spawnmob.mspawn.monster: true
+            spawnmob.mspawn.giant: true
+            spawnmob.mspawn.ghast: true
+    spawnmob.mspawn.*:
+        description: |
+        default: op
+    spawnmob.mspawn.pig:
+        description: |
+        default: op
+    spawnmob.mspawn.chicken:
+        description: |
+        default: op
+    spawnmob.mspawn.cow:
+        description: |
+        default: op
+    spawnmob.mspawn.sheep:
+        description: |
+        default: op
+    spawnmob.mspawn.squid:
+        description: |
+        default: op
+    spawnmob.mspawn.creeper:
+        description: |
+        default: op
+    spawnmob.mspawn.ghast:
+        description: |
+        default: op
+    spawnmob.mspawn.pigzombie:
+        description: |
+        default: op
+    spawnmob.mspawn.skeleton:
+        description: |
+        default: op
+    spawnmob.mspawn.spider:
+        description: |
+        default: op
+    spawnmob.mspawn.slime:
+        description: |
+        default: op
+    spawnmob.mspawn.monster:
+        description: |
+        default: op
+    spawnmob.mspawn.giant:
+        description: |
+        default: op
+    spawnmob.mspawn.wolf:
+        description: |
+        default: op
+    spawnmob.kill:
+        description: |
+        default: op
+    spawnmob.kill.all:
+        description: |
+        children:
+            spawnmob.kill.cow: true
+            spawnmob.kill.chicken: true
+            spawnmob.kill.squid: true
+            spawnmob.kill.pig: true
+            spawnmob.kill.zombie: true
+            spawnmob.kill.twolf: true
+            spawnmob.kill.wolf: true
+            spawnmob.kill.creeper: true
+            spawnmob.kill.ecreeper: true
+            spawnmob.kill.sheep: true
+            spawnmob.kill.pigzombie: true
+            spawnmob.kill.skeleton: true
+            spawnmob.kill.spider: true
+            spawnmob.kill.slime: true
+            spawnmob.kill.monster: true
+            spawnmob.kill.giant: true
+            spawnmob.ghast: true
+    spawnmob.kill.pig:
+        description: |
+        default: op
+    spawnmob.kill.chicken:
+        description: |
+        default: op
+    spawnmob.kill.cow:
+        description: |
+        default: op
+    spawnmob.kill.sheep:
+        description: |
+        default: op
+    spawnmob.kill.squid:
+        description: |
+        default: op
+    spawnmob.kill.creeper:
+        description: |
+        default: op
+    spawnmob.kill.ecreeper:
+        description: |
+        default: op
+    spawnmob.kill.ghast:
+        description: |
+        default: op
+    spawnmob.kill.pigzombie:
+        description: |
+        default: op
+    spawnmob.kill.skeleton:
+        description: |
+        default: op
+    spawnmob.kill.spider:
+        description: |
+        default: op
+    spawnmob.kill.slime:
+        description: |
+        default: op
+    spawnmob.kill.monster:
+        description: |
+        default: op
+    spawnmob.kill.giant:
+        description: |
+        default: op
+    spawnmob.kill.wolf:
+        description: |
+        default: op
+    spawnmob.kill.twolf:
+        description: |
+        default: op
+    spawnmob.pig:
+        description: |
+        default: op
+    spawnmob.chicken:
+        description: |
+        default: op
+    spawnmob.cow:
+        description: |
+        default: op
+    spawnmob.sheep:
+        description: |
+        default: op
+    spawnmob.squid:
+        description: |
+        default: op
+    spawnmob.creeper:
+        description: |
+        default: op
+    spawnmob.creeper.electrocuted:
+        description: |
+        default: op
+    spawnmob.ghast:
+        description: |
+        default: op
+    spawnmob.pigzombie:
+        description: |
+        default: op
+    spawnmob.skeleton:
+        description: |
+        default: op
+    spawnmob.spider:
+        description: |
+        default: op
+    spawnmob.slime:
+        description: |
+        default: op
+    spawnmob.monster:
+        description: |
+        default: op
+    spawnmob.giant:
+        description: |
+        default: op
+    spawnmob.wolf:
+        description: |
+        default: op
+    spawnmob.wolf.tamed:
+        description: |
+        default: op

@@ -12,24 +12,10 @@ import java.util.Properties;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Chicken;
-import org.bukkit.entity.Cow;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Giant;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.PigZombie;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Spider;
-import org.bukkit.entity.Squid;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -50,15 +36,19 @@ public class SpawnMob extends JavaPlugin {
 	public static PermissionHandler Permissions;
     private final CommandHandler handler = new CommandHandler();
     private static final String CONFIG_FILE_NAME = "plugins/SpawnMob/SpawnMob.properties";
+    static SpawnMob sm1;
+    public boolean permissions = true;
+    public boolean mobspawnerdrops = true;
+    public String spawnlimit;
     
     public void onEnable() {
+    	sm1 = this;
     	File confFile = new File(CONFIG_FILE_NAME);
 		if(!confFile.exists()) {
 			writeConfigFile();
 		}
     	loadProps();
     	PluginManager pm = getServer().getPluginManager();
-    	
     	if (permissions){
     	setupPermissions();
     	}
@@ -83,10 +73,25 @@ public class SpawnMob extends JavaPlugin {
     	PluginDescriptionFile pdfFile = this.getDescription();
     	log.info( "[SpawnMob]" + " Version " + pdfFile.getVersion() + " disabled.");
     }
-
-    public boolean permissions = true;
-    public boolean mobspawnerdrops = true;
-    public String spawnlimit;
+    
+    static public boolean getPerms(String s, Player p){
+    	if (p.hasPermission(s) == true){
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    void setPerms(String s){
+    	PluginManager pm = getServer().getPluginManager();
+    	pm.addPermission(new Permission(s));
+    }
+    
+    void remPerms(String s){
+    	PluginManager pm = getServer().getPluginManager();
+    	pm.removePermission(s);
+    }
+    
     public void loadProps() {
 	try {
 		Properties props = new Properties();
