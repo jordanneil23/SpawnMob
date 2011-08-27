@@ -10,8 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.CreatureType;
-import org.bukkit.permissions.Permission;
-
 import com.jordanneil23.SpawnMob.Mob.MobException;
 import com.jordanneil23.SpawnMob.TargetBlock;
 
@@ -42,7 +40,7 @@ public class CommandHandler{
             	}
             	if (args[0].equalsIgnoreCase("TamedWolf") || args[0].equalsIgnoreCase("TWolf")){
                     	if (plugin.permissions){
-                    			if (!SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed") || SpawnMob.getPerms("spawnmob.wolf.tamed", p) != true || SpawnMob.getPerms("spawnmob.*", p) != true){
+                    			if (!(SpawnMob.Permissions.has(p, "spawnmob.wolf.tamed") || SpawnMob.Permissions.has(p, "spawnmob.*") || SpawnMob.Permissions.has(p, "spawnmob.allmobs") || SpawnMob.getPerms("spawnmob.wolf.tamed", p) != true || SpawnMob.getPerms("spawnmob.*", p) != true)){
                         			p.sendMessage(ChatColor.RED + "You can't do that.");
                         			return false;
                         		}  
@@ -85,7 +83,7 @@ public class CommandHandler{
             	
             	if (args[0].equalsIgnoreCase("ElectricCreeper") || args[0].equalsIgnoreCase("ECreeper")){
                 	if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.creeper.electrocuted") || SpawnMob.getPerms("spawnmob.creeper.electrocuted", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true){
+                	if (!SpawnMob.Permissions.has(p, "spawnmob.creeper.electrocuted") || SpawnMob.Permissions.has(p, "spawnmob.*") || SpawnMob.Permissions.has(p, "spawnmob.allmobs") || SpawnMob.getPerms("spawnmob.allmobs", p) || SpawnMob.getPerms("spawnmob.creeper.electrocuted", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true){
             			p.sendMessage(ChatColor.RED + "You can't do that.");
             			return false;
             		}  
@@ -128,8 +126,8 @@ public class CommandHandler{
                 	
                 	Mob mob3 = Mob.fromName(args[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[1]));
                     if (plugin.permissions){
-                	if (!SpawnMob.Permissions.has(p, "spawnmob.kill") || SpawnMob.getPerms("spawnmob.kill", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true){
-                        p.sendMessage(ChatColor.RED + "You are not authorized kill mobs.");
+                	if (!(SpawnMob.Permissions.has(p, "spawnmob.kill") || SpawnMob.getPerms("spawnmob.kill", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
+                        p.sendMessage(ChatColor.RED + "You are not authorized to kill mobs.");
                         return false;
                 	}
                     }
@@ -144,7 +142,7 @@ public class CommandHandler{
             				return false;
                 			}
                     	}
-                        		p.sendMessage(ChatColor.BLUE + "Killed all mobs. (Not including wolves.)");
+                        		p.sendMessage(ChatColor.BLUE + "Killed all mobs. (Not including tamed wolves.)");
                         		plugin.Kill(p.getWorld(), args[1]);
                                 return true;
             		} else if (args[1].equalsIgnoreCase("Monsters")){
@@ -164,7 +162,7 @@ public class CommandHandler{
             				return false;
             			}
             			}
-            				p.sendMessage(ChatColor.BLUE + "Killed all animals. (Not including wolves.)");
+            				p.sendMessage(ChatColor.BLUE + "Killed all animals. (Not including tamed wolves.)");
             				plugin.Kill(p.getWorld(), args[1]);
                             return true;
             		}
@@ -174,7 +172,7 @@ public class CommandHandler{
         				return false;
             			} 
                     }
-                    	if (mob3 == null && !(args[1].equalsIgnoreCase("Animals") || args[1].equalsIgnoreCase("Monsters") || args[1].equalsIgnoreCase("All"))) {
+                    	if (mob3 == null && !(args[1].equalsIgnoreCase("Animals") || args[1].equalsIgnoreCase("Monsters") || args[1].equalsIgnoreCase("All") || args[1].equalsIgnoreCase("TWolf"))) {
                             p.sendMessage(ChatColor.RED + "Invalid mob type.");
                             return false;
                         }
@@ -184,8 +182,13 @@ public class CommandHandler{
                         return true;
             		}
             		if (args[1].equalsIgnoreCase("Wolf") || args[1].equalsIgnoreCase("Wolves")){
-            			p.sendMessage(ChatColor.BLUE + "Killed all wolves, including tamed ones.");
+            			p.sendMessage(ChatColor.BLUE + "Killed all wolves, not including tamed ones. /spawnmob kill twolf kills tamed wolves.");
             			plugin.Kill(p.getWorld(), args[1]);
+                        return true;
+            		}
+            		if (args[1].equalsIgnoreCase("TWolf")){
+            			p.sendMessage(ChatColor.BLUE + "Killed all tamed wolves.");
+            			plugin.Kill(p.getWorld(), "twolf");
                         return true;
             		}
                         p.sendMessage(ChatColor.BLUE + "Killed all " + args[1] + "s.");
@@ -222,13 +225,6 @@ public class CommandHandler{
                         	}
                         }
                         if(success == true){
-                        	SpawnMob.sm1.setPerms(args[1]);
-                    		if(plugin.permissions){
-                    			if (!(SpawnMob.Permissions.has(p, "spawnmob.kits." + args[1]) || SpawnMob.Permissions.has(p, "spawnmob.kits.*") ||  SpawnMob.getPerms("spawnmob.kits" + args[1], p) == true || SpawnMob.getPerms("spawnmob.kits.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)){
-                            		p.sendMessage(ChatColor.RED + "You can't do that.");
-                                	return false;
-                            	}
-                    		}
                         p.sendMessage(ChatColor.BLUE + "Spawned the Mob Kit: " + args[1]);
                         return true;
                         } else {
@@ -252,8 +248,9 @@ public class CommandHandler{
                 		}
                     }
                 	}else{
-                		p.sendMessage(ChatColor.RED + "/spawnmob kit list - List the available mob kits");
-                		p.sendMessage(ChatColor.RED + "/spawnmob kit <kitname> - Spawn a mob kit");
+                		p.sendMessage(ChatColor.BLUE + "/spawnmob kit list - List the available mob kits");
+                		p.sendMessage(ChatColor.BLUE + "/spawnmob kit <kitname> - Spawn a mob kit");
+                		return false;
                 	}
                 }
                 if (args.length > 0 && args.length < 3) {
@@ -281,12 +278,7 @@ public class CommandHandler{
                     }
                     LivingEntity spawned = null;
                     if (args.length != 2) {
-                    try {
-                        spawned = mob.spawn(p, plugin, loc);
-                    } catch (MobException e) {
-                        p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
-                        return false;
-                    }
+                    spawned = spawnIt(mob, p, loc);
                     }
                     if (split0.length == 2) {
                         mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
@@ -294,12 +286,7 @@ public class CommandHandler{
                             p.sendMessage(ChatColor.RED + "Invalid mob type.");
                             return false;
                         }
-                        try {
-                            spawned1 = mob2.spawn(p, plugin, loc);
-                        } catch (MobException e) {
-                            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
-                            return false;
-                        }
+                        spawned1 = spawnRider(mob2, p, loc);
                         spawned1.setPassenger(spawned);
                     }
                     if (split1.length == 2 && mob.getName().toLowerCase() == "Slime") {
@@ -318,7 +305,7 @@ public class CommandHandler{
                 		}
                         try {
                             for (int i = 0; i < Integer.parseInt(args[1]); i++) {
-                                spawned = mob.spawn(p, plugin, loc);
+                                spawned = spawnIt(mob, p, loc);
                                 if (split1.length > 1 && mob.getName().toLowerCase() == "Slime") {
                                     try {
                                         ((EntitySlime) spawned).b(Integer.parseInt(split1[1]));
@@ -332,19 +319,11 @@ public class CommandHandler{
                                     	p.sendMessage(ChatColor.RED + "Invalid mob type.");
                                         return false;
                                     }
-                                    try {
-                                        spawned1 = mob2.spawn(p, plugin, loc);
-                                    } catch (MobException e) {
-                                        p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
-                                        return false;
-                                    }
+                                    spawned1 = spawnRider(mob2, p, loc);
                                     spawned1.setPassenger(spawned);
                                 }
                             }
                             p.sendMessage(ChatColor.BLUE + args[1] + " " + mob.getName().toLowerCase() + mob.s + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + " spawned.");
-                        } catch (MobException e1) {
-                            p.sendMessage(ChatColor.RED + "Unable to spawn mobs.");
-                            return false;
                         } catch (java.lang.NumberFormatException e2) {
                             p.sendMessage(ChatColor.RED + "Malformed integer.");
                             return false;
@@ -426,7 +405,7 @@ public class CommandHandler{
                     return false;
                 }
                 if (plugin.permissions){
-                if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs") || SpawnMob.getPerms("spawnmob.mspawn." + mt.getName().toLowerCase(), p) == true || SpawnMob.getPerms("spawnmob.mspawn.allmobs", p) == true || SpawnMob.getPerms("spawnmob.mspawn.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)) {
+                if (!(SpawnMob.Permissions.has(p, "spawnmob.mspawn." + mt.getName().toLowerCase()) || SpawnMob.Permissions.has(p, "spawnmob.mspawn.allmobs") || SpawnMob.Permissions.has(p, "spawnmob.mspawn.*") ||  SpawnMob.getPerms("spawnmob.mspawn." + mt.getName().toLowerCase(), p) == true || SpawnMob.getPerms("spawnmob.mspawn.allmobs", p) == true || SpawnMob.getPerms("spawnmob.mspawn.*", p) == true || SpawnMob.getPerms("spawnmob.*", p) == true)) {
                     p.sendMessage(ChatColor.RED + "You are not authorized to do that.");
                     return false;
                 }
@@ -451,6 +430,28 @@ public class CommandHandler{
         }
 		return false;
     }
+    private LivingEntity spawnIt(Mob mob, Player p, Location loc){
+    	LivingEntity spawned = null;
+    	try {
+            spawned = mob.spawn(p, plugin, loc);
+        } catch (MobException e) {
+            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+            return spawned;
+        }
+        return spawned;
+    }
+    
+    private LivingEntity spawnRider(Mob mob, Player p, Location loc){
+    	LivingEntity spawned1 = null;
+        try {
+            spawned1 = mob.spawn(p, plugin, loc);
+        } catch (MobException e) {
+            p.sendMessage(ChatColor.RED + "Unable to spawn mob.");
+            return spawned1;
+        }
+		return spawned1;
+    }
+    
  public boolean checkIfNumber(String in) {
         try {
             Long.parseLong(in);

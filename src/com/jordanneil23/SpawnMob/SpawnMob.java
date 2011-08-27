@@ -59,6 +59,7 @@ public class SpawnMob extends JavaPlugin {
         if (permissions){
     		PluginDescriptionFile pdfFile = this.getDescription();
     		log.info("[SpawnMob] Version " + pdfFile.getVersion() + " enabled.");
+    		Kit.setKitPerms();
         }else{
         	log.info("[SpawnMob] Using ops.txt!");
         }
@@ -267,9 +268,17 @@ public void Kill(World world, String type){
         {
             m.setHealth(0);
         }
-        if(isWolf(m) && (type.equalsIgnoreCase("wolf")))
+        if(isWolf(m) && (type.equalsIgnoreCase("wolf") || type.equals("all")))
         {
+        	if (((Wolf) m).isTamed() != true) {
             m.setHealth(0);
+        	}else{}
+        }
+        if(isWolf(m) && (type.equalsIgnoreCase("twolf")))
+        {
+        	if (((Wolf) m).isTamed() == true) {
+                m.setHealth(0);
+        	}else{}
         }
     }
 }
