@@ -26,7 +26,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 /**
  * SpawnMob - Main
- * @version 1.9.7
+ * @version 1.9.8
  * @author jordanneil23
  */
 public class SpawnMob extends JavaPlugin {
@@ -83,6 +83,20 @@ public class SpawnMob extends JavaPlugin {
     	}
     }
     
+    private void setupPermissions() {
+        Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
+        if (SpawnMob.Permissions == null) {
+            if (test != null) {
+                SpawnMob.Permissions = ((Permissions)test).getHandler();
+                log.info("[SpawnMob] Permission system found, plugin enabled");
+            } else {
+                log.info("[SpawnMob] Permission system not detected! Please go into the SpawnMob.properties and set use-permissions to false.");
+                log.info("[SpawnMob] Please go into the SpawnMob.properties and set use-permissions to false.");
+                permissions = false;
+            }
+        }
+    }
+    
     void setPerms(String s){
     	PluginManager pm = getServer().getPluginManager();
     	pm.addPermission(new Permission(s));
@@ -91,6 +105,24 @@ public class SpawnMob extends JavaPlugin {
     void remPerms(String s){
     	PluginManager pm = getServer().getPluginManager();
     	pm.removePermission(s);
+    }
+    
+    static boolean playerhas(Player p, String perm, boolean perms){
+    	if (perms == false)
+    	{
+    		if (!p.isOp())
+    			return false;
+    		else 
+    			return true;
+    	}
+    	if (perms == true)
+    	{
+    		if (!(p.hasPermission(perm) || Permissions.has(p, perm)))
+    			return false;
+    		else
+    			return true;
+    	} 
+		return true;
     }
     
     public void loadProps() {
@@ -128,19 +160,6 @@ public class SpawnMob extends JavaPlugin {
     		return handler.perform(sender, command, args);
     }
     
-private void setupPermissions() {
-    Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
-    if (SpawnMob.Permissions == null) {
-        if (test != null) {
-            SpawnMob.Permissions = ((Permissions)test).getHandler();
-            log.info("[SpawnMob] Permission system found, plugin enabled");
-        } else {
-            log.info("[SpawnMob] Permission system not detected! Please go into the SpawnMob.properties and set use-permissions to false.");
-            log.info("[SpawnMob] Please go into the SpawnMob.properties and set use-permissions to false.");
-            permissions = false;
-        }
-    }
-}
 public boolean isMonster(LivingEntity e){
     return (e instanceof Creeper) || (e instanceof Monster) || (e instanceof Skeleton) || (e instanceof Spider) || (e instanceof Zombie) || (e instanceof PigZombie) || (e instanceof Ghast) || (e instanceof Giant) || (e instanceof Slime);
 }
@@ -175,6 +194,15 @@ public boolean isSlime (LivingEntity e){
 }
 public boolean isGhast (LivingEntity e){
 	return (e instanceof Ghast);
+}
+public boolean isEnderman (LivingEntity e){
+	return (e instanceof Enderman);
+}
+public boolean isCavespider (LivingEntity e){
+	return (e instanceof CaveSpider);
+}
+public boolean isSilverfish (LivingEntity e){
+	return (e instanceof Silverfish);
 }
 //end
 //
@@ -244,7 +272,19 @@ public void Kill(World world, String type){
         {
             m.setHealth(0);
         }
-        if(Monster(m) && (type.equalsIgnoreCase("pigzombie") || type.equals("all")))
+        if(Monster(m) && (type.equalsIgnoreCase("monster") || type.equals("all")))
+        {
+            m.setHealth(0);
+        }
+        if(isEnderman(m) && (type.equalsIgnoreCase("enderman") || type.equals("all")))
+        {
+            m.setHealth(0);
+        }
+        if(isCavespider(m) && (type.equalsIgnoreCase("cavespider") || type.equals("all")))
+        {
+            m.setHealth(0);
+        }
+        if(isSilverfish(m) && (type.equalsIgnoreCase("silverfish") || type.equals("all")))
         {
             m.setHealth(0);
         }

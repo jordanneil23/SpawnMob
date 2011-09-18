@@ -1,6 +1,14 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V1.9.8
+Updated for Minecraft 1.8.1
+Added Enderman, CaveSpider, and SilverFish
+Added ability to spawn colored sheep /spawnmob sheep:COLOR
+Revamped and optimized code a bit
+Changed the way that slimes are spawned, you can use a number to spawn them or these sizes: Tiny, small, medium, large, huge, or colossal.
+Changed /spawnmob ecreeper and /spawnmob twolf back to /spawnmob creeper electric and /spawnmob wolf tamed, permissions: spawnmob.creeper.electric and spawnmob.wolf.tamed
+
 V1.9.7A
 Added support for SuperPerms (AKA Default permissions)
 /spawnmob kill all checks to see if wolves are tamed, if a wolf is not tamed it kills it
