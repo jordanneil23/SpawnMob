@@ -1,0 +1,102 @@
+Friendly:
+  Mobs:
+    PIG:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    COW:
+      Day:
+        Nature: Passive
+    SHEEP:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    CHICKEN:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    MUSHROOM_COW:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    VILLAGER:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    SQUID:
+      Day:
+        Nature: Passive
+      Night:
+        Nature: Passive
+    PIG_ZOMBIE:
+      Day:
+        Nature: Neutral
+      Night:
+        Nature: Neutral
+    SPIDER:
+      Day:
+        Nature: Neutral
+      Night:
+        Nature: Aggressive
+    ZOMBIE:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    SKELETON:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    CREEPER:
+      Day:
+        Nature: Aggressive
+        Explode: 'Yes'
+      Night:
+        Nature: Aggressive
+        Explode: 'Yes'
+    SLIME:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    GHAST:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    WOLF:
+      Day:
+        Nature: Neutral
+      Night:
+        Nature: Neutral
+    ENDER_DRAGON:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    SILVERFISH:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    CAVE_SPIDER:
+      Day:
+        Nature: Neutral
+      Night:
+        Nature: Aggressive
+    ENDERMAN:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive
+    BLAZE:
+      Day:
+        Nature: Aggressive
+      Night:
+        Nature: Aggressive

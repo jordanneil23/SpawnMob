@@ -1,4 +1,4 @@
-package com.jordanneil23.SpawnMob;
+package com.jordanneil23.SpawnMob.Mob;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -6,12 +6,14 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 
-import com.jordanneil23.SpawnMob.Mob.MobException;
+import com.jordanneil23.SpawnMob.CommandHandler;
+import com.jordanneil23.SpawnMob.SpawnMob;
+import com.jordanneil23.SpawnMob.Mob.Mob.MobException;
 
 public class MobHandling {
 	private static SpawnMob plugin;
-	public static int sz = 1;
-	static DyeColor dye = DyeColor.WHITE;
+	public static int sz = 1; //Slime Size
+	static DyeColor dye = DyeColor.WHITE; //Default dye color
 	
     public static String sheepcolors[] = 
 	{ 
@@ -19,6 +21,7 @@ public class MobHandling {
 			"LIGHT_BLUE", "LIME", "MAGENTA", "ORANGE", "PINK", 
 			"PURPLE", "RED", "SILVER", "WHITE", "YELLOW"
 	};
+    
 	/* Creeper  */
 	public static Creeper setforCreeper(Player p, Location loc, boolean electric){
 	     World world = p.getWorld();
@@ -41,8 +44,17 @@ public class MobHandling {
 			 w.setHealth(10);
 			 return w;
 	}
+	/* Villager  */
+	public static Villager setforVillager(Player p, Location loc){
+		/**
+		 * @Note You can't set their "jobs/colors" yet.
+		 */
+		     World world = p.getWorld();
+			 Villager v = (Villager) world.spawnCreature(loc, CreatureType.VILLAGER);
+			 return v;
+	}
 	/* Spawning  */
-	static LivingEntity spawnIt(Mob mob, Player p, Location loc){
+	public static LivingEntity spawnIt(Mob mob, Player p, Location loc){
     	LivingEntity spawned = null;
     	try {
             spawned = mob.spawn(p, plugin, loc);
@@ -52,8 +64,29 @@ public class MobHandling {
         }
         return spawned;
     }
+	/* You should be able to tell what this does. */
+	public static CreatureType Check(String m)
+	{
+		if (m.equalsIgnoreCase("EnderDragon") || m.equalsIgnoreCase("Ender_Dragon") || m.equalsIgnoreCase("Dragon"))
+		{
+			return CreatureType.ENDER_DRAGON;
+		}else
+			if (m.equalsIgnoreCase("Mushroom_Cow") || m.equalsIgnoreCase("MushroomCow") || m.equalsIgnoreCase("Mooshroom"))
+			{
+				return CreatureType.MUSHROOM_COW;
+			}else
+				if (m.equalsIgnoreCase("Cave_Spider") || m.equalsIgnoreCase("CaveSpider") || m.equalsIgnoreCase("BlueSpider"))
+				{
+					return CreatureType.CAVE_SPIDER;
+				}else
+					if (m.equalsIgnoreCase("Pig_Zombie") || m.equalsIgnoreCase("PigZombie") || m.equalsIgnoreCase("ZombiePig"))
+					{
+						return CreatureType.PIG_ZOMBIE;
+					}
+		return null;
+	}
 	/* Rider Spawning  */
-    static LivingEntity spawnRider(Mob mob, Player p, Location loc){
+    public static LivingEntity spawnRider(Mob mob, Player p, Location loc){
     	LivingEntity spawned1 = null;
         try {
             spawned1 = mob.spawn(p, plugin, loc);
@@ -100,17 +133,39 @@ public class MobHandling {
 		slime.setSize(sz);
 		return;
 	}
-	public static CreatureType Check(String m, Player p)
-	{
-		if (m.equalsIgnoreCase("Cave_Spider") || m.equalsIgnoreCase("CaveSpider") || m.equalsIgnoreCase("BlueSpider"))
+	/* MagmaCubes */
+	public static void setforMagmaCube(Player p, Location loc, LivingEntity spawned, String args){
+		if (CommandHandler.checkIfNumber(args) == false)
 		{
-			return CreatureType.CAVE_SPIDER;
-		}else
-			if (m.equalsIgnoreCase("Pig_Zombie") || m.equalsIgnoreCase("PigZombie") || m.equalsIgnoreCase("ZombiePig"))
+			if (!(args.equalsIgnoreCase("Tiny") || args.equalsIgnoreCase("Small")|| args.equalsIgnoreCase("Medium")|| args.equalsIgnoreCase("Large")|| args.equalsIgnoreCase("Huge")|| args.equalsIgnoreCase("Colossal")))
 			{
-				return CreatureType.PIG_ZOMBIE;
+				return;
 			}
-		return null;
+			if (args.equalsIgnoreCase("Tiny")){
+				sz = 1;
+			}
+			else if (args.equalsIgnoreCase("Small")){
+				sz = 2;
+			}
+			else if (args.equalsIgnoreCase("Medium")){
+				sz = 3;
+			}
+			else if (args.equalsIgnoreCase("Large")){
+				sz = 4;
+			}
+			else if (args.equalsIgnoreCase("Huge")){
+				sz = 8;
+			}
+			else if (args.equalsIgnoreCase("Colossal")){
+				sz = 16;
+			}
+		} 
+		else { sz = CommandHandler.convertStringtoInt(args); }
+		if(sz == 0) return; // No data was specified; leave at default
+		if(!(spawned instanceof MagmaCube)) return;
+		MagmaCube c = (MagmaCube) spawned;
+		c.setSize(sz);
+		return;
 	}
 	/* Sheep Handling  */
 	public static void setforSheep(Player p, Location loc, String args, boolean hasclr)

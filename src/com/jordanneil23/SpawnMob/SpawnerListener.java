@@ -28,7 +28,7 @@ public class SpawnerListener extends BlockListener{
 		 		if(block.getType() == Material.MOB_SPAWNER)
 		 {
 		 Player p = event.getPlayer();
-		 if (SpawnMob.Permissions.has(p, "spawnmob.mspawn.check"))
+		 if (PermissionsHandler.playerhas(p, "spawnmob.mspawn.check", SpawnMob.permissions))
 		 {
 		 	CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
 		 	int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
@@ -42,6 +42,8 @@ public class SpawnerListener extends BlockListener{
 	 }
 	 
 	 public void onBlockBreak(BlockBreakEvent event) {
+		 if(event.isCancelled()){return;}
+		 /* ^^ Thanks trc202 */
 		 Block block = event.getBlock();
 		 if (plugin.mobspawnerdrops)
 		 {
@@ -49,8 +51,6 @@ public class SpawnerListener extends BlockListener{
 	 		{
 			Location pos = new Location(event.getPlayer().getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ());
      		event.getPlayer().getWorld().dropItemNaturally(pos, new ItemStack(event.getBlock().getTypeId(),1));
-     		event.getBlock().setTypeId(0);
-     		event.setCancelled(true);
      		return;
 	 		}
 		 } else 

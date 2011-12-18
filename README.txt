@@ -1,6 +1,27 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V2.0
+For Minecraft 1.0
+Added support for PermissionsEX
+Added the Friendly plugin
+Added the new 1.0 mobs
+The "MagmaCubes" work just like "Slimes" EX. /sm magmacube:10 1 - Spawn a big magmacube
+DO NOT SPAWN ENDER DRAGONS IN YOUR MAIN WORLDS!!!!! If you do use /sm kill all or /sm undo or /sm kill enderdragon
+Known new bug(s)
+May stop animal breeding, if anyone knows a fix please tell me it!
+
+V1.9.9
+Fixed the "You can't use a ':' like that" error.
+Changed /spawnmob sheep:color amount to /spawnmob sheep color amount.
+Fixed slime spawning.
+fixed errors with /mspawn.
+
+V1.9.8_TEMPRELEASE
+This is a temp release, please don't nag me about errors/things not working.
+Broke colored sheep spawning it will display "You can't use a ':' like that" this is my fault and it will be fixed in the next release
+Slime size spawning works but will display "You can't use a ':' like that" this is my fault and it will be fixed in the next release
+
 V1.9.8
 Updated for Minecraft 1.8.1
 Added Enderman, CaveSpider, and SilverFish

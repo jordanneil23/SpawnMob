@@ -1,4 +1,4 @@
-package com.jordanneil23.SpawnMob;
+package com.jordanneil23.SpawnMob.Kits;
 
 //import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +16,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
+
+import com.jordanneil23.SpawnMob.PermissionsHandler;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Kit {
 
@@ -44,7 +46,7 @@ public class Kit {
 		  }
 		  */
 	  
-		  public static boolean loadSettings(String k, Player p, Location loc)
+		  public static boolean spawn(String k, Player p, Location loc)
 		  {
 			String kitname = k.toLowerCase();
 		    Properties props = new Properties();
@@ -82,7 +84,7 @@ public class Kit {
 		    }
 		  }
 		  
-		  public static void loadAllKits(Player p)
+		  public static void listKits(Player p)
 		  {
 		    Properties props = new Properties();
 		    try {
@@ -102,6 +104,7 @@ public class Kit {
 		  
 		  public static void setKitPerms()
 		  {
+			java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
 		    Properties props = new Properties();
 		    try {
 		        props.load(new FileInputStream("plugins/SpawnMob/Kits/kits.properties"));
@@ -111,10 +114,11 @@ public class Kit {
 		        PermissionsHandler.setPerms(iter2.next().toString());
 		        }
 		    } catch (IOException ioe) {
-		    	SpawnMob.sm1.log.info("[Spawnmob] ERROR: No kits.properties was found ");
-		    	SpawnMob.sm1.log.info(" please download from the Bukkit forum thread ");
-		    	SpawnMob.sm1.log.info(" or from github.com/jordanneil23/SpawnMob ");
+		    	log.info("[Spawnmob] ERROR: No kits.properties was found ");
+		    	log.info(" please download from the Bukkit forum thread ");
+		    	log.info(" or from github.com/jordanneil23/SpawnMob ");
 		    }
 		  }
 		  
 }
+

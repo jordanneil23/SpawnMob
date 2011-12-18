@@ -1,7 +1,7 @@
 name: SpawnMob
 author: jordanneil23
 main: com.jordanneil23.SpawnMob.SpawnMob
-version: 1.9.7
+version: 2.0
 commands:
   spawnmob:
     description:
@@ -18,6 +18,7 @@ commands:
 permissions:
     spawnmob.*:
         description: |
+        default: op
         children:
             spawnmob.allmobs: true
             spawnmob.mspawn.*: true
@@ -117,6 +118,30 @@ permissions:
     spawnmob.mspawn.wolf:
         description: |
         default: op
+    spawnmob.mspawn.magmacube:
+        description: |
+        default: op
+    spawnmob.mspawn.snowman:
+        description: |
+        default: op
+    spawnmob.mspawn.enderman:
+        description: |
+        default: op
+    spawnmob.mspawn.enderdragon:
+        description: |
+        default: op
+    spawnmob.mspawn.silverfish:
+        description: |
+        default: op
+    spawnmob.mspawn.mooshroom:
+        description: |
+        default: op
+    spawnmob.mspawn.villager:
+        description: |
+        default: op
+    spawnmob.mspawn.cavespider:
+        description: |
+        default: op
     spawnmob.kill:
         description: |
         default: op
@@ -188,6 +213,30 @@ permissions:
     spawnmob.kill.twolf:
         description: |
         default: op
+    spawnmob.kill.enderman:
+        description: |
+        default: op
+    spawnmob.kill.enderdragon:
+        description: |
+        default: op
+    spawnmob.kill.silverfish:
+        description: |
+        default: op
+    spawnmob.kill.snowman:
+        description: |
+        default: op
+    spawnmob.kill.mooshroom:
+        description: |
+        default: op
+    spawnmob.kill.magmacube:
+        description: |
+        default: op
+    spawnmob.kill.cavespider:
+        description: |
+        default: op
+    spawnmob.kill.villager:
+        description: |
+        default: op
     spawnmob.pig:
         description: |
         default: op
@@ -234,5 +283,32 @@ permissions:
         description: |
         default: op
     spawnmob.wolf.tamed:
+        description: |
+        default: op
+    spawnmob.enderman:
+        description: |
+        default: op
+    spawnmob.enderdragon:
+        description: |
+        default: op
+    spawnmob.silverfish:
+        description: |
+        default: op
+    spawnmob.snowman:
+        description: |
+        default: op
+    spawnmob.mooshroom:
+        description: |
+        default: op
+    spawnmob.magmacube:
+        description: |
+        default: op
+    spawnmob.cavespider:
+        description: |
+        default: op
+    spawnmob.villager:
+        description: |
+        default: op
+    spawnmob.sheep.colors:
         description: |
         default: op
