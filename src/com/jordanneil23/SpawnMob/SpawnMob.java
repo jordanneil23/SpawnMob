@@ -8,17 +8,13 @@ import java.io.IOException;
 import java.util.Properties;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.jordanneil23.SpawnMob.Friendly.*;
-import com.jordanneil23.SpawnMob.Kits.Kit;
+import com.jordanneil23.SpawnMob.Kits.*;
+import com.jordanneil23.SpawnMob.Listeners.*;
 
 /**
  * SpawnMob - Main
@@ -32,7 +28,6 @@ public class SpawnMob extends JavaPlugin {
 	private final PListener PlayerListener = new PListener(this);
 	public java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
     private final CommandHandler handler = new CommandHandler();
-    private final FriendlyMobListener friendlyListener = new FriendlyMobListener(this);
     private static final String CONFIG_FILE_NAME = "plugins/SpawnMob/SpawnMob.properties";
     static SpawnMob sm1;
     public static boolean permissions = true;
@@ -52,9 +47,9 @@ public class SpawnMob extends JavaPlugin {
     	PermissionsHandler.setupPermissions();
     	}
     	if (mobspawnerdrops){
-            pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Monitor, this);
+            pm.registerEvents(blockListener, this);
 		}
-    	pm.registerEvent(Event.Type.PLAYER_INTERACT, PlayerListener, Priority.Normal, this);
+    	pm.registerEvents(PlayerListener, this);
         if (permissions){
     		PluginDescriptionFile pdfFile = this.getDescription();
     		log.info("[SpawnMob] Version " + pdfFile.getVersion() + " enabled.");
@@ -62,22 +57,11 @@ public class SpawnMob extends JavaPlugin {
         }else{
         	log.info("[SpawnMob] Using ops.txt!");
         }
+        
     	if (friendly){
-        	Friendlyconfig = new File("plugins/SpawnMob/Friendlyconfig.yml");
-        	fconfig = new YamlConfiguration();
-        	try {
-        		com.jordanneil23.SpawnMob.Friendly.ConfigurationHandler.firstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        	com.jordanneil23.SpawnMob.Friendly.ConfigurationHandler.loadYamls();
-            pm.registerEvent(Type.ENTITY_TARGET, friendlyListener, Priority.Highest,this);
-    		pm.registerEvent(Type.ENTITY_DEATH, friendlyListener, Priority.Highest,this);
-    		pm.registerEvent(Type.ENTITY_DAMAGE, friendlyListener, Priority.Highest,this);
-    		pm.registerEvent(Type.ENTITY_EXPLODE, friendlyListener, Priority.Highest,this);
-    		pm.registerEvent(Type.ENDERMAN_PICKUP, friendlyListener, Priority.Highest,this);
-            log.info(String.format("[SpawnMob] Friendly enabled." ));
+            log.info(String.format("[SpawnMob] Friendly NOT enabled, this is NOT a bug. Friendly has been temporarily removed from SpawnMob." ));
     	}
+    	
     }
     
     public void onDisable() {

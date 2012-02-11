@@ -65,7 +65,7 @@ public class PermissionsHandler {
     	pm.removePermission(s);
     }
     
-    static boolean playerhas(Player p, String perm, boolean perms){
+    public static boolean playerhas(Player p, String perm, boolean perms){
     	if (perms == false)
     	{
     		if (!p.isOp())

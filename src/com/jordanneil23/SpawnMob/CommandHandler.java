@@ -3,84 +3,175 @@ package com.jordanneil23.SpawnMob;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Wolf;
+import org.bukkit.command.*;
+import org.bukkit.entity.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.CreatureType;
 import com.jordanneil23.SpawnMob.TargetBlock;
-import com.jordanneil23.SpawnMob.Kits.Kit;
-import com.jordanneil23.SpawnMob.Mob.KillMobs;
-import com.jordanneil23.SpawnMob.Mob.Mob;
-import com.jordanneil23.SpawnMob.Mob.MobHandling;
+import com.jordanneil23.SpawnMob.Kits.*;
+import com.jordanneil23.SpawnMob.Mobs.*;
 
 /**
- *SpawnMob - Commands
+ * 
+ * SpawnMob
+ * @version 2.1
+ * @Commands SpawnMob, Kit, Kill, List, MSpawn
  * @author jordanneil23
- */
+ * 
+ **/
+
 public class CommandHandler{
-	int count = 0;
-	@SuppressWarnings("unused")
-	private static SpawnMob plugin;
-    private String mobList[] = 
-	{ 
-    		"Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan,", 
-    		"EnderDragon, Ghast, Giant, Pig, PigZombie, Sheep,",
-    		"SilverFish, Skeleton, Slime, Spider, Squid, Villager, Wolf,",
-    		"Zombie"
-	}; 
-    private String mobz[] = 
-    	{ 
-        		"Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderMan", 
-        		"EnderDragon", "Ghast", "Giant", "Pig", "PigZombie", "Sheep",
-        		"SilverFish", "Skeleton", "Slime", "Spider", "Squid", "Villager", "Wolf",
-        		"Zombie", "Twolf", "All", "Monsters", "Animals", "Wolves", "Ender_Dragon",
-        		"Dragon", "Pig_Zombie", "Magma_Cube", "MagmaCube", "SnowMan", "SnowGolem"
-    	}; 
-    private String customMobs[] = { "Wolf", "Creeper", "Sheep", "Villager" };
-	@SuppressWarnings("rawtypes")
-	public static ArrayList mobs2 = new ArrayList();
+	int count = 1;
 	
-    @SuppressWarnings({ "null", "unchecked" })
+    private String mobList[] = { 
+    		"Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan,", 
+    		"EnderDragon, Ghast, Giant, MagmaCube, Pig, PigZombie, Sheep,",
+    		"SilverFish, Snowman, Skeleton, Slime, Spider, Squid, Villager, Wolf,",
+    		"Zombie"}; 
+    private String mobz[] = {
+    		"Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderMan", 
+    		"EnderDragon", "Ghast", "Giant", "Pig", "PigZombie", "Sheep",
+    		"SilverFish", "Skeleton", "Slime", "Spider", "Squid", "Villager", "Wolf",
+    		"Zombie", "Twolf", "All", "Monsters", "Animals", "Wolves", "Ender_Dragon",
+    		"Dragon", "Pig_Zombie", "Magma_Cube", "MagmaCube", "SnowMan", "SnowGolem"}; 
+
+    private String animals[] = {"Chicken", "Cow", "Pig", "Sheep", "Wolf"};
+    private String customMobs[] = { "Wolf", "Creeper", "Sheep"};
 	public boolean perform(CommandSender sender, Command command, String[] args) {
     	int[] ignore = {8, 9};
         Player p = (Player) sender;
-        World world = p.getWorld();
-        Location loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
-        loc.setY(1 + loc.getY());
+        Location loc = null;
         Mob mob2 = null;
         LivingEntity rider = null;
-    	
-        if (command.getName().equalsIgnoreCase("spawnmob")
-        		|| command.getName().equalsIgnoreCase("smob")
-        		|| command.getName().equalsIgnoreCase("sm"))
+		boolean chk = false;
+		boolean endman = false;
+		boolean snowman = false;
+		boolean cube = false;
+		boolean plr = false;
+		boolean plr2 = false;
+		boolean plr3 = false;
+		boolean plr4 = false;
+		
+        if (command.getName().equalsIgnoreCase("spawnmob")|| command.getName().equalsIgnoreCase("smob") || command.getName().equalsIgnoreCase("sm"))
 	    {
         	if (args.length == 0) {
-        		    p.sendMessage(ChatColor.BLUE + "- Spawnmob Help -");
-        		    p.sendMessage(ChatColor.BLUE + "Command shortcuts: /spawnmob, /smob, /sm");
-                    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " <Mob Name> (Amount)");
-                    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kill <all-animals-monsters-mobname>");
-                    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kit - Type for more info");
-                    p.sendMessage(ChatColor.BLUE + "/mspawn - Type for more info");
-                    return false;
+        		Help(p, command, 1);
+        		return false;
+        	}
+        	if(args[0].equalsIgnoreCase("Help")){
+        		Help(p, command, 1);
+        		return false;
         	}
 	        String[] split1 = args[0].split(":");
 	        String[] split0 = new String[1];
-	        
+	        boolean isCustomMob = isArrMatch(customMobs, args[0]);
+	        /** @Note Babies  **/
+	        if(args[0].equalsIgnoreCase("Baby")){
+	        	if (args.length >= 3)
+    			{
+    				if(MobHandling.getOnlinePlayer(args[2]) != null){
+    				loc = MobHandling.getOnlinePlayer(args[2]).getLocation();
+    				count = args.length >= 4 ? convertStringtoInt(args[3]) : 1;
+    				if (spawnCheck(p, count) == false){return false;}
+    				plr2 = true;
+    				plr4 = true;
+    				}else{
+    					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+    					loc.setY(1 + loc.getY());
+    					count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+    	    			if(args.length >= 3){
+    	    				if (spawnCheck(p, count) == false){return false;}
+    	    			}
+    				}
+    			}else{
+    				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+					loc.setY(1 + loc.getY());
+    			}
+    			if (split1.length == 1) {
+                    split0 = args[1].split(";");
+                    split1[0] = split0[0];
+                }
+    			if (split1.length == 2) {
+                    args[1] = split1[0] + "";
+                }
+    			boolean isAnimal = isArrMatch(animals, args[1]);
+	        	if(isAnimal == false && split1.length != 2 && !(split0.length >= 2 || split0.length <=2)){
+	        		p.sendMessage("You can only spawn baby animals. To see the mobs that can be spawned as babies use /" + command.getName().toLowerCase() + " list babies");
+	        		return false;
+	        	}
+    			Mob mob = null;
+    			if(split0.length == 2 && MobHandling.getOnlinePlayer(split0[0]) != null){
+    				mob = Mob.COW;
+    			}else{
+                mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
+    			}
+    			Animals m = null;
+    			if (mob == null)
+    			{
+    				p.sendMessage(ChatColor.RED + "Invalid mob/player, try again.");
+    				return false;
+    			}
+    				if(!(PermissionsHandler.playerhas(p, "spawnmob." + mob.getName().toLowerCase(), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
+    					p.sendMessage(ChatColor.RED + "You can't use this command.");
+                        return false;
+                    }
+
+    			for (int i = 0; i < count; i++)
+    			{
+    				if(split0.length != 2){
+    				m = (Animals) MobHandling.spawn(mob, p, loc);
+    				m.setAge(-24000);
+    				if (mob.getName().toUpperCase() == "SHEEP")
+    				{
+    					chk = true;
+    				}
+    				}
+					if (split0.length == 2) {
+						mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+					    if (mob2 == null && MobHandling.getOnlinePlayer(split0[1]) == null) {
+					    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
+					        return false;
+					    }
+						    if(MobHandling.getOnlinePlayer(split0[0]) != null){
+						    	plr2 = true;
+						    	m.setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+						    }
+						    else{
+						    	if(MobHandling.getOnlinePlayer(split0[1]) != null){
+							    	if(MobHandling.getOnlinePlayer(split0[1]) != null){
+							    		plr = true;
+							    		MobHandling.getOnlinePlayer(split0[1]).setPassenger(m);
+							    	}
+							    }else{
+							    	rider = MobHandling.spawn(mob2, p, loc);
+								    rider.setPassenger(m);
+							    }
+					    }
+					}
+    			}
+    			
+    			if(split0.length == 2 && plr2 == true){
+    				p.sendMessage(ChatColor.BLUE + (plr4 ? "You spawned a " + mob.getName().toLowerCase() + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + " on " + args[1] + "'s location!" : "You made " + split0[0]) + (plr3 ? " ride " + split0[1] : (split0.length == 2 ? " ride a " + split0[1] : "")) + "!");
+    			    return true;
+    			}
+    			if (count == 1)
+    			{
+    				p.sendMessage(ChatColor.BLUE + "You spawned a baby " + mob.getName().toLowerCase() + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + "!");
+    			    return true;
+    			}
+    			else
+    			{
+    				p.sendMessage(ChatColor.BLUE + "You spawned " + args[1] + " baby " + (snowman ? "snowmen" : mob.getName().toLowerCase()) + (chk ? "" : mob.s) + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+	                return true;
+    			}
+	        }else
+	        	/** @Note Kill  **/
             	if (args[0].equalsIgnoreCase("Kill"))
         		{
             		boolean isKillableMob = isArrMatch(mobz, args[1]);
             		if (args.length == 1)
           		    {
-            			
-          		    	p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kill [all-animals-monsters-mobname-twolf]");
-          		        p.sendMessage(ChatColor.BLUE + "Use /" + command.getName().toLowerCase() + " list for a list of mobnames");
-          		       
+            			Help(p, command, 2);
           		        return false;
           		    }
             		
@@ -94,9 +185,7 @@ public class CommandHandler{
               			p.sendMessage(ChatColor.RED + "You can't use this command.");
               			return false;
               		} 
-                  	boolean chk = false;
-                  	boolean endman = false;
-                  	boolean snowman = false;
+
                   	if (isKillableMob == false)
                   	{
                   		p.sendMessage(ChatColor.RED + "Invalid mob, try again.");
@@ -116,39 +205,59 @@ public class CommandHandler{
     				}
         			if (args[1].equalsIgnoreCase("Wolf") || args[1].equalsIgnoreCase("Wolves")){
             			p.sendMessage(ChatColor.BLUE + "Killed all wolves, not including tamed ones. /spawnmob kill twolf kills tamed wolves.");
+            			if (args.length >= 3){
+            			KillMobs.Kill(p, mt, args[2]);
+            			return true;
+            			}
             			KillMobs.Kill(p, mt);
                         return true;
             		}
-        			
             		if (args[1].equalsIgnoreCase("TWolf")){
             			p.sendMessage(ChatColor.BLUE + "Killed all tamed wolves.");
-            			KillMobs.Kill(p, "twolf");
+            			if (args.length >= 3){
+                			KillMobs.Kill(p, "twolf", args[2]);
+                			return true;
+                			}
+                			KillMobs.Kill(p, "twolf");
                         return true;
             		}
             		
             		if (args[1].equalsIgnoreCase("All")){
             			p.sendMessage(ChatColor.BLUE + "Killed all mobs, not including tamed wolves.");
-            			KillMobs.Kill(p, "all");
+            			if (args.length >= 3){
+                			KillMobs.Kill(p, "all", args[2]);
+                			return true;
+                			}
+                			KillMobs.Kill(p, "all");
                     	return true;
                     }
             		
-            		KillMobs.Kill(p, args[1].toLowerCase());
-                    p.sendMessage(ChatColor.BLUE + "Killed all " + (endman ? "endermen" : snowman ? "snowmen" : args[1].toLowerCase()) + (chk ? "s." : "."));
+            		p.sendMessage(ChatColor.BLUE + "Killed all " + (endman ? "endermen" : snowman ? "snowmen" : args[1].toLowerCase()) + (chk ? "s." : " that were close to you."));
+            		if (args.length >= 3){
+            		KillMobs.Kill(p, mt, args[2]);
+            		return true;
+            		}
+            		KillMobs.Kill(p, mt);
         			return true;
         		}
+	            /** @Note Undo  **/
         		else if (args[0].equalsIgnoreCase("Undo"))
         		{
         			p.sendMessage(ChatColor.BLUE + "Killed all mobs, not including tamed wolves.");
-        			KillMobs.Kill(p, "all");
+        			if (args.length >= 2){
+            			KillMobs.Kill(p, "all", args[2]);
+            			return true;
+            			}
+            			KillMobs.Kill(p, "all");
         			return true;
         		}
+	            /** @Note Kits  **/
                 else if (args[0].equalsIgnoreCase("Kit")){
-                	if (args.length == 1)
-                	{
-                    		p.sendMessage(ChatColor.BLUE + "/spawnmob kit list - List the available mob kits");
-                    		p.sendMessage(ChatColor.BLUE + "/spawnmob kit <kitname> - Spawn a mob kit");
-                    		return false;
-                	}
+                	if (args.length <= 1)
+          		    {
+            			Help(p, command, 3);
+          		        return false;
+          		    }
                 		if(SpawnMob.permissions){
                 			if (!(PermissionsHandler.playerhas(p, "spawnmob.kits", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.kits.*", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true )){
                 				p.sendMessage(ChatColor.RED + "You can't use this command.");
@@ -191,181 +300,324 @@ public class CommandHandler{
                 		}
                     }
                 }
+	           /** @Note List Mobs  **/
                 else if (args[0].equalsIgnoreCase("List")){
-                	String[] mobs = mobList;
-    		        mobs2 = new ArrayList<String>(Arrays.asList(mobs));
-    		        p.sendMessage(ChatColor.BLUE + "Mob list:");
-    		        for (Iterator<String> iter2 = mobs2.iterator(); iter2.hasNext();){
-    		        p.sendMessage(ChatColor.BLUE + " " + iter2.next() + " ");
-    		        }
-    		        return true;
+                	if(args.length < 2)
+                	{
+                		String[] mobs = mobList;
+                    	ArrayList<String> mobs2 = new ArrayList<String>(Arrays.asList(mobs));
+        		        p.sendMessage(ChatColor.BLUE + "Mob list:");
+        		        for (Iterator<String> iter2 = mobs2.iterator(); iter2.hasNext();)
+        		        {
+        		        p.sendMessage(ChatColor.BLUE + " " + iter2.next() + " ");
+        		        }
+        		        return true;
+                	}
+                	else if (args[1].equalsIgnoreCase("Babies") || args[1].equalsIgnoreCase("Baby"))
+                	{
+                		String[] babies = animals;
+                		ArrayList<String> babiez = new ArrayList<String>(Arrays.asList(babies));
+        		        p.sendMessage(ChatColor.BLUE + "Mob list:");
+        		        for (Iterator<String> iter2 = babiez.iterator(); iter2.hasNext();)
+        		        {
+        		        p.sendMessage(ChatColor.BLUE + " " + iter2.next() + " ");
+        		        }
+        		        return true;
+                	}
                 }
-        		boolean isCustomMob = isArrMatch(customMobs, args[0]);
-                if (isCustomMob && args.length >= 2)
-        		{
+	           /** @Note Begin spawning Custom mobs, there may be bugs here!!  **/
+                if (isCustomMob == true)
+                {
             		if (args[0].equalsIgnoreCase("Wolf"))
             		{
             			boolean tamed = false;
-            			
-            			if (args.length >= 2 && args[1].equalsIgnoreCase("Tamed"))
+            			boolean mad = false;
+            			boolean t2 = false;
+            			if (args.length >= 2)
             			{
-            				tamed = true;
-            				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				if(args[1].equalsIgnoreCase("Tamed")){
+                				tamed = true;
+            				}
+            				if(args[1].equalsIgnoreCase("Mad")){
+                				mad = true;
+            				}
+            				if(tamed == true || mad == true){
+            					
+            						if(args.length > 2 && MobHandling.getOnlinePlayer(args[2]) != null){
+                    					t2 = true;
+                    					loc = MobHandling.getOnlinePlayer(args[2]).getLocation();
+                                    	count = args.length >= 4 ? convertStringtoInt(args[3]) : 1;
+                    				}else{
+            					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+            					loc.setY(1 + loc.getY());
+            					count = args.length >= 2 ? convertStringtoInt(args[2]) : 1;
+            					}
+            				}
+            				else
+            				if(MobHandling.getOnlinePlayer(args[1]) != null){
+                				loc = MobHandling.getOnlinePlayer(args[1]).getLocation();
+                            	count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				}else{
+            					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+            					loc.setY(1 + loc.getY());
+            					if(tamed != true || mad != true){
+            					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+            					}
+            				}
+            			}else{
+            				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+        					loc.setY(1 + loc.getY());
+        					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
             			}
-            			
-            				if(!(PermissionsHandler.playerhas(p, "spawnmob."   + (tamed ? "wolf.tamed" : "wolf"), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
+            				if(!(PermissionsHandler.playerhas(p, "spawnmob."   + (tamed ? "wolf.tamed" : mad ? "wolf.mad" : "wolf"), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
             					p.sendMessage(ChatColor.RED + "You can't use this command.");
                                 return false;
                             }
-            			
-        				if (!spawnCheck(p, count))
-        					return false;
+            				if (spawnCheck(p, count) == false){return false;}
                         Wolf w = null;
-
-        				for (int i = 0; i < count; i++)
-            			{
-            				if (tamed)
-            				{
-            					w = MobHandling.setforWolf(p, loc);
-            				} else {
-                				w = (Wolf)world.spawnCreature(loc, CreatureType.WOLF);
-                				w.setHealth(10);
-                				w.setAngry(false);
-            				}
-            				if (split0.length == 2) {
-            					mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
-                                if (mob2 == null) {
-                                	p.sendMessage(ChatColor.RED + "Invalid mob type.");
-                                    return false;
-                                }
-                                rider = MobHandling.spawnRider(mob2, p, loc);
-                                rider.setPassenger(w);
-                                return true;
-                            }
+                        for (int i = 0; i < count; i++){
+                        	if(t2 == true){
+                        		w = MobHandling.setforWolf(MobHandling.getOnlinePlayer(args[2]), loc, mad, tamed);
+                        	}else{
+                        	w = MobHandling.setforWolf(p, loc, mad, tamed);
+                        	}
+                        	if (split0.length == 2) {
+        						mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+        					    if (mob2 == null && MobHandling.getOnlinePlayer(split0[1]) == null) {
+        					    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
+        					        return false;
+        					    }
+        					    if(MobHandling.getOnlinePlayer(split0[0]) != null){
+        					    	plr2 = true;
+        					    	w.setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+        					    }
+        					    else{
+            					    if(MobHandling.getOnlinePlayer(split0[1]) != null){
+            					    		plr = true;
+            					    		Player r = MobHandling.getOnlinePlayer(split0[1]);
+            					    		r.setPassenger(w);
+            					    }else{
+            					    rider = MobHandling.spawn(mob2, p, loc);
+            					    rider.setPassenger(w);
+            					    }
+        					    }
+        					}
+                        }
+                        if(plr2 == true){
+            				p.sendMessage(ChatColor.BLUE + (plr4 ? "You spawned " +(count == 1 ? "a wolf " : args[2] + " wolves ")  + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + " on " + args[1] + "'s location!" : "You made " + split0[0]) + (plr3 ? " ride " + split0[1] : (split0.length == 2 ? " ride a " + split0[1] : "")) + "!");
+            			    return true;
             			}
-            			
-            			if (count == 1)
-            				p.sendMessage(ChatColor.BLUE + "You spawned a " + (tamed ? "tamed " : "") + "wolf"+ (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-            			else
-            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (tamed ? "tamed " : "") + "wolves"+ (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
+            			if (count == 1){
+            				p.sendMessage(ChatColor.BLUE + "You spawned a " + (tamed ? "tamed " : mad ? "mad " : "") + "wolf" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
+            			else{
+            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (tamed ? "tamed " : mad ? "mad " : "") + "wolves" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
             		}
             		else if (args[0].equalsIgnoreCase("Creeper"))
             		{
             			boolean electric = false;
             			
-            			if (args.length >= 2 && args[1].equalsIgnoreCase("Electric"))
+            			if (args.length >= 2)
             			{
+            				if(args[1].equalsIgnoreCase("Electric")){
             				electric = true;
-            				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				if(electric == true)if(args.length > 2){
+        						if(MobHandling.getOnlinePlayer(args[2]) != null){
+                					loc = MobHandling.getOnlinePlayer(args[2]).getLocation();
+                                	count = args.length >= 4 ? convertStringtoInt(args[3]) : 1;
+                				
+        					}else{
+            					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+            					loc.setY(1 + loc.getY());
+            					count = args.length >= 2 ? convertStringtoInt(args[2]) : 1;
+            				}
+            				}
+            				else
+            				if(MobHandling.getOnlinePlayer(args[1]) != null){
+                			loc = MobHandling.getOnlinePlayer(args[1]).getLocation();
+                            count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				}else{
+            					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+            					loc.setY(1 + loc.getY());
+            					if(electric != true){
+                					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+                					}
+            				}
+            			}else{
+            				if(MobHandling.getOnlinePlayer(args[1]) != null){
+                				loc = MobHandling.getOnlinePlayer(args[1]).getLocation();
+                				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+                				if (spawnCheck(p, count) == false){return false;}
+                				plr2 = true;
+                				plr4 = true;
+                				}else{
+                					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+                    				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+                					loc.setY(1 + loc.getY());
+                					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+                				}
+            			}
+            			}else{
+            				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+        					loc.setY(1 + loc.getY());
+        					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
             			}
             			
             				if(!(PermissionsHandler.playerhas(p, "spawnmob."   + (electric ? "creeper.electric" : "creeper"), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
             					p.sendMessage(ChatColor.RED + "You can't use this command.");
                                 return false;
                             }
-            			
-        				if (!spawnCheck(p, count))
-        					return false;
+            				if (spawnCheck(p, count) == false){return false;}
         				
         				Creeper c = null;
         				
         				for (int i = 0; i < count; i++){
             				c = MobHandling.setforCreeper(p, loc, electric);
             				if (split0.length == 2) {
-            					mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
-                                if (mob2 == null) {
-                                	p.sendMessage(ChatColor.RED + "Invalid mob type.");
-                                    return false;
-                                }
-                                rider = MobHandling.spawnRider(mob2, p, loc);
-                                rider.setPassenger(c);
-                                return true;
-                            }
+        						mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+        					    if (mob2 == null && MobHandling.getOnlinePlayer(split0[0]) != null) {
+        					    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
+        					        return false;
+        					    }
+        					    if(MobHandling.getOnlinePlayer(split0[0]) != null){
+        					    	plr2 = true;
+        					    	c.setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+        					    }
+        					    else{
+        					    	if(MobHandling.getOnlinePlayer(split0[0]) != null){
+            					    		plr = true;
+            					    		Player r = MobHandling.getOnlinePlayer(split0[1]);
+            					    		r.setPassenger(c);
+            					    }else{
+            					    rider = MobHandling.spawn(mob2, p, loc);
+            					    rider.setPassenger(c);
+            					    }
+        					    }
+        					}
         				}
-        				
-            			if (count == 1)
-            				p.sendMessage(ChatColor.BLUE + "You spawned a" + (electric ? "n electric" : "") + " creeper" + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-            			else
-            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (electric ? "electric " : "") + "creepers" + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
+        				if(plr2 == true){
+            				p.sendMessage(ChatColor.BLUE + (plr4 ? "You spawned " +(count == 1 ? "a creeper " : args[2] + " creepers ")  + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + " on " + args[1] + "'s location!" : "You made " + split0[0]) + (plr3 ? " ride " + split0[1] : (split0.length == 2 ? " ride a " + split0[1] : "")) + "!");
+            			    return true;
+            			}
+            			if (count == 1){
+            				p.sendMessage(ChatColor.BLUE + "You spawned a" + (electric ? "n electric" : "") + " creeper" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
+            			else{
+            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (electric ? "electric " : "") + "creepers" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
             		}else 
             			if (args[0].equalsIgnoreCase("Sheep"))
             		{
             			boolean color = false;
-            			
-            			if (args.length >= 2 && (MobHandling.isColor(args[1]) == true))
+            			if (args.length >= 2)
             			{
-            				color = true;
-            				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				if (isArrMatch(MobHandling.sheepcolors, args[1]) == true){
+                				color = true;
+                				}
+            				if(color == true){
+            					if(args.length > 2){
+            						if(MobHandling.getOnlinePlayer(args[2]) != null){
+                    					loc = MobHandling.getOnlinePlayer(args[2]).getLocation();
+                                    	count = args.length >= 4 ? convertStringtoInt(args[3]) : 1;
+                    				}
+            						else
+                    				{
+            							loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+                    					loc.setY(1 + loc.getY());
+                    					count = args.length >= 2 ? convertStringtoInt(args[2]) : 1;
+                    				}
+            					}
+            				}else
+            				if(MobHandling.getOnlinePlayer(args[1]) != null){
+                				loc = MobHandling.getOnlinePlayer(args[1]).getLocation();
+                            	count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+            				}else{
+            					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+            					loc.setY(1 + loc.getY());
+            					if(color != true){
+                					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+                					}
+            				}
+            			}else{
+            				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+        					loc.setY(1 + loc.getY());
+        					count = args.length >= 1 ? convertStringtoInt(args[1]) : 1;
             			}
             			
             				if(!(PermissionsHandler.playerhas(p, "spawnmob."   + (color ? "sheep.colors" : "sheep"), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
             					p.sendMessage(ChatColor.RED + "You can't use this command.");
                                 return false;
                             }
-            			
-        				if (!spawnCheck(p, count))
-        					return false;
+            				if (spawnCheck(p, count) == false){return false;}
         				
-        				LivingEntity c = null;
+        				LivingEntity s = null;
         				for (int i = 0; i < count; i++){
-            				MobHandling.setforSheep(p, loc, args[1], color);
+            				s = MobHandling.setforSheep(p, loc, args[1], color);
             				if (split0.length == 2) {
-            					mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
-                                if (mob2 == null) {
-                                	p.sendMessage(ChatColor.RED + "Invalid mob type.");
-                                    return false;
-                                }
-                                rider = MobHandling.spawnRider(mob2, p, loc);
-                                rider.setPassenger(c);
-                                return true;
-                            }
+        						mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+        					    if (mob2 == null && MobHandling.getOnlinePlayer(split0[1]) == null) {
+        					    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
+        					        return false;
+        					    }
+        					    if(MobHandling.getOnlinePlayer(split0[0]) != null){
+        					    	plr2 = true;
+        					    	s.setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+        					    }
+        					    else{
+        					    if(MobHandling.getOnlinePlayer(split0[1]) != null){
+        					    		plr = true;
+        					    		Player r = MobHandling.getOnlinePlayer(split0[1]);
+        					    		r.setPassenger(s);
+        					    }else{
+        					    rider = MobHandling.spawn(mob2, p, loc);
+        					    rider.setPassenger(s);
+        					    }
+        					    }
+        					}
         				}
-        				
-            			if (count == 1)
-            				p.sendMessage(ChatColor.BLUE + "You spawned a" + (color ? "n " + args[2] + " " : "") + " sheep" + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-            			else
-            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (color ? args[2] + " " : "") + "sheep" + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-            		}else 
-        			if (args[0].equalsIgnoreCase("Villager"))
-        		{
-        			boolean color = false;
-        			/*
-        			if (args.length >= 2 && (MobHandling.isColor(args[1]) == true))
-        			{
-        				color = true;
-        				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
-        			}
-        			*/
-        				if(!(PermissionsHandler.playerhas(p, "spawnmob."   + (color ? "villager.colors" : "villager"), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
-        					p.sendMessage(ChatColor.RED + "You can't use this command.");
-                            return false;
-                        }
-        			
-    				if (!spawnCheck(p, count))
-    					return false;
-    				
-    				LivingEntity c = null;
-    				for (int i = 0; i < count; i++){
-        				c = MobHandling.setforVillager(p, loc);
-        				if (split0.length == 2) {
-        					mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
-                            if (mob2 == null) {
-                            	p.sendMessage(ChatColor.RED + "Invalid mob type.");
-                                return false;
-                            }
-                            rider = MobHandling.spawnRider(mob2, p, loc);
-                            rider.setPassenger(c);
-                            return true;
-                        }
-    				}
-        			if (count == 1)
-        				p.sendMessage(ChatColor.BLUE + "You spawned a villager " + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-        			else
-        				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " villagers " + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
-        		}
+        				if(plr2 == true){
+            				p.sendMessage(ChatColor.BLUE + (plr4 ? "You spawned " +(count == 1 ? "a sheep " : args[2] + " sheep ")  + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + " on " + args[1] + "'s location!" : "You made " + split0[0]) + (plr3 ? " ride " + split0[1] : (split0.length == 2 ? " ride a " + split0[1] : "")) + "!");
+            			    return true;
+            			}
+            			if (count == 1){
+            				p.sendMessage(ChatColor.BLUE + "You spawned a" + (color ? "n " + args[1] + " " : "") + " sheep" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
+            			else{
+            				p.sendMessage(ChatColor.BLUE + "You spawned " + count + " " + (color ? args[1] + " " : "") + "sheep" + (split0.length == 2 && plr == true ? "riding player " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+            				return true;
+            			}
+            		}
+            		return true;
         	}
+                /** @Note Begin spawning normal mobs  **/
         		else
         		{
+        			if (args.length >= 2)
+        			{
+        				if(MobHandling.getOnlinePlayer(args[1]) != null){
+        				loc = MobHandling.getOnlinePlayer(args[1]).getLocation();
+        				count = args.length >= 3 ? convertStringtoInt(args[2]) : 1;
+        				if (spawnCheck(p, count) == false){return false;}
+        				plr2 = true;
+        				plr4 = true;
+        				}else{
+        					loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+        					loc.setY(1 + loc.getY());
+        					count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
+                			if(args.length >=2){
+                				if (spawnCheck(p, count) == false){return false;}
+                			}
+        				}
+        			}else{
+        				loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+    					loc.setY(1 + loc.getY());
+        			}
         			if (split1.length == 1) {
                         split0 = args[0].split(";");
                         split1[0] = split0[0];
@@ -373,30 +625,40 @@ public class CommandHandler{
         			if (split1.length == 2) {
                         args[0] = split1[0] + "";
                     }
-                    Mob mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
-        			count = args.length >= 2 ? convertStringtoInt(args[1]) : 1;
-        			if(args.length >=2){
-        				spawnCheck(p, count);
+        			Mob mob = null;
+        			if(split0.length == 2){
+        				if(MobHandling.getOnlinePlayer(split0[0]) != null){
+        				mob = Mob.COW;
+        				}
+        				else{
+        					mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
+        				}
+        			}else{
+                    mob = Mob.fromName(split1[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split1[0]));
         			}
+        			
         			LivingEntity m = null;
-        			if (mob == null && split1.length != 2)
+        			if (mob == null)
         			{
-        				p.sendMessage(ChatColor.RED + "Invalid mob, try again.");
+        				p.sendMessage(ChatColor.RED + "Invalid mob/player, try again.");
         				return false;
         			}
-        			
+        			if(!(split0.length == 2)){
         				if(!(PermissionsHandler.playerhas(p, "spawnmob." + mob.getName().toLowerCase(), SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
-        					p.sendMessage(ChatColor.RED + "You can't use this command.");
+             			   p.sendMessage(ChatColor.RED + "You can't use this command.");
                             return false;
-                        }
-        			
-        			boolean chk = false;
-        			boolean endman = false;
-        			boolean snowman = false;
-        			boolean cube = false;
+                         }
+        			}else{
+        				/*if(!(PermissionsHandler.playerhas(p, "spawnmob.playeronplayer", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.allmobs", SpawnMob.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", SpawnMob.permissions) == true)){
+              			   p.sendMessage(ChatColor.RED + "You can't use this command.");
+                             return false;
+                          }*/
+        			}
+        		
         			for (int i = 0; i < count; i++)
         			{
-        				m = MobHandling.spawnIt(mob, p, loc); 
+        				if(split0.length != 2){
+        				m = MobHandling.spawn(mob, p, loc); 
         				if (mob.getName().toUpperCase() == "SILVERFISH" || mob.getName().toUpperCase() == "SQUID")
         				{
         					chk = true;
@@ -432,35 +694,62 @@ public class CommandHandler{
                             	p.sendMessage("You can't use a ':' like that!");
                             }
         				}
-						if (split0.length == 2) {
-							mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
-						    if (mob2 == null) {
-						    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
-						        return false;
-						    }
-						    rider = MobHandling.spawnRider(mob2, p, loc);
-						    rider.setPassenger(m);
-						}
+        				}
+        				if (split0.length == 2) {
+    						mob2 = Mob.fromName(split0[1].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(split0[1]));
+    					    if (mob2 == null && MobHandling.getOnlinePlayer(split0[1]) == null) {
+    					    	p.sendMessage(ChatColor.RED + "Invalid mob type.");
+    					        return false;
+    					    }
+    					    if(MobHandling.getOnlinePlayer(split0[0]) != null && MobHandling.getOnlinePlayer(split0[1]) != null){
+    					    		plr2 = true;
+    					    		plr3 = true;
+    						    	MobHandling.getOnlinePlayer(split0[1]).setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+    					    }else{
+        					    if(MobHandling.getOnlinePlayer(split0[0]) != null){
+        					    	plr2 = true;
+        					    	m = MobHandling.spawn(mob2, p, loc);
+        					    	m.setPassenger(MobHandling.getOnlinePlayer(split0[0]));
+        					    }
+        					    else{
+        					    	if(MobHandling.getOnlinePlayer(split0[1]) != null){
+            					    		plr = true;
+            					    		Player r = MobHandling.getOnlinePlayer(split0[1]);
+            					    		r.setPassenger(m);
+            					    }else{
+            					    	m = MobHandling.spawn(mob, p, loc);
+                					    rider = MobHandling.spawn(mob2, p, loc);
+                					    rider.setPassenger(m);
+            					    }
+        					    }
+        					}
+        				}
         			}
-        			
-        			if (count == 1)
-        				p.sendMessage(ChatColor.BLUE + "You spawned a " + mob.getName().toLowerCase() + (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "") + "!");
-        			else
-        				p.sendMessage(ChatColor.BLUE + "You spawned " + args[1] + " " + (endman ? "endermen" : snowman ? "snowmen" : mob.getName().toLowerCase()) + (chk ? "" : mob.s) + (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "") + "!");
+        			if(plr2 == true){
+        				p.sendMessage(ChatColor.BLUE + (plr4 ? "You spawned " +(count == 1 ? "a " : args[2]) + mob.getName().toLowerCase() + (chk ? "" : mob.s) + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + " on " + args[1] + "'s location!" : "You made " + split0[0]) + (plr3 ? " ride " + split0[1] : (split0.length == 2 ? " ride a " + split0[1] : "")) + "!");
+        			    return true;
+        			}
+        			if (count == 1){
+        				p.sendMessage(ChatColor.BLUE + "You spawned a " + mob.getName().toLowerCase() + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding a " + mob2.getName().toLowerCase() : "")) + "!");
+        			    return true;
+        			}
+        			else{
+        				p.sendMessage(ChatColor.BLUE + "You spawned " + args[1] + " " + (endman ? "endermen" : snowman ? "snowmen" : mob.getName().toLowerCase()) + (chk ? "" : mob.s) + (split0.length == 2 && plr == true ? " riding " + split0[1] : (split0.length == 2 ? " riding " + mob2.getName().toLowerCase().toLowerCase() + mob2.s : "")) + "!");
+        				return true;
+        			}
         			    
         		}
-        		return true;
         }
+        /** @Note MSpawn  **/
         else if (command.getName().equalsIgnoreCase("mspawn"))
     	{
+        	loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+			loc.setY(1 + loc.getY());
         	if (args.length == 0)
             {
-                p.sendMessage(ChatColor.BLUE + "/mspawn <mob name> - Set a mob spawner to spawn a mob.");
-                p.sendMessage(ChatColor.BLUE + "/mspawn check - See a spawner's info.");
-                p.sendMessage(ChatColor.BLUE + "/mspawn delay - Type for more info.");
+                Help(p, command, 4);
                 return false;
             }
-            
             org.bukkit.block.Block blk = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock();
             if (blk == null || blk.getTypeId() != 52)
             {
@@ -487,8 +776,7 @@ public class CommandHandler{
             	
             	if (args.length != 2)
             	{
-            		p.sendMessage(ChatColor.BLUE + "/mspawn delay <delay>");
-            		p.sendMessage(ChatColor.BLUE + "Sets a mob spawner's spawn delay.");
+            		Help(p, command, 5);
             		return false;
             	}
 
@@ -528,20 +816,63 @@ public class CommandHandler{
         }
 		return false;
     }
-
+    /** @Note Help menus **/
+    public void Help(Player p, Command command, int h){
+    	p.sendMessage(ChatColor.BLUE + "- SpawnMob Help -");
+    	p.sendMessage(ChatColor.BLUE + "<> - Mandatory");
+    	p.sendMessage(ChatColor.BLUE + "() - Optional");
+    	if(h == 1){
+    	    p.sendMessage(ChatColor.BLUE + "Command shortcuts: /spawnmob, /smob, /sm");
+    	    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " <mob> (amount) - Spawn a mob");
+    	    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " list (babies) - List mobs/babies that can be spawned.");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " (baby) <mob name> (amount) - Spawn mobs or baby animals! (You can only spawn baby ANIMALS not MONSTERS)");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " (baby) <mob name> (amount) <player> - Spawn mobs or baby animals onto a players location! ");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " mob;mob - Spawn a mob riding a mob.");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " player;mob - Make a player ride a mob.");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " mob;player - Make a mob ride a player.");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " player;player - Make a player ride a player.");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kill - Type for more info");
+            p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kit - Type for more info");
+            p.sendMessage(ChatColor.BLUE + "/mspawn - Type for more info");
+            return;
+    	}
+    	if(h == 2){
+		    p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kill <all-animals-monsters-mobname-twolf> (radius)  - Kill all mobs within a radius. Default is 50.");
+  		    p.sendMessage(ChatColor.BLUE + "For a list of mobnames use /" + command.getName().toLowerCase() + " list");
+    		return;
+    	}
+    	if(h == 3){
+    		p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kit list - List the available mob kits");
+    		p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " kit <kitname> - Spawn a mob kit");
+    		return;
+    	}
+    	if(h == 4){
+    		p.sendMessage(ChatColor.BLUE + "/mspawn <mob name> - Set a mob spawner to spawn a mob.");
+    		p.sendMessage(ChatColor.BLUE + "For a list of mobnames use /" + command.getName().toLowerCase() + " list");
+            p.sendMessage(ChatColor.BLUE + "/mspawn check - See a spawner's info.");
+            p.sendMessage(ChatColor.BLUE + "/mspawn delay <number> - Sets a mob spawner's spawn delay.");
+    		return;
+    	}
+    	if(h == 5){
+    		p.sendMessage(ChatColor.BLUE + "/mspawn delay <number> - Sets a mob spawner's spawn delay.");
+    		return;
+    	}
+        return;
+    }
     
-    private boolean isArrMatch(String[] array, String name)
+    public static boolean isArrMatch(String[] array, String name)
 	{
-		for (String mobName : array)
-			if (mobName.equalsIgnoreCase(name))
+		for (String mobName : array){
+			if (mobName.equalsIgnoreCase(name)){
 				return true;
-		
+			}
+		}
 		return false;
 	}
     
     private boolean spawnCheck(Player p, int count)
 	{
-		if (count <= 0)
+		if (count == 0)
 		{
 			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was invalid.");
 			return false;
@@ -551,21 +882,16 @@ public class CommandHandler{
 			p.sendMessage(ChatColor.RED + "The amount of mobs you tried to spawn was over the set limit!");
 			return false;
 		}
-		return false;
+		return true;
 	}
-    
-    public static boolean checkIfNumber(String in) {
-        try {
-            Long.parseLong(in);
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-        return true;
-    }
  
-   public static int convertStringtoInt(String args) {
+   public static int convertStringtoInt(String args)  throws NumberFormatException {
+	   try{
 	    int aInt = Integer.parseInt(args);
 		return aInt;
+	   }catch (Exception e) {
+           return 0;
+       }
 	  }
  
     public static String capitalCase(String s) {

@@ -1,6 +1,20 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V2.1.0
+For Minecraft 1.1
+New /sm kill (/sm kill (all-animals-monsters) radius)
+Added the ability to spawn baby animals
+Added the abilty to spawn hostile wolves AKA "mad" wolves (/sm wolf mad)
+Added the ability to spawn mobs on players (/sm (baby) mob player (amount))
+Added the ability to spawn a mob riding a player and vice-versa. (/sm creeper;player - Will spawn a creeper riding player. /sm player;creeper - Will make player ride a creeper.)
+Added the ability to "make" players ride players (/sm player;player)
+Fixed the wolf spawning bug , magmacube spawning bug, creeper spawning bug, and the villager spawning bug.
+Temporarily removed the Friendly plugin...
+Known new bug(s)
+You cannot spawn a sheep or colored sheep without an amount (/sm sheep - Results in error. /sm sheep 1 - No error.)
+There are probably more...
+
 V2.0
 For Minecraft 1.0
 Added support for PermissionsEX
