@@ -3,7 +3,6 @@ package com.jordanneil23.SpawnMob.Listeners;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.EventHandler;
@@ -35,7 +34,7 @@ public class SpawnerListener implements Listener{
 		 Player p = event.getPlayer();
 		 if (PermissionsHandler.playerhas(p, "spawnmob.mspawn.check", SpawnMob.permissions))
 		 {
-		 	CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
+		 	String mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureTypeName();
 		 	int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
 		 	event.getPlayer().sendMessage("This spawners mob type is " + mob + ".");
 		 	event.getPlayer().sendMessage("This spawners delay is set to " + del + ".");

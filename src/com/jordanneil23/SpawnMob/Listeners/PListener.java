@@ -2,7 +2,6 @@ package com.jordanneil23.SpawnMob.Listeners;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +31,7 @@ public class PListener implements Listener{
 		 {
 		 if (PermissionsHandler.playerhas(p, "spawnmob.mspawn.check", SpawnMob.permissions))
 		 {
-		 	CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
+			String mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureTypeName();
 		 	int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
 		 	p.sendMessage("This spawners mob type is " + mob + ".");
 		 	p.sendMessage("This spawners delay is set to " + del + ".");

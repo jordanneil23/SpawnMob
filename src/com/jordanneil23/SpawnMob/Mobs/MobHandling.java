@@ -57,37 +57,45 @@ public class MobHandling {
 		 }
 		 return w;
 	}
+	public static Ocelot setforOcelot(Player p, Location loc, boolean tamed){
+		 Ocelot o = (Ocelot) spawn(Mob.OCELOT, p, loc);
+		 if(tamed == true){
+			 o.setOwner(p);
+			 return o;
+		 }
+		 return o;
+	}
 	/* Villager  */
 	public static Villager setforVillager(Player p, Location loc){
 		/**
 		 * @Note You can't set their "jobs/colors" yet. I am trying to find a work-around for this..
 		 */
 		     World world = p.getWorld();
-			 Villager v = (Villager) world.spawnCreature(loc, CreatureType.VILLAGER);
+			 Villager v = (Villager) world.spawnCreature(loc, EntityType.VILLAGER);
 			 return v;
 	}
-	/* Check if a string is a CreatureType that has a "_" in it. */
-	public static CreatureType Check(String m)
+	/* Check if a string is a EntityType that has a "_" in it. */
+	public static EntityType Check(String m)
 	{
 		if (m.equalsIgnoreCase("EnderDragon") || m.equalsIgnoreCase("Ender_Dragon") || m.equalsIgnoreCase("Dragon"))
 		{
-			return CreatureType.ENDER_DRAGON;
+			return EntityType.ENDER_DRAGON;
 		}else
 			if (m.equalsIgnoreCase("Mushroom_Cow") || m.equalsIgnoreCase("MushroomCow") || m.equalsIgnoreCase("Mooshroom"))
 			{
-				return CreatureType.MUSHROOM_COW;
+				return EntityType.MUSHROOM_COW;
 			}else
 				if (m.equalsIgnoreCase("Cave_Spider") || m.equalsIgnoreCase("CaveSpider") || m.equalsIgnoreCase("BlueSpider"))
 				{
-					return CreatureType.CAVE_SPIDER;
+					return EntityType.CAVE_SPIDER;
 				}else
 					if (m.equalsIgnoreCase("Pig_Zombie") || m.equalsIgnoreCase("PigZombie") || m.equalsIgnoreCase("ZombiePig"))
 					{
-						return CreatureType.PIG_ZOMBIE;
+						return EntityType.PIG_ZOMBIE;
 					}else
 						if (m.equalsIgnoreCase("Magma_Cube") || m.equalsIgnoreCase("MagmaCube"))
 						{
-							return CreatureType.MAGMA_CUBE;
+							return EntityType.MAGMA_CUBE;
 						}
 		return null;
 	}
@@ -167,7 +175,7 @@ public class MobHandling {
 	{
 		boolean iscolor = CommandHandler.isArrMatch(sheepcolors, args);
 		World world = p.getWorld();
-		LivingEntity m = world.spawnCreature(loc, CreatureType.SHEEP);
+		LivingEntity m = world.spawnCreature(loc, EntityType.SHEEP);
 		Sheep sheep = (Sheep) m;
 		if (hasclr == true && iscolor == true)
 		{

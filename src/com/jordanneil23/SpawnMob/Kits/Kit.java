@@ -14,7 +14,7 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.jordanneil23.SpawnMob.PermissionsHandler;
@@ -61,7 +61,7 @@ public class Kit {
 		          {
 		            kit = new ArrayList(Arrays.asList(mobs));
 					for (Iterator iter = kit.listIterator(); iter.hasNext();){
-				       world.spawnCreature(loc, CreatureType.valueOf(iter.next().toString().toUpperCase()));
+				       world.spawnCreature(loc, EntityType.valueOf(iter.next().toString().toUpperCase()));
 					}
 		            return true;
 		          }

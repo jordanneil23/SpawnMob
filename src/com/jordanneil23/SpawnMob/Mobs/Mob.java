@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -17,36 +17,39 @@ public enum Mob {
 	 * @author jordanneil23
 	 */
 	
-	PIG(Enemies.FRIENDLY, CreatureType.PIG),
-    CHICKEN(Enemies.FRIENDLY, CreatureType.CHICKEN),
-    COW(Enemies.FRIENDLY, CreatureType.COW),
-    SHEEP(Enemies.FRIENDLY, CreatureType.SHEEP),
-    SQUID(Enemies.FRIENDLY, CreatureType.SQUID),
-    CREEPER(Enemies.ENEMY, CreatureType.CREEPER),
-    GHAST(Enemies.ENEMY, CreatureType.GHAST, "NetherSquid"),
-    ENDERMAN(Enemies.NEUTRAL, CreatureType.ENDERMAN),
-    MUSHROOM_COW(Enemies.ENEMY, CreatureType.MUSHROOM_COW, "Mooshroom"),
-    VILLAGER(Enemies.ENEMY, CreatureType.VILLAGER, "NPC"),
-    ENDER_DRAGON(Enemies.ENEMY, CreatureType.ENDER_DRAGON, "EnderDragon"),
-    SILVERFISH(Enemies.ENEMY, CreatureType.SILVERFISH),
-    BLAZE(Enemies.ENEMY, CreatureType.BLAZE),
-    CAVE_SPIDER(Enemies.ENEMY, CreatureType.CAVE_SPIDER, "CaveSpider"),
-    PIG_ZOMBIE(Enemies.NEUTRAL, CreatureType.PIG_ZOMBIE, "PigZombie"),
-    SKELETON(Enemies.ENEMY, CreatureType.SKELETON),
-    SPIDER(Enemies.ENEMY, CreatureType.SPIDER),
-    ZOMBIE(Enemies.ENEMY, CreatureType.ZOMBIE),
-    SLIME(Enemies.ENEMY, CreatureType.SLIME),
-    SNOWMAN(Enemies.FRIENDLY, CreatureType.SNOWMAN, "SnowGolem"),
-    MAGMA_CUBE(Enemies.ENEMY, CreatureType.MAGMA_CUBE, "MagmaCube"),
-    GIANT(Enemies.ENEMY, CreatureType.GIANT, "Giant"),
-    WOLF(Enemies.NEUTRAL, CreatureType.WOLF, "Wolf");
+	//Friendly mobs
+	CHICKEN(Enemies.FRIENDLY, EntityType.CHICKEN),
+	COW(Enemies.FRIENDLY, EntityType.COW),
+	MUSHROOM_COW(Enemies.FRIENDLY, EntityType.MUSHROOM_COW, "Mooshroom"),
+	OCELOT(Enemies.FRIENDLY, EntityType.OCELOT, "Cat"),
+	PIG(Enemies.FRIENDLY, EntityType.PIG),
+	SHEEP(Enemies.FRIENDLY, EntityType.SHEEP),
+	SQUID(Enemies.FRIENDLY, EntityType.SQUID),
+	VILLAGER(Enemies.ENEMY, EntityType.VILLAGER, "NPC"),
+	WOLF(Enemies.NEUTRAL, EntityType.WOLF, "Wolf"),
+    //Unfriendly mobs
+	BLAZE(Enemies.ENEMY, EntityType.BLAZE),
+	CAVE_SPIDER(Enemies.ENEMY, EntityType.CAVE_SPIDER, "CaveSpider"),
+	CREEPER(Enemies.ENEMY, EntityType.CREEPER),
+	ENDERMAN(Enemies.NEUTRAL, EntityType.ENDERMAN),
+	ENDER_DRAGON(Enemies.ENEMY, EntityType.ENDER_DRAGON, "EnderDragon"),
+	GHAST(Enemies.ENEMY, EntityType.GHAST, "NetherSquid"),
+	GIANT(Enemies.ENEMY, EntityType.GIANT, "Giant"),
+	MAGMA_CUBE(Enemies.ENEMY, EntityType.MAGMA_CUBE, "MagmaCube"),
+	PIG_ZOMBIE(Enemies.NEUTRAL, EntityType.PIG_ZOMBIE, "PigZombie"),
+	SILVERFISH(Enemies.ENEMY, EntityType.SILVERFISH),
+	SKELETON(Enemies.ENEMY, EntityType.SKELETON),
+	SLIME(Enemies.ENEMY, EntityType.SLIME),
+	SNOWMAN(Enemies.FRIENDLY, EntityType.SNOWMAN, "SnowGolem"),
+    SPIDER(Enemies.ENEMY, EntityType.SPIDER),
+    ZOMBIE(Enemies.ENEMY, EntityType.ZOMBIE); 
     
-    private Mob(Enemies cat, CreatureType t) {
+    private Mob(Enemies cat, EntityType t) {
         this.category = cat;
         this.alt = null;
         this.type = t;
     }
-    private Mob(Enemies cat, CreatureType t, String altName) {
+    private Mob(Enemies cat, EntityType t, String altName) {
         this.category = cat;
         this.alt = altName;
         this.type = t;
@@ -55,7 +58,7 @@ public enum Mob {
     public Enemies category;
     public String s = "s";
     private String alt;
-    private CreatureType type;
+    private EntityType type;
 	
     private static HashMap<String, Mob> hashMap = new HashMap<String, Mob>();
     
