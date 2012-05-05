@@ -21,6 +21,7 @@ import com.jordanneil23.SpawnMob.Listeners.*;
  * @version 2.0
  * @author jordanneil23
  */
+@SuppressWarnings("unused")
 public class SpawnMob extends JavaPlugin {
 	public static File Friendlyconfig;
 	public static FileConfiguration fconfig;

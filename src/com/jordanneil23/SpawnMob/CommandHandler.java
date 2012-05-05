@@ -980,4 +980,13 @@ public class CommandHandler{
     public static String capitalCase(String s) {
         return s.toUpperCase().charAt(0) + s.toLowerCase().substring(1);
     }
+    
+	public static boolean checkIfNumber(String args) {
+		try{
+		    Integer.parseInt(args);
+			return true;
+		   }catch (Exception e) {
+	           return false;
+	       }
+	}
 }
