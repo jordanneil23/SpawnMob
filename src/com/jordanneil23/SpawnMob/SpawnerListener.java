@@ -3,10 +3,11 @@ package com.jordanneil23.SpawnMob;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,12 +15,13 @@ import org.bukkit.inventory.ItemStack;
  * SpawnMob - Block Listener
  * @author jordanneil23
  */
-public class SpawnerListener extends BlockListener{
+public class SpawnerListener implements Listener{
 	 public static SpawnMob plugin;
 	 public SpawnerListener(SpawnMob instance) {
     	 plugin = instance;
     } 
 	 
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) 
 	 {
 		if (event.getAction().equals("RIGHT_CLICK_BLOCK"))
@@ -30,7 +32,7 @@ public class SpawnerListener extends BlockListener{
 		 Player p = event.getPlayer();
 		 if (PermissionsHandler.playerhas(p, "spawnmob.mspawn.check", SpawnMob.permissions))
 		 {
-		 	CreatureType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getCreatureType();
+		 	EntityType mob = ((org.bukkit.block.CreatureSpawner) block.getState()).getSpawnedType();
 		 	int del = ((org.bukkit.block.CreatureSpawner) block.getState()).getDelay();
 		 	event.getPlayer().sendMessage("This spawners mob type is " + mob + ".");
 		 	event.getPlayer().sendMessage("This spawners delay is set to " + del + ".");

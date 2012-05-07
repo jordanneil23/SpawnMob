@@ -45,74 +45,74 @@ public class Friendly {
 		return false;
     }
 
-	public static CreatureType getCreatureType(Entity entity) {
+	public static EntityType getEntityType(Entity entity) {
 		if (entity instanceof LivingEntity) {
 			if (entity instanceof Creature) {
 				if (entity instanceof Animals) {
 					if (entity instanceof Chicken) {
-						return CreatureType.CHICKEN;
+						return EntityType.CHICKEN;
 					} else if (entity instanceof Cow) {
-						return CreatureType.COW;
+						return EntityType.COW;
 					} else if (entity instanceof Pig) {
-						return CreatureType.PIG;
+						return EntityType.PIG;
 					} else if (entity instanceof Sheep) {
-						return CreatureType.SHEEP;
+						return EntityType.SHEEP;
 					} else if (entity instanceof MushroomCow) {
-						return CreatureType.MUSHROOM_COW;
+						return EntityType.MUSHROOM_COW;
 					} else if (entity instanceof Villager) {
-						return CreatureType.VILLAGER;
+						return EntityType.VILLAGER;
 					} else if (entity instanceof Wolf) {
-						return CreatureType.WOLF;
+						return EntityType.WOLF;
 					}
 				}
 				else if (entity instanceof Monster) {
 					if (entity instanceof Zombie) {
-						return CreatureType.ZOMBIE;
+						return EntityType.ZOMBIE;
 					} else if (entity instanceof Creeper) {
-						return CreatureType.CREEPER;
+						return EntityType.CREEPER;
 					} else if (entity instanceof PigZombie) {
-						return CreatureType.PIG_ZOMBIE;
+						return EntityType.PIG_ZOMBIE;
 					} else if (entity instanceof Giant) {
-						return CreatureType.GIANT;
+						return EntityType.GIANT;
 					} else if (entity instanceof Skeleton) {
-						return CreatureType.SKELETON;
+						return EntityType.SKELETON;
 					} else if (entity instanceof Spider) {
-						return CreatureType.SPIDER;
+						return EntityType.SPIDER;
 					} else if (entity instanceof Slime) {
-						return CreatureType.SLIME;
+						return EntityType.SLIME;
 					} else if (entity instanceof EnderDragon) {
-						return CreatureType.ENDER_DRAGON;
+						return EntityType.ENDER_DRAGON;
 					} else if (entity instanceof Silverfish) {
-						return CreatureType.SILVERFISH;
+						return EntityType.SILVERFISH;
 					} else if (entity instanceof CaveSpider) {
-						return CreatureType.CAVE_SPIDER;
+						return EntityType.CAVE_SPIDER;
 					} else if (entity instanceof Enderman) {
-						return CreatureType.ENDERMAN;
+						return EntityType.ENDERMAN;
 					}
 				}
 				else if (entity instanceof WaterMob) {
 					if (entity instanceof Squid) {
-						return CreatureType.SQUID;
+						return EntityType.SQUID;
 					}
 				}
 			}
 			else if (entity instanceof Flying) {
 				if (entity instanceof Ghast) {
-					return CreatureType.GHAST;
+					return EntityType.GHAST;
 				}else if (entity instanceof Blaze) {
-					return CreatureType.BLAZE;
+					return EntityType.BLAZE;
 				}
 			}
 		}
 		return null;
 	}
 	
-	public CreatureType findType(String mob) {
-		for (CreatureType creaturetype : CreatureType.values()) {
-			if (creaturetype.name().equalsIgnoreCase(mob))
-				return creaturetype;
-			else if (creaturetype.name().replaceAll("_", "").equalsIgnoreCase(mob))
-				return creaturetype;
+	public EntityType findType(String mob) {
+		for (EntityType type : EntityType.values()) {
+			if (type.name().equalsIgnoreCase(mob))
+				return type;
+			else if (type.name().replaceAll("_", "").equalsIgnoreCase(mob))
+				return type;
 		}
 		return null;
 	}
