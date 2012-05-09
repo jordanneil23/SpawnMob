@@ -1,0 +1,4 @@
+SpawnMob:
+  Permssions: false
+  MobSpawners_Have_Drops: true
+  Spawn-Limit: 300

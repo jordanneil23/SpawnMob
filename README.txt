@@ -1,6 +1,11 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
 
 Changelog
+V3.0
+Almost totally re-coded.
+Virtually no bugs, the ocelot bugs are Bukkit bugs not this plugins.
+Added new configuration (YAML)
+
 V2.1.0
 For Minecraft 1.1
 New /sm kill (/sm kill (all-animals-monsters) radius)

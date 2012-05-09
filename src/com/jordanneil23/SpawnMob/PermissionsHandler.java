@@ -49,7 +49,7 @@ public class PermissionsHandler {
             	}else{
             	Logger.getLogger("Minecraft").warning("[SpawnMob] Permission system not detected! Using ops.txt!");
                 Logger.getLogger("Minecraft").warning("[SpawnMob] Please go into the SpawnMob.properties and set use-permissions to false.");
-                SpawnMob.permissions = false;
+                Main.permissions = false;
             	}
             }
         }
@@ -83,3 +83,4 @@ public class PermissionsHandler {
 		return true;
     }
 }
+
