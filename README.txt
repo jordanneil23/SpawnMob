@@ -1,4 +1,4 @@
-This is the continuation of SpawnMob for Bukkit that was originally made/developed by xmlns.
+This is the continuation of SpawnMob for Bukkit that was originally made/developed by Deven Lahoti (xmlns).
 
 Changelog
 V3.0
