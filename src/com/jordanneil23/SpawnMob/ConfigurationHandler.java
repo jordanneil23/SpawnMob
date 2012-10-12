@@ -7,7 +7,7 @@ public class ConfigurationHandler {
     public static void firstRun() throws Exception {
         if(!Main.configfile.exists()){
         	Main.configfile.getParentFile().mkdirs();
-        	Main.sconfig.set("SpawnMob.Permssions", Main.permissions);
+        	Main.sconfig.set("SpawnMob.Permissions", Main.permissions);
         	Main.sconfig.set("SpawnMob.MobSpawners_Have_Drops", Main.spawners);
         	Main.sconfig.set("SpawnMob.Spawn-Limit", 300);
         	//Main.sconfig.set("Friendly", "false");
@@ -17,7 +17,7 @@ public class ConfigurationHandler {
     
     public static void saveYamls() {
         try {
-        	Main.sconfig.set("SpawnMob.Permssions", Main.permissions);
+        	Main.sconfig.set("SpawnMob.Permissions", Main.permissions);
         	Main.sconfig.save(Main.configfile);
         } catch (IOException e) {
             e.printStackTrace();
