@@ -8,6 +8,8 @@ public class ConfigurationHandler {
         if(!Main.configfile.exists()){
         	Main.configfile.getParentFile().mkdirs();
         	Main.sconfig.set("SpawnMob.Permissions", Main.permissions);
+        	Main.sconfig.set("SpawnMob.PermissionsEX", Main.permsex);
+        	Main.sconfig.set("SpawnMob.SuperPerms", Main.superperms);
         	Main.sconfig.set("SpawnMob.MobSpawners_Have_Drops", Main.spawners);
         	Main.sconfig.set("SpawnMob.Spawn-Limit", 300);
         	//Main.sconfig.set("Friendly", "false");
@@ -28,10 +30,14 @@ public class ConfigurationHandler {
         	Main.sconfig.load(Main.configfile);
         	Main.log.info("Configuration files loaded.");
 			boolean perms = Main.sconfig.getBoolean("SpawnMob.Permissions");
+			boolean permsex1 = Main.sconfig.getBoolean("SpawnMob.PermissionsEX");
+			boolean SuperPerms = Main.sconfig.getBoolean("SpawnMob.SuperPerms");
 			boolean spawner = Main.sconfig.getBoolean("SpawnMob.MobSpawners_Have_Drops");
 			int spawnlimit = Main.sconfig.getInt("SpawnMob.Spawn-Limit");
 			
 			Main.permissions = perms;
+			Main.permsex = permsex1;
+			Main.superperms = SuperPerms;
 			Main.spawners = spawner;
 			Main.spawnlimit = spawnlimit;
         } catch (Exception e) {

@@ -61,7 +61,7 @@ public class Kit {
 		          {
 		            kit = new ArrayList(Arrays.asList(mobs));
 					for (Iterator iter = kit.listIterator(); iter.hasNext();){
-				       world.spawnCreature(loc, EntityType.valueOf(iter.next().toString().toUpperCase()));
+				       world.spawnEntity(loc, EntityType.valueOf(iter.next().toString().toUpperCase()));
 					}
 		            return true;
 		          }

@@ -17,7 +17,8 @@ public enum Mob {
 	 * @author jordanneil23
 	 */
 	
-	//Friendly mobs
+	    //Friendly mobs
+	    BAT(Enemies.NEUTRAL, EntityType.BAT),
 		CHICKEN(Enemies.FRIENDLY, EntityType.CHICKEN),
 		COW(Enemies.FRIENDLY, EntityType.COW),
 		IRON_GOLEM(Enemies.NEUTRAL, EntityType.IRON_GOLEM, "IronGolem"),
@@ -28,7 +29,9 @@ public enum Mob {
 		SNOWMAN(Enemies.FRIENDLY, EntityType.SNOWMAN, "SnowGolem"),
 		SQUID(Enemies.FRIENDLY, EntityType.SQUID),
 		VILLAGER(Enemies.ENEMY, EntityType.VILLAGER, "NPC"),
-		WOLF(Enemies.NEUTRAL, EntityType.WOLF, "Wolf"),
+		WITCH(Enemies.NEUTRAL, EntityType.WITCH),
+		WOLF(Enemies.NEUTRAL, EntityType.WOLF),
+
 	    //Unfriendly mobs
 		BLAZE(Enemies.ENEMY, EntityType.BLAZE),
 		CAVE_SPIDER(Enemies.ENEMY, EntityType.CAVE_SPIDER, "CaveSpider"),
@@ -43,6 +46,7 @@ public enum Mob {
 		SKELETON(Enemies.ENEMY, EntityType.SKELETON),
 		SLIME(Enemies.ENEMY, EntityType.SLIME),
 	    SPIDER(Enemies.ENEMY, EntityType.SPIDER),
+	    WITHER(Enemies.ENEMY, EntityType.WITHER),
 	    ZOMBIE(Enemies.ENEMY, EntityType.ZOMBIE); 
     
     private Mob(Enemies cat, EntityType t) {
@@ -73,7 +77,7 @@ public enum Mob {
 	public LivingEntity spawn(Player byWhom, Location loc) throws MobException {
 		try {
             World world = byWhom.getWorld();
-            LivingEntity mob = world.spawnCreature(loc, this.type);
+            LivingEntity mob = (LivingEntity) world.spawnEntity(loc, this.type);
             return mob;
         } catch(Exception e) {
         	Main.log.log(java.util.logging.Level.SEVERE,"Unable to spawn mob. Error: ");

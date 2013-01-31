@@ -102,7 +102,7 @@ public class KillMobs {
 				}else if (m instanceof Villager && (type.equalsIgnoreCase("Villager") || type.equalsIgnoreCase("NPC") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 					m.remove();
 				} else if (m instanceof Ocelot && (type.equalsIgnoreCase("Ocelot") || type.equalsIgnoreCase("Cat") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
-					if (((Ocelot) m).isTamed() != true) {
+					if (((Ocelot) m).isTamed() == false) {
 						m.remove();
 			        	}else{}
 				}else if (m instanceof Ocelot && (type.equalsIgnoreCase("TOcelot") || type.equalsIgnoreCase("TCat"))) {
@@ -110,6 +110,10 @@ public class KillMobs {
 						 m.remove();
 				        	}else{}
 					} else if (m instanceof IronGolem && (type.equalsIgnoreCase("IronGolem") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
+						m.remove();
+					}else if (m instanceof Wither && (type.equalsIgnoreCase("Wither") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
+						m.remove();
+					}else if (m instanceof Bat && (type.equalsIgnoreCase("Bat") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 						m.remove();
 					}
 			}

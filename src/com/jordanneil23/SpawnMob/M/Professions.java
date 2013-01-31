@@ -49,7 +49,7 @@ public enum Professions {
     public LivingEntity spawn(Player byWhom, Location loc) throws Exception {
 		try {
             World world = byWhom.getWorld();
-            LivingEntity v = world.spawnCreature(loc, EntityType.VILLAGER);
+            LivingEntity v = (LivingEntity) world.spawnEntity(loc, EntityType.VILLAGER);
             ((Villager) v).setProfession(this.type);
             return v;
         } catch(Exception e) {

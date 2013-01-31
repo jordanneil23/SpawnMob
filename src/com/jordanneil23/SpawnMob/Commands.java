@@ -25,17 +25,17 @@ import com.jordanneil23.SpawnMob.M.KillMobs;
  */
 public class Commands {
     private String mobList[] = { 
-    		"Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan, IronGolem", 
+    		"Bat, Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan, IronGolem", 
     		"EnderDragon, Ghast, Giant, MagmaCube, Ocelot (Cat) Pig, PigZombie, ",
     		"Sheep, SilverFish, Snowman, Skeleton, Slime, Spider, Squid, Villager, ",
-    		"Wolf, Zombie," }; 
+    		"Witch", "Wither", "Wolf, Zombie," }; 
     private String mobz[] = {
     		"Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderMan", 
     		"EnderDragon", "Ghast", "Giant", "Pig", "PigZombie", "Sheep",
     		"SilverFish", "Skeleton", "Slime", "Spider", "Squid", "Villager", "Wolf",
     		"Zombie", "Twolf", "All", "Monsters", "Animals", "Wolves", "Ender_Dragon",
     		"Dragon", "Pig_Zombie", "Magma_Cube", "MagmaCube", "SnowMan", "SnowGolem", 
-    		"Ocelot", "Cat", "Tcat", "Tocelot", "IronGolem"}; 
+    		"Ocelot", "Cat", "Tcat", "Tocelot", "IronGolem", "Bat","Witch","Wither"}; 
     private String animals[] = {"Chicken", "Cow", "Ocelot" , "Pig", "Sheep", "Wolf", "Cat", "Villager"};
     private String customMobs[] = { "Wolf", "Creeper", "Magma_Cube", "MagmaCube", "NPC", "Ocelot", "Cat", "Sheep", "Slime", "Villager"};
 	int count = 1;
@@ -73,13 +73,12 @@ public class Commands {
 		        /** @Note Kill [From here stopping at the Baby spawning is original code from 2.3, need to re-code this soon.  **/
             	if (args[0].equalsIgnoreCase("Kill"))
         		{
-            		boolean isKillableMob = MobHandler.isArrMatch(mobz, args[1]);
             		if (args.length == 1)
           		    {
             			Help(p, command, 2);
           		        return false;
           		    }
-            		
+            		boolean isKillableMob = MobHandler.isArrMatch(mobz, args[1]);
                   	String mt = null;
                 	if (MobHandler.Check(args[0]) != null){
                          mt = MobHandler.Check(args[0]).toString();
@@ -229,6 +228,9 @@ public class Commands {
                 	}
                 }else
 	        	if(args[0].equalsIgnoreCase("Baby")){
+	        		if(args[1].isEmpty()){
+	        			Help(p, command, 1);
+	        		}
 	        		if(MobHandler.isArrMatch(animals, args[1]) == false){
 	        			p.sendMessage(ChatColor.RED + "The mob must be a animal if used this way!");
 	        			return false;

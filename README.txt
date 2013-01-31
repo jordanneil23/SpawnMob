@@ -1,6 +1,9 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by Deven Lahoti (xmlns).
 
 Changelog
+V3.1
+The major bugs that were in 3.0 should be gone now, added the new mobs.
+
 V3.0
 Almost totally re-coded.
 Virtually no bugs, the ocelot bugs are Bukkit bugs not this plugins.

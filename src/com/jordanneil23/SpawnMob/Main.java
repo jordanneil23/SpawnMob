@@ -13,6 +13,8 @@ public class Main extends JavaPlugin {
 public static java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
 private final Commands handler = new Commands();
 public static boolean permissions = true;
+public static boolean permsex = false;
+public static boolean superperms = false;
 public static boolean spawners = true;
 public static int spawnlimit;
 public static File configfile;
