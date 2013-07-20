@@ -1,6 +1,12 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by Deven Lahoti (xmlns).
 
+Visit my blog for updates: jordanneil23.com
+
 Changelog
+V3.2
+MINECRAFT 6.1.2 ONLY!!
+Added horses, will add new features later.
+
 V3.1
 The major bugs that were in 3.0 should be gone now, added the new mobs.
 

@@ -21,6 +21,7 @@ public enum Mob {
 	    BAT(Enemies.NEUTRAL, EntityType.BAT),
 		CHICKEN(Enemies.FRIENDLY, EntityType.CHICKEN),
 		COW(Enemies.FRIENDLY, EntityType.COW),
+		HORSE(Enemies.FRIENDLY, EntityType.HORSE),
 		IRON_GOLEM(Enemies.NEUTRAL, EntityType.IRON_GOLEM, "IronGolem"),
 		MUSHROOM_COW(Enemies.FRIENDLY, EntityType.MUSHROOM_COW, "Mooshroom"),
 		OCELOT(Enemies.FRIENDLY, EntityType.OCELOT, "Cat"),

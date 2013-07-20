@@ -1,8 +1,8 @@
 name: SpawnMob
+softdepend: [PermissionsEX, PermissionsBukkit]
 author: jordanneil23
 main: com.jordanneil23.SpawnMob.Main
-version: 3.1
-softdepend: [Permissions, PermissionsEX]
+version: 3.2
 commands:
   spawnmob:
     description:

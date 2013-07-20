@@ -25,7 +25,7 @@ import com.jordanneil23.SpawnMob.M.KillMobs;
  */
 public class Commands {
     private String mobList[] = { 
-    		"Bat, Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan, IronGolem", 
+    		"Bat, Blaze, CaveSpider, Chicken, Cow, Creeper, EnderMan, Horse, IronGolem", 
     		"EnderDragon, Ghast, Giant, MagmaCube, Ocelot (Cat) Pig, PigZombie, ",
     		"Sheep, SilverFish, Snowman, Skeleton, Slime, Spider, Squid, Villager, ",
     		"Witch", "Wither", "Wolf, Zombie," }; 
@@ -35,8 +35,8 @@ public class Commands {
     		"SilverFish", "Skeleton", "Slime", "Spider", "Squid", "Villager", "Wolf",
     		"Zombie", "Twolf", "All", "Monsters", "Animals", "Wolves", "Ender_Dragon",
     		"Dragon", "Pig_Zombie", "Magma_Cube", "MagmaCube", "SnowMan", "SnowGolem", 
-    		"Ocelot", "Cat", "Tcat", "Tocelot", "IronGolem", "Bat","Witch","Wither"}; 
-    private String animals[] = {"Chicken", "Cow", "Ocelot" , "Pig", "Sheep", "Wolf", "Cat", "Villager"};
+    		"Ocelot", "Cat", "Tcat", "Tocelot", "IronGolem", "Bat","Witch","Wither","Horse"}; 
+    private String animals[] = {"Chicken", "Cow","Horse", "Ocelot" , "Pig", "Sheep", "Wolf", "Cat", "Villager"};
     private String customMobs[] = { "Wolf", "Creeper", "Magma_Cube", "MagmaCube", "NPC", "Ocelot", "Cat", "Sheep", "Slime", "Villager"};
 	int count = 1;
 	   public boolean perform(CommandSender sender, Command command, String[] args) {

@@ -111,9 +111,11 @@ public class KillMobs {
 				        	}else{}
 					} else if (m instanceof IronGolem && (type.equalsIgnoreCase("IronGolem") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 						m.remove();
-					}else if (m instanceof Wither && (type.equalsIgnoreCase("Wither") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
+					}else if (m instanceof Wither && (type.equalsIgnoreCase("Wither") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monster"))) {
 						m.remove();
 					}else if (m instanceof Bat && (type.equalsIgnoreCase("Bat") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
+						m.remove();
+					}else if (m instanceof Horse && (type.equalsIgnoreCase("Horse") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 						m.remove();
 					}
 			}
