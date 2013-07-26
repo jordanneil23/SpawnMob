@@ -1,6 +1,8 @@
-package com.jordanneil23.SpawnMob;
+package com.jordanneil23.SpawnMob.H;
 
 import java.io.IOException;
+
+import com.jordanneil23.SpawnMob.Main;
 
 public class ConfigurationHandler {
     
@@ -12,7 +14,6 @@ public class ConfigurationHandler {
         	Main.sconfig.set("SpawnMob.SuperPerms", Main.superperms);
         	Main.sconfig.set("SpawnMob.MobSpawners_Have_Drops", Main.spawners);
         	Main.sconfig.set("SpawnMob.Spawn-Limit", 300);
-        	//Main.sconfig.set("Friendly", "false");
         	Main.sconfig.save(Main.configfile);
         }
     }
