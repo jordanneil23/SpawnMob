@@ -5,42 +5,44 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Horse.Color;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.Villager.Profession;
 
 import com.jordanneil23.SpawnMob.Main;
 
-public enum Professions {
+public enum HorseColors {
 	
 	/**
 	 * SpawnMob - Villager Professions
 	 * @author jordanneil23
 	 */
-	BLACKSMITH(Profession.BLACKSMITH),
-    BUTCHER(Profession.BUTCHER),
-	FARMER(Profession.FARMER),
-	LIBRARIAN(Profession.LIBRARIAN),
-	PRIEST(Profession.PRIEST);
+	BLACK(Color.BLACK),
+	BROWN(Color.BROWN),
+	CHESTNUT(Color.CHESTNUT),
+	CREAMY(Color.CREAMY),
+	DARK_BROWN(Color.DARK_BROWN),
+	GRAY(Color.GRAY),
+	WHITE(Color.WHITE);
 		
-    private Professions(Profession p) {
+    private HorseColors(Color p) {
         this.alt = null;
         this.type = p;
     }
-    private Professions(Profession p, String altName) {
+    private HorseColors(Color p, String altName) {
         this.alt = altName;
         this.type = p;
     }
     
     public String s = "s";
     private String alt;
-    private Profession type;
+    private Color type;
 	
-    private static HashMap<String, Professions> hashMap = new HashMap<String, Professions>();
+    private static HashMap<String, HorseColors> hashMap = new HashMap<String, HorseColors>();
     
     static{
-        for(Professions prof : Professions.values()){
+        for(HorseColors prof : HorseColors.values()){
             hashMap.put(prof.toString().toLowerCase(), prof);
             if(prof.alt != null) hashMap.put(prof.alt.toLowerCase(), prof);
         }
@@ -49,19 +51,19 @@ public enum Professions {
     public LivingEntity spawn(Player byWhom, Location loc) throws Exception {
 		try {
             World world = byWhom.getWorld();
-            LivingEntity v = (LivingEntity) world.spawnEntity(loc, EntityType.VILLAGER);
-            ((Villager) v).setProfession(this.type);
-            return v;
+            LivingEntity h = (LivingEntity) world.spawnEntity(loc, EntityType.HORSE);
+            ((Horse) h).setColor(this.type);
+            return h;
         } catch(Exception e) {
         	Main.log.log(java.util.logging.Level.SEVERE,"Unable to spawn mob.");
         	return null;
         }
     }
 	
-	public static Professions fromName(String n){
+	public static HorseColors fromName(String n){
 		try {
             int i = Integer.valueOf(n.toUpperCase());
-            for(Professions prof : hashMap.values()) {
+            for(HorseColors prof : hashMap.values()) {
                 if(i == prof.ordinal()) return prof;
             }
             return null;
