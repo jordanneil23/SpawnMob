@@ -1,4 +1,4 @@
-package com.jordanneil23.SpawnMob;
+package com.jordanneil23.SpawnMob.H;
 
 import java.util.logging.Logger;
 
@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
+
+import com.jordanneil23.SpawnMob.Main;
 
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
