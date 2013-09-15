@@ -60,7 +60,7 @@ public enum Professions {
 	
 	public static Professions fromName(String n){
 		try {
-            int i = Integer.valueOf(n.toUpperCase());
+            int i = Integer.valueOf(n);
             for(Professions prof : hashMap.values()) {
                 if(i == prof.ordinal()) return prof;
             }

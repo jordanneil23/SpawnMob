@@ -17,7 +17,7 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.jordanneil23.SpawnMob.H.PermissionsHandler;
+import com.jordanneil23.SpawnMob.PermissionsHandler;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Kit {
 

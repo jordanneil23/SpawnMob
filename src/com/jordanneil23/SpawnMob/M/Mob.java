@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.jordanneil23.SpawnMob.Main;
 
-
-
 public enum Mob {
 	
 	/**
@@ -105,7 +103,7 @@ public enum Mob {
 	
 	public static Mob fromName(String n){
 		try {
-            int i = Integer.valueOf(n.toUpperCase());
+            int i = Integer.valueOf(n);
             for(Mob m : hashMap.values()) {
                 if(i == m.ordinal()) return m;
             }
