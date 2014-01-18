@@ -1,7 +1,7 @@
 name: SpawnMob
 author: jordanneil23
 main: com.jordanneil23.SpawnMob.Main
-version: 4
+version: 4_BETA
 softdepend: [PermissionsEx]
 commands:
   spawnmob:

@@ -16,6 +16,15 @@ public class ConfigurationHandler {
         	Main.sconfig.set("SpawnMob.Spawn-Limit", 300);
         	Main.sconfig.save(Main.configfile);
         }
+        if(!Main.kitfile.exists()){
+        	Main.kitfile.getParentFile().mkdirs();
+        	Main.skit.set("SpawnMob.Permissions", Main.permissions);
+        	Main.skit.set("SpawnMob.PermissionsEX", Main.permsex);
+        	Main.skit.set("SpawnMob.SuperPerms", Main.superperms);
+        	Main.skit.set("SpawnMob.MobSpawners_Have_Drops", Main.spawners);
+        	Main.skit.set("SpawnMob.Spawn-Limit", 300);
+        	Main.skit.save(Main.kitfile);
+        }
     }
     
     public static void saveYamls() {
@@ -26,7 +35,7 @@ public class ConfigurationHandler {
             e.printStackTrace();
         }
     }
-    public static void loadYamls() {
+    public static boolean loadYamls() {
         try {
         	Main.sconfig.load(Main.configfile);
         	Main.log.info("Configuration files loaded.");
@@ -41,9 +50,11 @@ public class ConfigurationHandler {
 			Main.superperms = SuperPerms;
 			Main.spawners = spawner;
 			Main.spawnlimit = spawnlimit;
+			return true;
         } catch (Exception e) {
         	Main.log.info("Configuration files not loaded, error:");
         	e.printStackTrace();
+        	return false;
         }
     }
     

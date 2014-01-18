@@ -24,10 +24,18 @@ public class PermissionsHandler {
         SuperPerms = Main.superperms;
             if (PermsEX != false || SuperPerms != false) {
             	if (PermsEX == true){
+            		if(Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx") == null){
+            			log.warning("[SpawnMob] PermissionsEx is set to true in config but was not found!");
+            			log.warning("[SpawnMob] Going to use ops.txt!");
+            			log.warning("[SpawnMob] You will have to fix this and edit the config again.");
+            			Main.permissions = false;
+            			return;
+            		}else{
             		PermissionsEX = PermissionsEx.getPermissionManager();
-            		 log.info("[SpawnMob] Using PermissionsEX.");
+            		 log.info("[SpawnMob] Using PermissionsEx.");
             		 SuperPerms = false;
             		 return;
+            		}
             	}else if (SuperPerms == true){
             			log.info("[SpawnMob] Using SuperPerms.");
             			SuperPerms = true;

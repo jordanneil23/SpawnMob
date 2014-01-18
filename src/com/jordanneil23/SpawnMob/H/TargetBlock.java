@@ -320,7 +320,7 @@ public class TargetBlock {
      */
     public Block getFaceBlock()
     {
-        while ((getNextBlock() != null) && ((getCurrentBlock().getTypeId() == 0) || this.blockToIgnoreHasValue(getCurrentBlock().getTypeId())));
+        while ((getNextBlock() != null) && ((getCurrentBlock().getType() == Material.AIR) || this.blockToIgnoreHasValue(getCurrentBlock().getTypeId())));
         if (getCurrentBlock() != null)
         {
             return getPreviousBlock();

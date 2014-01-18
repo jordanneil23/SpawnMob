@@ -13,9 +13,15 @@ public class LocationHandler {
 	public static Location getLoc(CommandSender sender){
 		Player p = (Player) sender;
 		int[] ignore = {8, 9};
-		Location loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();
+		try{
+		Location loc = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock().getLocation();	
 		loc.setY(1 + loc.getY());
 		return loc;
+		}
+		catch(NullPointerException e){
+			p.sendMessage("No block in sight!, spawning on you. (Hopefully)");
+			return p.getLocation();
+		}
 	}
 	//Spawn on specified player
 	public static Location getLoc(CommandSender sender, Player p){

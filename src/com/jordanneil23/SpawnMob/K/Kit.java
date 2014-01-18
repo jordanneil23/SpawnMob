@@ -1,9 +1,12 @@
 package com.jordanneil23.SpawnMob.K;
 
 //import java.io.File;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 //import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 //import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,14 +20,14 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.jordanneil23.SpawnMob.PermissionsHandler;
+import com.jordanneil23.SpawnMob.H.PermissionsHandler;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Kit {
 
 	  public static ArrayList kit = new ArrayList();
 	  public static ArrayList kit2 = new ArrayList();
 
-	  /* private static String config_comment = "SpawnMob Kits Configuration File.";
+	   private static String config_comment = "SpawnMob Kits Configuration File.";
 
 		  public static void saveDefaultSettings() {
 	      Properties props = new Properties();
@@ -44,7 +47,6 @@ public class Kit {
 		      System.out.print(ioe.getMessage());
 		    }
 		  }
-		  */
 	  
 		  public static boolean spawn(String k, Player p, Location loc)
 		  {

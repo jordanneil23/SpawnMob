@@ -1,7 +1,11 @@
 package com.jordanneil23.SpawnMob.M;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -9,6 +13,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.jordanneil23.SpawnMob.Main;
+
+
 
 public enum Mob {
 	
@@ -24,12 +30,12 @@ public enum Mob {
 		HORSE(Enemies.FRIENDLY, EntityType.HORSE),
 		IRON_GOLEM(Enemies.NEUTRAL, EntityType.IRON_GOLEM, "IronGolem"),
 		MUSHROOM_COW(Enemies.FRIENDLY, EntityType.MUSHROOM_COW, "Mooshroom"),
-		OCELOT(Enemies.FRIENDLY, EntityType.OCELOT, "Cat"),
+		OCELOT(Enemies.FRIENDLY, EntityType.OCELOT),
 		PIG(Enemies.FRIENDLY, EntityType.PIG),
 		SHEEP(Enemies.FRIENDLY, EntityType.SHEEP),
 		SNOWMAN(Enemies.FRIENDLY, EntityType.SNOWMAN, "SnowGolem"),
 		SQUID(Enemies.FRIENDLY, EntityType.SQUID),
-		VILLAGER(Enemies.ENEMY, EntityType.VILLAGER, "NPC"),
+		VILLAGER(Enemies.ENEMY, EntityType.VILLAGER),
 		WITCH(Enemies.NEUTRAL, EntityType.WITCH),
 		WOLF(Enemies.NEUTRAL, EntityType.WOLF),
 
@@ -67,11 +73,19 @@ public enum Mob {
     private EntityType type;
 	
     private static HashMap<String, Mob> hashMap = new HashMap<String, Mob>();
-    
+    private static HashMap<String, String> hashMap2 = new HashMap<String, String>();
     static{
         for(Mob mob : Mob.values()){
             hashMap.put(mob.toString().toLowerCase(), mob);
             if(mob.alt != null) hashMap.put(mob.alt.toLowerCase(), mob);
+            
+            if(mob.alt != null){ 
+            	
+            	hashMap2.put(mob.alt.toLowerCase(), "");
+            
+            }else{
+            	hashMap2.put(mob.toString().toLowerCase(), "");
+            }
         }
     }
 	
@@ -103,7 +117,7 @@ public enum Mob {
 	
 	public static Mob fromName(String n){
 		try {
-            int i = Integer.valueOf(n);
+            int i = Integer.valueOf(n.toUpperCase());
             for(Mob m : hashMap.values()) {
                 if(i == m.ordinal()) return m;
             }
@@ -111,6 +125,18 @@ public enum Mob {
         } catch(NumberFormatException x) {
             return hashMap.get(n.toLowerCase());
         }
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void listmobs(Player p){
+		ArrayList kit2 = new ArrayList(Arrays.asList(hashMap2.keySet()));
+        p.sendMessage(ChatColor.BLUE + "Mobs:");
+        for (Iterator iter2 = kit2.iterator(); iter2.hasNext();){
+        p.sendMessage(ChatColor.BLUE + "" + iter2.next());
+        }
+				
+				
 	}
 	
 	public String getName() {

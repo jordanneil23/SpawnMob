@@ -3,16 +3,17 @@ package com.jordanneil23.SpawnMob.C;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.block.*;
 
 import com.jordanneil23.SpawnMob.Main;
+import com.jordanneil23.SpawnMob.H.ConfigurationHandler;
 import com.jordanneil23.SpawnMob.H.LocationHandler;
 import com.jordanneil23.SpawnMob.H.MobHandler;
 import com.jordanneil23.SpawnMob.H.TargetBlock;
@@ -44,7 +45,7 @@ public class Commands {
 		
 		String customMobs[] = { "Creeper", "Horse", "Magma_Cube", "MagmaCube", "Ocelot", "Cat", "Sheep", "Slime", "Villager", "NPC", "Wolf"};
 		
-		//Killable Mobs
+		//All Mobs
 		String mobz[] = {
 	    		"Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderMan", 
 	    		"EnderDragon", "Ghast", "Giant", "Pig", "PigZombie", "Sheep",
@@ -71,7 +72,38 @@ public class Commands {
 			if(args[0].equalsIgnoreCase("Help")){
         		Help(p, command, 1);
         		return true;
-        	}else if(args[0].equalsIgnoreCase("Kit")){
+        	}
+			else if(args[0].equalsIgnoreCase("List")){
+				Mob.listmobs(p);
+				return true;
+			}else if(args[0].equalsIgnoreCase("Reload")){
+				if (!(PermissionsHandler.playerhas(p, "spawnmob.reload", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", Main.permissions) == true )){
+            		p.sendMessage(ChatColor.RED + "You can't use this command.");
+                	return false;
+            	}
+				if(ConfigurationHandler.loadYamls() == true){
+					p.sendMessage(ChatColor.BLUE + "Configs successfully reloaded");
+					return true;
+				}
+				else
+				{
+					p.sendMessage(ChatColor.RED + "Configs not reloaded. Try restarting the computer.");
+					return false;
+				}
+				
+			}
+			else if(args[0].equalsIgnoreCase("AddKit")){
+				if (args.length <= 1)
+      		    {
+        			Help(p, command, 7);
+      		        return false;
+      		    }
+				if (!(PermissionsHandler.playerhas(p, "spawnmob.kit.add", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.kits.*", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", Main.permissions) == true )){
+            		p.sendMessage(ChatColor.RED + "You can't use this command.");
+                	return false;
+            	}
+			}
+			else if(args[0].equalsIgnoreCase("Kit")){
         		
         		if (args.length <= 1)
       		    {
@@ -87,6 +119,7 @@ public class Commands {
             		Kit.listKits(p);
             		return true;
             	}
+            	
             	
             	//Custom tags
             	else //With amount
@@ -363,7 +396,7 @@ public class Commands {
         						p2 = MobHandler.getOnlinePlayer(args[3]);
                 				loc = LocationHandler.getLoc(sender, p2);
                     			onplayer = true;
-                    			if(args.length >= 5){
+                    			if(args.length >= 4){
                     				if(args[4].equalsIgnoreCase("Electric")){
                 						electric = true;
                 					}
@@ -474,6 +507,10 @@ public class Commands {
         			HorseVariants var = HorseVariants.HORSE;
         			HorseStyles sty = HorseStyles.NONE;
         			HorseColors clr = HorseColors.BROWN;
+        			
+        			if(args.length >= 2 && args[1].equalsIgnoreCase("Help")){
+        				Help(p, command, 6);
+        			}
         			
         			//Custom tags
         			if((args.length >= 3 && MobHandler.isInt(args[1])) || (args.length >= 2 && !MobHandler.isInt(args[1]))){
@@ -1916,6 +1953,12 @@ public class Commands {
             				return true;
             	}
         	}//End of custom mobs
+			/*
+			 * 
+			 * 
+			 * Normal mobs
+			 * 
+			 */
 			//Start of normal mobs
 			else{
 				rdr = args[0];
@@ -2043,7 +2086,7 @@ public class Commands {
                 return false;
             }
             org.bukkit.block.Block blk = (new TargetBlock(p, 300, 0.2, ignore)).getTargetBlock();
-            if (blk == null || blk.getTypeId() != 52)
+            if (blk == null || blk.getType() != Material.MOB_SPAWNER )
             {
             	p.sendMessage(ChatColor.RED + "You must be looking at a Mob Spawner.");
             	return false;
@@ -2056,8 +2099,8 @@ public class Commands {
                     return false;
                 }
             	
-            	p.sendMessage(ChatColor.BLUE + "This spawner's mob type is " + ((org.bukkit.block.CreatureSpawner) blk.getState()).getCreatureTypeName().toString() + ".");
-            	p.sendMessage(ChatColor.BLUE + "This spawners delay is set to " + ((org.bukkit.block.CreatureSpawner)blk.getState()).getDelay() + ".");
+            	p.sendMessage(ChatColor.BLUE + "This spawner's mob type is " + ((CreatureSpawner) blk.getState()).getCreatureTypeName().toString() + ".");
+            	p.sendMessage(ChatColor.BLUE + "This spawners delay is set to " + ((CreatureSpawner)blk.getState()).getDelay() + ".");
             }
             else if (args[0].equalsIgnoreCase("Delay"))
             {
@@ -2079,31 +2122,29 @@ public class Commands {
             		return false;
            		}
             	
-            	((org.bukkit.block.CreatureSpawner)blk.getState()).setDelay(delay);
+            	((CreatureSpawner)blk.getState()).setDelay(delay);
+            	
             	p.sendMessage(ChatColor.BLUE + "This spawner's delay is now set to " + delay + ".");
             }
             else
             {
-            	EntityType mt = null;
-            	if (MobHandler.Check(args[0]) != null){
-                	mt = MobHandler.Check(args[0]);
-                	
-            	}else{
-            		mt = EntityType.fromName(args[0].substring(0,1).toUpperCase() + args[0].substring(1).toLowerCase());
-            	}
+            	Mob mt = null;
+            	
+            	mt = Mob.fromName(args[0].equalsIgnoreCase("PigZombie") ? "PigZombie" : capitalCase(args[0]));
+            	
                 if (mt == null)
                 {
                 	p.sendMessage(ChatColor.RED + "Creature type not found: " + args[0]);
                 	return false;
                 }
                 
-                if(!(PermissionsHandler.playerhas(p, "spawnmob.mspawn." + mt.getName().toLowerCase(), Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.mspawn.*", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.mspawn.allmobs", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", Main.permissions) == true)){
+                if(!(PermissionsHandler.playerhas(p, "spawnmob.mspawn." + mt.toString().toLowerCase(), Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.mspawn.*", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.mspawn.allmobs", Main.permissions) == true || PermissionsHandler.playerhas(p, "spawnmob.*", Main.permissions) == true)){
                 	p.sendMessage(ChatColor.RED + "You don't have permission to do that.");
                     return false;
                 }
                 
-                ((org.bukkit.block.CreatureSpawner)blk.getState()).setCreatureTypeByName(mt.toString());
-                p.sendMessage(ChatColor.BLUE + "Mob spawner set as " + mt.getName().toLowerCase() + ".");
+                ((CreatureSpawner)blk.getState()).setCreatureTypeByName(mt.getName().toUpperCase());
+                p.sendMessage(ChatColor.BLUE + "Mob spawner set as " + args[0] + ".");
             }
             return true;
 	    }
@@ -2181,6 +2222,18 @@ public class Commands {
     		p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " horse (amount) (onp or loc) (playername or x, y, z) <style> - Spawn a specific type of horse.");
     		p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " horse (amount) (onp or loc) (playername or x, y, z) <style> <color> - Spawn a specific style and color of horse. ");
     		p.sendMessage(ChatColor.BLUE + "For a list of styles, colors, and variants type /" + command.getName().toLowerCase() + " horse list");
+    		return;
+    	}
+    	if(h == 7){
+    		p.sendMessage(ChatColor.BLUE + "- SpawnMob ADDKIT Help -");
+        	p.sendMessage(ChatColor.BLUE + "<> - Mandatory");
+        	p.sendMessage(ChatColor.BLUE + "() - Optional");
+        	p.sendMessage(ChatColor.BLUE + "THIS IS NOT WORKING YET, WILL BE WORKING NEXT RELEASE.");
+    		//p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " addkit <kitname> <mobname> - Create a kit.");
+    		//p.sendMessage(ChatColor.BLUE + "To create a kit with multiple mobs in it add another mobname like the following:");
+    		//p.sendMessage(ChatColor.BLUE + "/" + command.getName().toLowerCase() + " addkit test cow,pig,horse,wolf,zombie,GiAnT");
+    		//p.sendMessage(ChatColor.BLUE + "You can add as many mobs as you like as lond as you don't add spaces.");
+    		//p.sendMessage(ChatColor.BLUE + "Mobnames are NOT case sensative, the kitnames ARE case sensative.");
     		return;
     	}
         return;
