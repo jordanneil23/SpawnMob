@@ -16,15 +16,6 @@ public class ConfigurationHandler {
         	Main.sconfig.set("SpawnMob.Spawn-Limit", 300);
         	Main.sconfig.save(Main.configfile);
         }
-        if(!Main.kitfile.exists()){
-        	Main.kitfile.getParentFile().mkdirs();
-        	Main.skit.set("SpawnMob.Permissions", Main.permissions);
-        	Main.skit.set("SpawnMob.PermissionsEX", Main.permsex);
-        	Main.skit.set("SpawnMob.SuperPerms", Main.superperms);
-        	Main.skit.set("SpawnMob.MobSpawners_Have_Drops", Main.spawners);
-        	Main.skit.set("SpawnMob.Spawn-Limit", 300);
-        	Main.skit.save(Main.kitfile);
-        }
     }
     
     public static void saveYamls() {

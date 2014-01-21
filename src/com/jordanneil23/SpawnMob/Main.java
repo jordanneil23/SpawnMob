@@ -17,7 +17,6 @@ import com.jordanneil23.SpawnMob.C.cCommands;
 import com.jordanneil23.SpawnMob.C.sCommands;
 import com.jordanneil23.SpawnMob.H.ConfigurationHandler;
 import com.jordanneil23.SpawnMob.H.PermissionsHandler;
-import com.jordanneil23.SpawnMob.H.UpdateHandler;
 import com.jordanneil23.SpawnMob.L.SL;
 
 public class Main extends JavaPlugin {
@@ -40,26 +39,18 @@ public class Main extends JavaPlugin {
 		configfile = new File("plugins/SpawnMob/config.yml");
 		sconfig = new YamlConfiguration();
 		new SL(this);
-		boolean update = false;
-		update = UpdateHandler.isUpdate(pdf.getVersion());
 		try {
 			ConfigurationHandler.firstRun();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+		//WILL IMPLEMENT BUKKIT UPDATE API LATER
 		ConfigurationHandler.loadYamls();
 		if(permissions == true)
 			PermissionsHandler.setupPermissions();
 		else
 			log.info("[SpawnMob] Using ops.txt!");
-		if(update == true){
 			log.info("[SpawnMob] Version " + pdf.getVersion() + " enabled.");
-			log.info("[SpawnMob] UPDATE DETECTED, PLEASE DOWNLOAD THIS NEW UPDATE.");
-			log.info("[SpawnMob] You can download the update from http://goo.gl/rit3mY");
-		}else{
-			log.info("[SpawnMob] Version " + pdf.getVersion() + " enabled.");
-			log.info("[SpawnMob] You have the current version.");
-		}
 	}
 	public void onDisable(){
 		ConfigurationHandler.saveYamls();
