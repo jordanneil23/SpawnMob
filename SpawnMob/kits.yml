@@ -1,0 +1,9 @@
+# THE EASIEST WAY TO MAKE A KIT IS IN GAME USING /SpawnMob addkit moname,mobename,mobname
+# Please only use this file to EDIT kits so no errors will occur!
+Kits:
+  example:
+    Mobs:
+    - cow
+    - CoW
+    - cOw
+    - COW

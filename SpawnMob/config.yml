@@ -1,6 +1,14 @@
+# AutoUpdate: When set to true it will auto download a new version of SpawnMob if there is one, this is set to false by default
+# AutoConfig: When set to true it will auto detect if PermissionsEx is enabled, if so SpawnMob will use PermissionsEx
+# OpsOnly: When set to true and AutoConfig is false SpawnMob will only use Ops.txt
+# PermissionsEx: When set to true SpawnMob will use PermissionsEx
+# SuperPerms: SpawnMob will use the built in 'Permissions Manager'
+# Spawn_Limit: Should limit how many mobs can be spawned per command. Buggy, and doesn't really work.
 SpawnMob:
-  Permissions: false
-  PermissionsEX: false
-  SuperPerms: false
-  MobSpawners_Have_Drops: true
+  AutoUpdate: false
+  Permissions:
+    AutoConfig: true
+    OpsOnly: true
+    PermissionsEx: false
+    SuperPerms: false
   Spawn-Limit: 300
