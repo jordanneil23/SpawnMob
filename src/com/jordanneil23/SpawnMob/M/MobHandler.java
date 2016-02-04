@@ -1,6 +1,5 @@
 package com.jordanneil23.SpawnMob.M;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
@@ -160,23 +159,6 @@ public static LivingEntity spawnCat(Mob mob, Player p, Location l, boolean t){
 		}
 		return;
 	}
-	
-	 public static Player getOnlinePlayer(String args){
-		 Player p = null;
-		 Player players[] = Bukkit.getServer().getOnlinePlayers();
-         for(int i = 1; i < args.length(); i++)
-         {
-             for(int k = 0; k < players.length; k++)
-             {
-                 if(players[k].getName().equalsIgnoreCase(args.trim()))
-                 {
-                	 p = players[k];
-                     return p;
-                 }
-             }
-         }
-		return p;
-	 }
 	 
 	 public static EntityType Check(String m)
 		{

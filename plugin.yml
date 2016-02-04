@@ -1,24 +1,60 @@
 name: SpawnMob
 author: jordanneil23
 main: com.jordanneil23.SpawnMob.Main
-version: 4.1
+version: 5.0_BETA
+url: http://jordanneil23.com
 softdepend: [PermissionsEx]
 commands:
   spawnmob:
-    description:
-    usage: |
+    description: Used to spawn mobs and lots of other mob related things.
+    usage: /spawnmob help
   smob:
-    description:
-    usage: |
+    description: Used to spawn mobs and lots of other mob related things.
+    usage: /smob help
   sm:
-    description:
-    usage: |
+    description: Used to spawn mobs and lots of other mob related things.
+    usage: /sm help
   mobspawn:
-    description:
-    usage: |
+    description: Change mob spawners.
+    usage: /mobspawn help
   mspawn:
-    description:
-    usage: |
+    description: Change mob spawners.
+    usage: /mspawn help
   ms:
+    description: Change mob spawners.
+    usage: /ms help
+permissions:
+  spawnmob.*:
     description:
-    usage: |
+  spawnmob.spawn:
+    description:
+    children:
+      spawnmob.spawn.allmobs: true
+      spawnmob.spawn.bat: true
+      spawnmob.spawn.chicken: true
+      spawnmob.spawn.cow: true
+      spawnmob.spawn.horse: true
+      spawnmob.spawn.irongolem: true
+      spawnmob.spawn.mooshroom: true
+      spawnmob.spawn.ocelot: true
+      spawnmob.spawn.pig: true
+      spawnmob.spawn.sheep: true
+      spawnmob.spawn.snowgolem: true
+      spawnmob.spawn.villager: true
+      spawnmob.spawn.wolf: true
+      spawnmob.spawn.blaze: true
+      spawnmob.spawn.cavespider: true
+      spawnmob.spawn.creeper: true
+      spawnmob.spawn.enderdragon: true
+      spawnmob.spawn.enderman: true
+      spawnmob.spawn.ghast: true
+      spawnmob.spawn.magmaslime: true
+      spawnmob.spawn.silverfish: true
+      spawnmob.spawn.skeleton: true
+      spawnmob.spawn.slime: true
+      spawnmob.spawn.spider: true
+      spawnmob.spawn.witch: true
+      spawnmob.spawn.wither: true
+      spawnmob.spawn.witherskeleton: true
+      spawnmob.spawn.zombie: true
+      spawnmob.spawn.zombiepigman: true

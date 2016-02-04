@@ -1,9 +1,12 @@
 package com.jordanneil23.SpawnMob.H;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Skeleton.SkeletonType;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 
 import com.jordanneil23.SpawnMob.M.HorseColors;
 import com.jordanneil23.SpawnMob.M.HorseStyles;
@@ -174,9 +177,18 @@ public class MobHandler {
 		} 
 		return w;
     }
+    //SPAWN WITHERSKELETON
+    public static LivingEntity spawnWitherSkel(Player p, Location loc){
+    	LivingEntity s = spawn(Mob.SKELETON, p, loc);
+    	((Skeleton) s).setSkeletonType(SkeletonType.WITHER);
+    	EntityEquipment e = s.getEquipment();
+    	e.setItemInHand(new ItemStack(Material.STONE_SWORD));
+		return s;
+    }
     
     // END SPAWNING
     
+    //SET SLIME/MAGMACUBE SLIME
 	public static void setSize(Player p, Location loc, LivingEntity spawned, String args){
 		if (isInt(args) == false)
 		{
@@ -215,41 +227,6 @@ public class MobHandler {
 		}
 		return;
 	}
-	
-	public static Player getOnlinePlayer(String args){
-		 Player p = null;
-		 Player players[] = Bukkit.getServer().getOnlinePlayers();
-         for(int i = 1; i < args.length(); i++)
-         {
-             for(int k = 0; k < players.length; k++)
-             {
-                 if(players[k].getName().equalsIgnoreCase(args.trim()))
-                 {
-                	 p = players[k];
-                     return p;
-                 }
-             }
-         }
-		return p;
-	 }
-	
-	public static boolean isPlayerOnline(String args){
-		 Player p = null;
-		 Player players[] = Bukkit.getServer().getOnlinePlayers();
-        for(int i = 1; i < args.length(); i++)
-        {
-            for(int k = 0; k < players.length; k++)
-            {
-                if(players[k].getName().equalsIgnoreCase(args.trim()))
-                {
-               	    p = players[k];
-               	    p.isOnline();
-                    return p.isOnline();
-                }
-            }
-        }
-		return false;
-	 }
 	 
 	public static EntityType Check(String m)
 		{

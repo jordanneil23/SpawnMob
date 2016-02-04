@@ -1,8 +1,30 @@
 This is the continuation of SpawnMob for Bukkit that was originally made/developed by Deven Lahoti (xmlns).
 Version 4 and later barely uses any code from the original plugin.
-Visit my blog for updates: jordanneil23.com
 
 Changelog
+Version 5.0_BETA
+BETA RELEASE (At least it works.)
+This update breaks a lot of features, which of many I do not know that are broken. (This is why it is a Beta, at least it works.)
+New Features:
+Spawning of all new BASE (Guardians, Rabbits, Endermites) mobs works
+
+Known Bugs:
+The new craftbukkit release has broken the way I found if players are online, things broken due to this will be marked with a *
+*Spawning mobs riding players or players riding mobs OR players riding players is broken.*
+*Spawning mobs onto a player location is broken.*
+*Anything to do with spawning things to on or with players is broken.*
+Elder Guardian cannot be spawned.
+Zombie Villager cannot be spawned.
+Some other non "base" mobs can not be spawned manually LIKE:
+** Colored horses and sheep
+** Colored ocelots
+** Baby zombies
+** Any mob with armor or weapons
+
+Developer Update
+I will be completely re-designing this plugin with the knowledge I have collected in my first two years of college (computer science major).
+When that finally happens, you can expect normal updates to this plugin and additional features to be added.
+
 Version 4.1
 Bug Fixes:
 Plugin actually works now. Awesome.

@@ -1,6 +1,7 @@
 package com.jordanneil23.SpawnMob.H;
 
 import java.util.ArrayList;
+
 import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.util.Vector;
  * @author toi
  * Thanks to Raphfrk for optimization of this class.
  */
+@SuppressWarnings("deprecation")
 public class TargetBlock {
 
     private Location loc;
@@ -254,7 +256,7 @@ public class TargetBlock {
      * @param typeID ID of type to set the block to
      * @return boolean
      */
-    public boolean setTargetBlock(int typeID)
+	public boolean setTargetBlock(int typeID)
     {
         if (Material.getMaterial(typeID) != null)
         {

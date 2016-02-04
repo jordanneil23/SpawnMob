@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -32,19 +31,21 @@ public enum Mob {
 		MUSHROOM_COW(Enemies.FRIENDLY, EntityType.MUSHROOM_COW, "Mooshroom"),
 		OCELOT(Enemies.FRIENDLY, EntityType.OCELOT),
 		PIG(Enemies.FRIENDLY, EntityType.PIG),
+		RABBIT(Enemies.FRIENDLY, EntityType.RABBIT),
 		SHEEP(Enemies.FRIENDLY, EntityType.SHEEP),
 		SNOWMAN(Enemies.FRIENDLY, EntityType.SNOWMAN, "SnowGolem"),
 		SQUID(Enemies.FRIENDLY, EntityType.SQUID),
-		VILLAGER(Enemies.ENEMY, EntityType.VILLAGER),
-		WITCH(Enemies.NEUTRAL, EntityType.WITCH),
+		VILLAGER(Enemies.FRIENDLY, EntityType.VILLAGER),
 		WOLF(Enemies.NEUTRAL, EntityType.WOLF),
 
 	    //Unfriendly mobs
 		BLAZE(Enemies.ENEMY, EntityType.BLAZE),
 		CAVE_SPIDER(Enemies.ENEMY, EntityType.CAVE_SPIDER, "CaveSpider"),
 		CREEPER(Enemies.ENEMY, EntityType.CREEPER),
+		ELDER_GUARDIAN(Enemies.ENEMY, EntityType.GUARDIAN, "ElderGuardian"),
 		ENDERMAN(Enemies.NEUTRAL, EntityType.ENDERMAN),
 		ENDER_DRAGON(Enemies.ENEMY, EntityType.ENDER_DRAGON, "EnderDragon"),
+		GUARDIAN(Enemies.ENEMY, EntityType.GUARDIAN, "Guardian"),
 		GHAST(Enemies.ENEMY, EntityType.GHAST, "NetherSquid"),
 		GIANT(Enemies.ENEMY, EntityType.GIANT, "Giant"),
 		MAGMA_CUBE(Enemies.ENEMY, EntityType.MAGMA_CUBE, "MagmaCube"),
@@ -53,7 +54,11 @@ public enum Mob {
 		SKELETON(Enemies.ENEMY, EntityType.SKELETON),
 		SLIME(Enemies.ENEMY, EntityType.SLIME),
 	    SPIDER(Enemies.ENEMY, EntityType.SPIDER),
+		WITCH(Enemies.ENEMY, EntityType.WITCH),
 	    WITHER(Enemies.ENEMY, EntityType.WITHER),
+		WITHERSKELETON(Enemies.ENEMY, EntityType.SKELETON, "WitherSkeleton"),
+		ENDERMITE(Enemies.ENEMY, EntityType.ENDERMITE, "Endermite"),
+		ZOMBIEVILAGER(Enemies.ENEMY, EntityType.VILLAGER, "ZombieVillager"),
 	    ZOMBIE(Enemies.ENEMY, EntityType.ZOMBIE); 
     
     private Mob(Enemies cat, EntityType t) {
@@ -129,14 +134,25 @@ public enum Mob {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void listmobs(Player p){
+	public static Object listmobs(){
 		ArrayList kit2 = new ArrayList(Arrays.asList(hashMap2.keySet()));
-        p.sendMessage(ChatColor.BLUE + "Mobs:");
         for (Iterator iter2 = kit2.iterator(); iter2.hasNext();){
-        p.sendMessage(ChatColor.BLUE + "" + iter2.next());
+        return iter2.next();
         }
-				
-				
+		return null;			
+	}
+	public static String[] killableMobs(){
+		String killableMobs[] = {
+	    		"Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderMan", 
+	    		"EnderDragon", "Ghast", "Giant", "Pig", "PigZombie", "Sheep",
+	    		"SilverFish", "Skeleton", "Slime", "Spider", "Squid", "Villager", "Wolf",
+	    		"Zombie", "Twolf", "All", "Monsters", "Animals", "Wolves", "Ender_Dragon",
+	    		"Dragon", "Pig_Zombie", "Magma_Cube", "MagmaCube", "SnowMan", "SnowGolem", 
+	    		"Ocelot", "Cat", "Tcat", "Tocelot", "IronGolem", "Bat","Witch","Wither",
+	    		"Horse","Endermite","Guardian","Rabbit"};
+		return killableMobs; 
+		
+		
 	}
 	
 	public String getName() {

@@ -1,65 +1,89 @@
 package com.jordanneil23.SpawnMob.K;
 
-//import java.io.File;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-//import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-//import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import com.jordanneil23.SpawnMob.Main;
+import com.jordanneil23.SpawnMob.C.Commands;
 import com.jordanneil23.SpawnMob.H.PermissionsHandler;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Kit {
-
-	  public static ArrayList kit = new ArrayList();
-	  public static ArrayList kit2 = new ArrayList();
-
-	   private static String config_comment = "SpawnMob Kits Configuration File.";
-
-		  public static void saveDefaultSettings() {
-	      Properties props = new Properties();
-		  props.setProperty("#To spawn many of the same mob repeat the mob name like this-", "");
-		  props.setProperty("#Example", "cow,cow,cow,wolf,wolf,wolf,pig,pig,pig");
-		  props.setProperty("#Kits - ", "(Kits go here)");
-		  props.setProperty("#Letter case does not matter", "");
-		  props.setProperty("default", "pig,cOw,CiCkEn,WOLF");
-		    try {
-		    	File Kits = new File("plugins/SpawnMob/Kits");
-		    	if(!Kits.exists()){
-		    		Kits.mkdir();
-		    	}
-		      OutputStream propOut = new FileOutputStream(new File("plugins/SpawnMob/Kits/kits.properties"));
-		      props.store(propOut, config_comment);
-		    } catch (IOException ioe) {
-		      System.out.print(ioe.getMessage());
-		    }
-		  }
+	public static ArrayList kit = new ArrayList();
+	public static ArrayList kit2 = new ArrayList();
+	public static FileConfiguration kits;
+	public static File file = new File("plugins" + File.separator + "SpawnMob" + File.separator + "kits.yml");
+	public static FileConfiguration config = new YamlConfiguration();
+	   
 	  
+	 public static void firstRun(){
+		 if(!file.exists()){
+	         file.getParentFile().mkdirs();
+			 config.options().header(
+	        			"THE EASIEST WAY TO MAKE A KIT IS IN GAME USING /SpawnMob addkit moname,mobename,mobname" + '\n'
+	        			+ "Please only use this file to EDIT kits so no errors will occur!");
+			 String[] defaults = {"cow", "CoW", "cOw", "COW" };
+			 config.set("Kits.example.Mobs", defaults);
+			 try {
+					config.save(file);
+					Main.log.info("[SpawnMob] Successfully saved the default kits.yml file!");
+				} catch (IOException e) {
+					Main.log.warning("[SpawnMob] Could not save the default kits.yml file! Error:");
+					e.printStackTrace();
+				}
+		 }
+		 loadKits();
+	   }
+	 
+	 public static void setKits(Player p, String name, String[] mobs) {
+		 loadKits();
+	        List<String> m = new ArrayList<String>();
+	        kit = new ArrayList(Arrays.asList(mobs));
+	        for (Iterator iter = kit.listIterator(); iter.hasNext();){
+			       m.add(iter.next().toString().toLowerCase());
+				}
+	        if (!config.isSet("Kits." + name.toLowerCase())) {
+	            config.set("Kits." + name.toLowerCase() +".Mobs", m);
+	            try {
+	                config.save(file);
+	                p.sendMessage(Commands.b + "Successfully added a kit named:" + name);
+	            } catch (IOException e) {
+	            	p.sendMessage(Commands.r + "Could not add kit: " + name + "! Error:");
+	                e.printStackTrace();
+	            }
+	        }else{
+	        	p.sendMessage(Commands.r + "Kit '" + name + "' already exists. You can only edit kits by editing the kit file right now. Sorry.");
+	        }
+	    }
+	 
+	 public static void loadKits(){
+		 try{
+			 config.load(file);
+			 return;
+		 }catch(Exception e1){
+		 e1.printStackTrace();
+		 return;
+		 }
+	 }
+	   
 		  public static boolean spawn(String k, Player p, Location loc)
 		  {
-			String kitname = k.toLowerCase();
-		    Properties props = new Properties();
-          World world = p.getWorld();
-		    try {
-		      props.load(new FileInputStream("plugins/SpawnMob/Kits/kits.properties"));
-		      if (props.containsKey(kitname)) {
-		        String suspects = props.getProperty(kitname, "");
-		        if (suspects.length() > 0) {
-		          String[] mobs = suspects.toUpperCase().split(",");
-		          if (mobs.length > 0)
+			  loadKits();
+			  String kitname = k.toLowerCase();
+			  World world = p.getWorld();
+		      if (config.isSet("Kits." + kitname)) {
+		          Object[] mobs = config.getList("Kits." + kitname + ".Mobs").toArray();
+		          if (mobs.length != 0)
 		          {
 		            kit = new ArrayList(Arrays.asList(mobs));
 					for (Iterator iter = kit.listIterator(); iter.hasNext();){
@@ -68,58 +92,48 @@ public class Kit {
 		            return true;
 		          }
 		          else {
-		            p.sendMessage("No mobs could be spawned, this mob kit is empty!");
+		            p.sendMessage(Commands.r + "No mobs could be spawned, this mob kit is empty!");
 		            return false;
 		          }
-		        } else {
-		        	p.sendMessage("No mobs could be spawned, this mob kit is empty!");
-		        	return false;
-		        }
 		      } else {
+		    	  p.sendMessage(Commands.r + "Kit '"+ kitname +"' not found!");
 		    	  return false;
 		      }
-		    } catch (IOException ioe) {
-		      p.sendMessage(ChatColor.RED + "ERROR: No kits.properties was found ");
-		      p.sendMessage(ChatColor.RED + "please download from the Bukkit foum");
-		      p.sendMessage(ChatColor.RED + "thread or from github.com/jordanneil23/SpawnMob");
-		      return false;
 		    }
-		  }
 		  
 		  public static void listKits(Player p)
 		  {
-		    Properties props = new Properties();
-		    try {
-		        props.load(new FileInputStream("plugins/SpawnMob/Kits/kits.properties"));
-		        Set<Object> kits = props.keySet();
-		        kit2 = new ArrayList(Arrays.asList(kits)); 
-		        p.sendMessage(ChatColor.BLUE + "Mob Kits:");
-		        for (Iterator iter2 = kit2.iterator(); iter2.hasNext();){
-		        p.sendMessage(ChatColor.BLUE + "" + iter2.next());
-		        }
-		    } catch (IOException ioe) {
-			      p.sendMessage(ChatColor.RED + "ERROR: No kits.properties was found ");
-			      p.sendMessage(ChatColor.RED + "please download from the Bukkit foum");
-			      p.sendMessage(ChatColor.RED + "thread or from github.com/jordanneil23/SpawnMob");
-		    }
+			  loadKits();
+			  Object[] mobs = config.getConfigurationSection("Kits").getKeys(false).toArray();
+	          if (mobs.length != 0)
+	          {
+	            kit = new ArrayList(Arrays.asList(mobs));
+	            p.sendMessage("Mob Kits:");
+				for (Iterator iter = kit.listIterator(); iter.hasNext();){
+					p.sendMessage(iter.next().toString());
+				}
+	          }
+	          else
+	          {
+	        	  p.sendMessage(Commands.r + "There are no kits!");
+	          }
+	            return;
 		  }
 		  
 		  public static void setKitPerms()
 		  {
-			java.util.logging.Logger log = java.util.logging.Logger.getLogger("Minecraft");
-		    Properties props = new Properties();
-		    try {
-		        props.load(new FileInputStream("plugins/SpawnMob/Kits/kits.properties"));
-		        Set<Object> kits = props.keySet();
-		        kit2 = new ArrayList(Arrays.asList(kits)); 
-		        for (Iterator iter2 = kit2.iterator(); iter2.hasNext();){
-		        PermissionsHandler.setPerms(iter2.next().toString());
+			  loadKits();
+			  Object[] mobs = config.getConfigurationSection("Kits").getKeys(false).toArray();
+	          if (mobs.length != 0)
+	          {
+	            kit = new ArrayList(Arrays.asList(mobs));
+				for (Iterator iter = kit.listIterator(); iter.hasNext();)
+				{
+		        PermissionsHandler.setPerms("spawnmob.kit." + iter.next().toString());
+		        return;
 		        }
-		    } catch (IOException ioe) {
-		    	log.info("[Spawnmob] ERROR: No kits.properties was found ");
-		    	log.info(" please download from the Bukkit forum thread ");
-		    	log.info(" or from github.com/jordanneil23/SpawnMob ");
-		    }
+			  }
+	          return;
 		  }
 		  
 }

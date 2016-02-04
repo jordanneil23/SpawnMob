@@ -26,7 +26,7 @@ public class LocationHandler {
 	//Spawn on specified player
 	public static Location getLoc(CommandSender sender, Player p){
 		Player player = (Player) sender;
-		if(PlayerHandler.getOnlinePlayer(p.getName()) == true){
+		if(PlayerHandler.isPlayerOnline(p.getName()) == true){
 			return p.getLocation();
 		}else{
 			player.sendMessage("Player not found, maybe you misspelled something? Spawning mob(s) on you instead.");

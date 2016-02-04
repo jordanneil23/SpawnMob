@@ -65,6 +65,8 @@ public class KillMobs {
 						        	}else{}
 						} else if (m instanceof Snowman && ((type.equalsIgnoreCase("SnowMan") || type.equalsIgnoreCase("SnowGolem")) || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 							m.remove();
+						} else if (m instanceof Rabbit && ((type.equalsIgnoreCase("Rabbit") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals")))) {
+							m.remove();
 						} else if (m instanceof Wolf && ((type.equalsIgnoreCase("Wolf") || type.equalsIgnoreCase("Wolves")) || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 							if (((Wolf) m).isTamed() != true) {
 								m.remove();
@@ -100,10 +102,18 @@ public class KillMobs {
 							m.remove();
 						} else if (m instanceof Enderman && (type.equalsIgnoreCase("EnderMan") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
 							m.remove();
+						} else if (m instanceof Witch && (type.equalsIgnoreCase("Witch") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
+							m.remove();
+						} else if (m instanceof Endermite && (type.equalsIgnoreCase("Endermite") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
+							m.remove();
+						} else if (m instanceof Guardian && (type.equalsIgnoreCase("Guardian") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
+							m.remove();
 						}
 					}
 					else if (m instanceof WaterMob) {
-						if (m instanceof Squid && (type.equalsIgnoreCase("Squid") || type.equalsIgnoreCase("All"))) {
+						if (m instanceof Squid && (type.equalsIgnoreCase("Squid") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
+							m.remove();
+						} else if (m instanceof Guardian && (type.equalsIgnoreCase("Guardian") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
 							m.remove();
 						}
 					}
@@ -115,12 +125,14 @@ public class KillMobs {
 				if (m instanceof EnderDragon && ((type.equalsIgnoreCase("EnderDragon") || type.equalsIgnoreCase("Ender_Dragon") || type.equalsIgnoreCase("Dragon")) || (type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters")))) {
 					m.remove();
 				}
-				if (m instanceof Wither && (type.equalsIgnoreCase("Wither") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monster"))) {
+				if (m instanceof Wither && (type.equalsIgnoreCase("Wither") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
 					m.remove();
 				}
 				if (m instanceof Villager && (type.equalsIgnoreCase("Villager") || type.equalsIgnoreCase("NPC") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Animals"))) {
 					m.remove();
-				}
+				} else if (m instanceof Slime && (type.equalsIgnoreCase("Slime") || type.equalsIgnoreCase("All") || type.equalsIgnoreCase("Monsters"))) {
+					m.remove();
+				} 
 			}
 			return;
         }
